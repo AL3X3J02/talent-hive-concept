@@ -17,10 +17,12 @@ function empNav(){
     {id:'post',href:'#/employer/post',icon:'plus',label:'Post a role'},
     {id:'listings',href:'#/employer/listings',icon:'list',label:'My listings'},
     {id:'pipeline',href:'#/employer/pipeline',icon:'kanban',label:'Applicants',count:fresh},
+    {id:'interviews',href:'#/employer/interviews',icon:'calendar',label:'Interviews'},
     {id:'placements',href:'#/employer/placements',icon:'graduation',label:'Placements'},
     {id:'talent',href:'#/employer/talent',icon:'search',label:'Talent search'},
     {id:'messages',href:'#/employer/messages',icon:'mail',label:'Messages',count:unread},
-    {id:'profile',href:'#/employer/profile',icon:'building',label:'Company profile'}
+    {id:'profile',href:'#/employer/profile',icon:'building',label:'Company profile'},
+    {id:'settings',href:'#/employer/settings',icon:'cog',label:'Settings'}
   ];
 }
 function renderEmployer(r){
@@ -31,6 +33,8 @@ function renderEmployer(r){
   else if (v === 'listings' && r.parts[2]) body = insightsView(r.parts[2]);
   else if (v === 'listings') body = listingsView();
   else if (v === 'placements') body = empPlacementsView();
+  else if (v === 'interviews') body = interviewsView();
+  else if (v === 'settings') body = settingsView('employer');
   else if (v === 'pipeline'){ if (r.parts[2]) S.pipelineJob = r.parts[2]; body = pipelineView(); }
   else if (v === 'talent') body = talentView();
   else if (v === 'messages') body = messagesView('employer');
@@ -60,7 +64,7 @@ function empHome(){
   <div class="grid-main">
     <section class="panel"><div class="section-head" style="margin-bottom:8px"><h2 style="margin:0">Your listings</h2><a href="#/employer/listings">Manage listings</a></div>${listingsTable(jobs)}</section>
     <div class="stack">
-      ${draft ? `<section class="panel" style="background:linear-gradient(160deg,#fff 30%,var(--blue-50));border-color:var(--blue-100)"><h2>Finish your draft</h2><p class="small">${esc(draft.title)} is saved but not yet submitted for approval.</p><button class="btn btn-primary btn-sm" data-act="editdraft" data-id="${draft.id}">Finish and submit</button></section>` : ''}
+      ${draft ? `<section class="panel draftpanel"><h2>Finish your draft</h2><p class="small">${esc(draft.title)} is saved but not yet submitted for approval.</p><button class="btn btn-primary btn-sm" data-act="editdraft" data-id="${draft.id}">Finish and submit</button></section>` : ''}
       <section class="panel"><h2>Latest applicants</h2>${apps.sort((a,b) => d(b.history[0][1]) - d(a.history[0][1])).slice(0,4).map(a => { const i = intern(a.intern); return `<div class="listitem">${avatar(i)}<div class="grow"><b>${esc(i.name)}</b><div class="small muted">${esc(job(a.job).title)}. Applied ${fmt(a.history[0][1])}</div></div>${status(a.status)}</div>`; }).join('')}
       <a class="btn btn-quiet btn-sm" href="#/employer/pipeline">Open pipeline</a></section>
     </div>
@@ -115,12 +119,12 @@ function postView(){
   const steps = [
     () => inp('title','Job title',{hint:'Keep it plain, for example "Marketing Intern"'}) + `<div class="row">${inp('sector','Sector',{select:SECTORS.map(s => [s.id,s.name])})}${inp('programme','Type',{select:PROGRAMMES.map(p => [p,p])})}</div>` + inp('summary','Summary',{area:true,hint:'One or two sentences. This shows in search results.'}),
     () => `<div class="row">${inp('area','Area',{select:AREAS.map(a => [a,a])})}${inp('mode','Where they will work',{select:[['On-site','On-site'],['Hybrid','Hybrid'],['Remote','Remote']]})}</div>
-      <div class="row">${inp('hours','Hours a week',{type:'number',hint:'Between 15 and 37.5'})}${inp('pay','Pay per hour (£)',{type:'number',step:'0.01',hint:`At least £${NLW}, the National Living Wage`})}</div>
+      <div class="row">${inp('hours','Hours a week',{type:'number',hint:'Between 15 and 37.5'})}${inp('pay','Pay per hour (£)',{type:'number',step:'0.01',hint:`At least £${minPay().toFixed(2)}, ${minPayLabel()}`})}</div>
       <div class="row">${inp('starts','Start date',{type:'date'})}${inp('closes','Closing date',{type:'date'})}</div>`,
     () => inp('duties','What they will do',{area:true,hint:'One task per line'}) + inp('needs','What they need',{area:true,hint:'One requirement per line. Only include what is essential.'}) + inp('skills','Skills they will use',{hint:'Separate with commas. We use these to match candidates.'}),
     () => `<p class="muted">Ask up to three short questions. Applicants answer them when they apply. Optional.</p>${inp('q1','Question 1')}${inp('q2','Question 2')}${inp('q3','Question 3')}
       <div class="panel" style="background:var(--surface);margin-top:8px"><h3 style="font-size:1rem">Before you submit</h3><ul class="checklist small">
-      ${[['Pay is at least the National Living Wage', +D.pay >= NLW],['Hours, location and dates are filled in', D.hours && D.area && D.starts && D.closes],['At least one duty and one requirement', D.duties.trim() && D.needs.trim()]].map(([t,ok]) => `<li class="${ok ? 'ok' : 'bad'}">${icon(ok ? 'check' : 'alert')}<span>${t}${ok ? '' : ' <b>(check this)</b>'}</span></li>`).join('')}</ul></div>`
+      ${[[`Pay is at least ${minPayLabel()}`, +D.pay >= minPay()],['Hours, location and dates are filled in', D.hours && D.area && D.starts && D.closes],['At least one duty and one requirement', D.duties.trim() && D.needs.trim()]].map(([t,ok]) => `<li class="${ok ? 'ok' : 'bad'}">${icon(ok ? 'check' : 'alert')}<span>${t}${ok ? '' : ' <b>(check this)</b>'}</span></li>`).join('')}</ul></div>`
   ];
   return `<div class="pagehead"><div><h1>${D.id ? 'Edit role' : 'Post a role'}</h1><p>About ten minutes. The CPCA team checks every listing before it goes live.</p></div><button class="btn btn-quiet" data-act="post-example">Fill with an example</button></div>
   <ol class="stepper">${STEPS.map((s,i) => `<li class="${i < st ? 'done' : i === st ? 'now' : ''}" ${i === st ? 'aria-current="step"' : ''}>Step ${i + 1}<br>${s}</li>`).join('')}</ol>
@@ -153,7 +157,7 @@ FORM.post = f => {
   $$('.err', f).forEach(e => e.hidden = true); $$('[aria-invalid]', f).forEach(e => e.removeAttribute('aria-invalid'));
   need.forEach(k => { if (!String(D[k]).trim()) fail(k, 'Fill in this field'); });
   if (st === 1){
-    if (D.pay && +D.pay < NLW) fail('pay', `Pay must be at least £${NLW} an hour, the National Living Wage`);
+    if (D.pay && +D.pay < minPay()) fail('pay', `Pay must be at least £${minPay().toFixed(2)} an hour, ${minPayLabel()}`);
     if (D.hours && (+D.hours < 15 || +D.hours > 37.5)) fail('hours', 'Enter between 15 and 37.5 hours');
     if (D.closes && d(D.closes) <= TODAY) fail('closes', 'The closing date must be in the future');
     if (D.starts && D.closes && d(D.starts) <= d(D.closes)) fail('starts', 'The start date must be after the closing date');

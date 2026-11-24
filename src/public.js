@@ -22,10 +22,12 @@ function renderPublic(r){
   else if (p[0] === 'employers') { body = pubEmployers(); cur = 'employers'; }
   else if (p[0] === 'signin') body = pubSignin();
   else if (p[0] === 'join') body = joinView();
+  else if (p[0] === 'about-demo') body = aboutDemoView();
+  else if (p[0] === 'employer-join') body = empJoinView();
   else if (p[0] === 'company') { body = `<main id="main" class="section">${companyView(p[1], '#/jobs')}</main>`; cur = 'jobs'; }
   else if (p[0] === 'events') { body = `<main id="main" class="section"><div class="pagehead"><div><h1>Events</h1><p>Free sessions to help you get ready and meet employers.</p></div></div><div class="panel">${S.events.map(eventItem).join('')}</div></main>`; cur = 'events'; }
   else body = `<main id="main" class="section"><h1>Page not found</h1><p>The page you tried to open does not exist. Try the <a href="#/jobs">jobs board</a> or go back to the <a href="#/">home page</a>.</p></main>`;
-  return `<a class="skip" href="#main">Skip to content</a>${pubHeader(cur, !p[0])}${body}${pubFooter()}`;
+  return `<a class="skip" href="#main">Skip to content</a>${pubHeader(cur, !p[0] || p[0] === 'about-demo')}${body}${pubFooter()}`;
 }
 
 const SECTOR_ICON = {digital:'code', marketing:'megaphone', business:'chart', science:'flask', engineering:'cog', education:'graduation', health:'heart', construction:'hardhat', charity:'heart', facilities:'wrench'};
@@ -271,6 +273,7 @@ function jobDetail(j, base){
         <div><dt>Starts</dt><dd>${fmtLong(j.starts)}</dd></div>
         <div><dt>Closing date</dt><dd>${fmtLong(j.closes)}</dd></div>
       </dl>
+      ${role === 'intern' ? matchPanel(j) : ''}
       <div class="prose">
         <p style="font-size:1.1rem">${esc(j.summary)}</p>
         <h2>What you will do</h2><ul>${j.duties.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
@@ -297,7 +300,7 @@ function pubEmployers(){
   <section class="hero"><div class="inner" style="grid-template-columns:1fr">
     <div><h1 style="max-width:18ch">Find your next intern, without the admin</h1>
     <p class="lede">Talent Hive connects local employers with people ready for a paid six-week placement. Posting a role is free, and the CPCA team supports you throughout.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:24px"><a class="btn btn-primary btn-lg" href="#/employer/post">Post a role</a><a class="btn btn-ghost btn-lg" href="#/employer">See the employer dashboard</a></div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:24px"><a class="btn btn-primary btn-lg" href="#/employer-join">Register your organisation</a><a class="btn btn-ghost btn-lg" href="#/employer">See the employer dashboard</a></div></div>
   </div></section>
   <section class="section">
     <h2>From first post to first day</h2>

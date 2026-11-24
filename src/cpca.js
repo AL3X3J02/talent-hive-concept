@@ -11,7 +11,8 @@ function cpcaNav(){
     {id:'reports',href:'#/cpca/reports',icon:'download',label:'Reports'},
     {id:'content',href:'#/cpca/content',icon:'news',label:'News and events'},
     {id:'broadcast',href:'#/cpca/broadcast',icon:'megaphone',label:'Send a message'},
-    {id:'audit',href:'#/cpca/audit',icon:'log',label:'Audit log'}
+    {id:'audit',href:'#/cpca/audit',icon:'log',label:'Audit log'},
+    {id:'settings',href:'#/cpca/settings',icon:'cog',label:'Settings'}
   ];
 }
 function renderCpca(r){
@@ -20,8 +21,11 @@ function renderCpca(r){
   if (v === 'home') body = cpcaHome();
   else if (v === 'approvals' && r.parts[2]) body = reviewView(r.parts[2]);
   else if (v === 'approvals') body = approvalsView();
+  else if (v === 'interns' && r.parts[2]) body = cpcaInternView(r.parts[2]);
   else if (v === 'interns') body = internsTable();
+  else if (v === 'employers' && r.parts[2]) body = cpcaEmployerView(r.parts[2]);
   else if (v === 'employers') body = employersTable();
+  else if (v === 'settings') body = settingsView('cpca');
   else if (v === 'placements') body = placementsView();
   else if (v === 'reports') body = reportsView();
   else if (v === 'content') body = contentView();
@@ -50,7 +54,7 @@ function columnChart(data, {label, unit='applications'} = {}){
         ${i === peak || partial ? `<text class="val" x="${cx}" y="${top - 6}" text-anchor="middle">${x.n}</text>` : ''}
         <text x="${cx}" y="${H - 9}" text-anchor="middle">${esc(x.w)}</text></g>`; }).join('')}
     <line x1="${padL}" x2="${W - 6}" y1="${H - padB}" y2="${H - padB}" stroke="#CDD2DD"/>
-  </svg><div class="tip" role="tooltip" hidden style="position:absolute;pointer-events:none;background:var(--ink);color:#fff;font-size:.85rem;padding:6px 10px;border-radius:8px;white-space:nowrap;transform:translate(-50%,-110%)"></div>
+  </svg><div class="tip charttip" role="tooltip" hidden></div>
   <p class="small muted" style="margin:6px 0 0">The hatched bar is the current week, still in progress.</p></div>`;
 }
 function hbars(data){
@@ -82,12 +86,15 @@ function cpcaHome(){
   </div>
   <div class="grid-main">
     <section class="panel"><h2>Applications per week</h2><p class="small muted">Since applications moved onto the platform on 5 October.</p>${columnChart(WEEKLY_APPS, {label:'Applications per week, 5 October to 23 November. Peak of 44 in the week of 16 November.'})}</section>
+    <div class="stack">
     <section class="panel"><h2>Needs a nudge</h2><p class="small muted">Applicants have heard nothing for a week or more.</p>
       ${st.map(a => { const j = job(a.job), e = emp(j.emp), i = intern(a.intern); return `<div class="listitem"><div class="grow"><b>${esc(i.name)}</b><div class="small muted">${esc(j.title)}, ${esc(e.name)}</div><div class="small">${STATUS_LABEL[a.status]} ${daysSince(a.history.at(-1)[1])} days ago, nothing since</div></div><button class="btn btn-ghost btn-sm" data-act="nudge" data-e="${esc(e.name)}">Nudge</button></div>`; }).join('') || '<p class="muted">Nothing stalled. Nice.</p>'}
     </section>
+    ${feedPanel()}</div>
   </div>
   <div class="grid-2" style="margin-top:20px"><section class="panel"><h2>Placements by sector this cohort</h2>${hbars(PLACEMENTS_BY_SECTOR)}</section>
-    <section class="panel"><h2>Where placements are</h2>${regionMap({counts:PLACEMENTS_BY_TOWN, unit:'placement', act:'townplace', title:'Placements by town this cohort'})}</section></div>`;
+    <section class="panel"><h2>Where placements are</h2>${regionMap({counts:PLACEMENTS_BY_TOWN, unit:'placement', act:'townplace', title:'Placements by town this cohort'})}</section></div>
+  ${cohortTimeline()}`;
 }
 ACT.nudge = el => { toast(`Reminder sent to ${el.dataset.e}`); el.disabled = true; el.textContent = 'Nudged'; };
 
@@ -117,8 +124,8 @@ function listingChecks(j){
   const text = [j.summary, ...j.duties, ...j.needs].join(' ');
   return [
     {ok:e.verified, t:'Employer is verified', fix:`${e.name} has not been verified yet`},
-    {ok:j.pay >= NLW, t:`Pay is at least £${NLW} an hour (National Living Wage)`, fix:`Pay is ${money(j.pay)} an hour, below the National Living Wage`},
-    {ok:daysUntil(j.closes) >= 7, t:'Open for at least 7 days', fix:'Closes in under 7 days'},
+    {ok:j.pay >= minPay(), t:`Pay is at least £${minPay().toFixed(2)} an hour (${minPayLabel()})`, fix:`Pay is ${money(j.pay)} an hour, below ${minPayLabel()} of £${minPay().toFixed(2)}`},
+    {ok:daysUntil(j.closes) >= S.rules.minOpenDays, t:`Open for at least ${S.rules.minOpenDays} days`, fix:`Closes in under ${S.rules.minOpenDays} days`},
     {ok:j.duties.length > 0 && j.needs.length > 0, t:'Duties and requirements filled in', fix:'Missing duties or requirements'},
     {ok:d(j.starts) > d(j.closes), t:'Start date is after the closing date', fix:'Start date is before the closing date'},
     {ok:!/@|https?:/.test(text), t:'Applications go through Talent Hive, not email', fix:'Listing text includes an email address or link'}
@@ -166,14 +173,14 @@ function internsTable(){
   });
   return `<div class="pagehead"><div><h1>Interns</h1><p>${rows.length} interns in this sample. Full site: search, eligibility checks and full history.</p></div></div>
   <section class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Name</th><th>Area</th><th class="num">Badges</th><th class="num">Applications</th><th>Status</th><th>Available</th></tr></thead><tbody>
-  ${rows.map(({i,apps,st}) => `<tr><td><div style="display:flex;gap:10px;align-items:center">${avatar(i)}<b>${esc(i.name)}</b></div></td><td>${esc(i.area)}</td><td class="num">${i.badges}</td><td class="num">${apps.length}</td><td>${status(st[0], st[1])}</td><td>${esc(i.availability)}</td></tr>`).join('')}
+  ${rows.map(({i,apps,st}) => `<tr><td><div style="display:flex;gap:10px;align-items:center">${avatar(i)}<a href="#/cpca/interns/${i.id}" class="rowlink">${esc(i.name)}</a></div></td><td>${esc(i.area)}</td><td class="num">${i.badges}</td><td class="num">${apps.length}</td><td>${status(st[0], st[1])}</td><td>${esc(i.availability)}</td></tr>`).join('')}
   </tbody></table></div></section>`;
 }
 function employersTable(){
   const rows = Object.values(S.employers);
   return `<div class="pagehead"><div><h1>Employers</h1><p>${rows.length} employers in this sample.</p></div></div>
   <section class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Employer</th><th>Sector</th><th>Location</th><th>Status</th><th class="num">Live roles</th><th class="num">Applicants</th></tr></thead><tbody>
-  ${rows.map(e => { const js = S.jobs.filter(j => j.emp === e.id); return `<tr><td><div style="display:flex;gap:10px;align-items:center">${logo(e)}<b>${esc(e.name)}</b></div></td><td>${esc(sectorName(e.sector))}</td><td>${esc(e.town)}</td><td>${e.verified ? status('approved','Verified') : status('pending','Waiting for checks')}</td><td class="num">${js.filter(j => j.status === 'live').length}</td><td class="num">${S.apps.filter(a => js.some(j => j.id === a.job)).length}</td></tr>`; }).join('')}
+  ${rows.map(e => { const js = S.jobs.filter(j => j.emp === e.id); return `<tr><td><div style="display:flex;gap:10px;align-items:center">${logo(e)}<a href="#/cpca/employers/${e.id}" class="rowlink">${esc(e.name)}</a></div></td><td>${esc(sectorName(e.sector))}</td><td>${esc(e.town)}</td><td>${e.verified ? status('approved','Verified') : status('pending','Waiting for checks')}</td><td class="num">${js.filter(j => j.status === 'live').length}</td><td class="num">${S.apps.filter(a => js.some(j => j.id === a.job)).length}</td></tr>`; }).join('')}
   </tbody></table></div></section>`;
 }
 function placementsView(){

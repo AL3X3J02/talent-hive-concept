@@ -12,7 +12,8 @@ function internNav(){
     {id:'badges',href:'#/intern/badges',icon:'hex',label:'Skills and badges'},
     {id:'boost',href:'#/intern/boost',icon:'spark',label:'Daily Career Boost',count:gamesLeft},
     {id:'messages',href:'#/intern/messages',icon:'mail',label:'Messages',count:unread},
-    {id:'events',href:'#/intern/events',icon:'calendar',label:'Events'}
+    {id:'events',href:'#/intern/events',icon:'calendar',label:'Events'},
+    {id:'settings',href:'#/intern/settings',icon:'cog',label:'Settings'}
   ];
 }
 function renderIntern(r){
@@ -25,6 +26,8 @@ function renderIntern(r){
   else if (v === 'jobs') body = jobsBoard('#/intern/jobs');
   else if (v === 'applications') body = internApps();
   else if (v === 'placement') body = placementView();
+  else if (v === 'practice') body = practiceView(p[2]);
+  else if (v === 'settings') body = settingsView('intern');
   else if (v === 'company') body = companyView(p[2], '#/intern/jobs');
   else if (v === 'cv') body = cvBuilder();
   else if (v === 'badges') body = badgesView();
@@ -81,9 +84,9 @@ function internHome(){
       </section>
     </div>
     <div class="stack">
-      <section class="panel" aria-labelledby="boost-h" style="background:linear-gradient(165deg,#fff 35%,#FCE4F8);border-color:#F6D3EF">
+      <section class="panel boostpanel" aria-labelledby="boost-h">
         <h2 id="boost-h">Daily Career Boost</h2>
-        <div class="boosthead" style="margin-bottom:12px"><div class="streak" style="background:#fff"><span class="hex">${S.boost.streak}</span><div><b>day streak</b><div class="small muted">${S.boost.points} points</div></div></div></div>
+        <div class="boosthead" style="margin-bottom:12px"><div class="streak"><span class="hex">${S.boost.streak}</span><div><b>day streak</b><div class="small muted">${S.boost.points} points</div></div></div></div>
         <p class="small" style="margin-bottom:12px">${played === 3 ? 'All three games done today. Come back tomorrow to keep your streak.' : `${3 - played} of 3 games left today. Each takes about two minutes.`}</p>
         <a class="btn btn-primary" href="#/intern/boost">${played === 3 ? 'See your progress' : 'Play today\'s games'}</a>
       </section>
@@ -108,7 +111,7 @@ ACT.prep = el => {
     <h3>Before the day</h3>
     <ul><li>Re-read the <a href="#/intern/jobs/${j.id}">job description</a> and pick three examples that match it.</li><li>Practise answering with the STAR method. The Workplace Quiz covers it.</li><li>Plan your journey and aim to arrive ten minutes early.</li></ul>
     <h3>Bring with you</h3><ul><li>An example of a spreadsheet you have built, as the employer asked.</li><li>Two questions to ask them about the team.</li></ul>
-    <footer><a class="btn btn-ghost" href="#/intern/boost/quiz">Practise with the quiz</a><a class="btn btn-primary" href="#/intern/messages">Message the employer</a></footer>`, {label:'Prepare for your interview'});
+    <footer><a class="btn btn-ghost" href="#/intern/practice/${a.id}" data-act="close-go">Practise answers</a><a class="btn btn-ghost" href="#/intern/boost/quiz" data-act="close-go">Take the quiz</a><a class="btn btn-primary" href="#/intern/messages">Message the employer</a></footer>`, {label:'Prepare for your interview'});
 };
 
 function savedJobs(){

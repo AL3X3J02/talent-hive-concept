@@ -122,6 +122,7 @@ function displayPanel(){
     ${sw('spacing','Easier reading','More space between letters, words and lines')}
     ${sw('contrast','Higher contrast','Darker text and stronger borders')}
     ${sw('motion','Reduce motion','Turns off animations and moving effects')}
+    ${sw('dark','Dark mode','Light text on a dark background')}
     <p class="small muted" style="margin:16px 0 0">Settings are saved on this device.</p>`;
 }
 ACT.display = () => openModal(displayPanel(), {label:'Display and accessibility'});

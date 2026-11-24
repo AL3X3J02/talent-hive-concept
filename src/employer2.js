@@ -24,7 +24,7 @@ function insightsView(id){
       <line x1="0" x2="${W}" y1="${H - pb}" y2="${H - pb}" stroke="#CDD2DD"/>
       <path d="${area}" fill="url(#ga)"/><path d="${line}" fill="none" stroke="#2E3BFF" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" class="drawline"/>
       ${days.map((v, i) => `<g class="bar" tabindex="0" data-tip="${labels[i]}: ${v} views" aria-label="${labels[i]}: ${v} views"><rect x="${i * bw}" y="0" width="${bw}" height="${H - pb}" fill="transparent"/><path d="M${(i + .5) * bw - 4} ${y(v)}h8" stroke="transparent"/><circle cx="${(i + .5) * bw}" cy="${y(v)}" r="${i === 13 ? 5 : 0}" fill="#2E3BFF" stroke="#fff" stroke-width="2"/>${i % 3 === 1 || i === 13 ? `<text x="${(i + .5) * bw}" y="${H - 7}" text-anchor="middle">${labels[i]}</text>` : ''}</g>`).join('')}
-    </svg><div class="tip" role="tooltip" hidden style="position:absolute;pointer-events:none;background:var(--ink);color:#fff;font-size:.85rem;padding:6px 10px;border-radius:8px;white-space:nowrap;transform:translate(-50%,-110%)"></div></div></section>
+    </svg><div class="tip charttip" role="tooltip" hidden></div></div></section>
     <section class="panel"><h2>From view to interview</h2>${funnel.map(([l, n], i) => `<div class="fun"><div class="fun-top"><span>${l}</span><b>${n}</b></div><div class="b"><i style="width:${Math.max(2, n / funnel[0][1] * 100)}%"></i></div>${i ? `<div class="small muted">${funnel[i - 1][1] ? Math.round(n / funnel[i - 1][1] * 100) : 0}% of the step before</div>` : ''}</div>`).join('')}</section>
   </div>
   <div class="grid-2" style="margin-top:20px">

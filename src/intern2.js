@@ -110,7 +110,7 @@ ACT.ics = el => {
 function interviewBlock(a){
   if (a.status !== 'interview') return '';
   if (a.slots && a.slots.length) return `<div class="slotbox"><b>Choose a time for your interview</b><p class="small muted" style="margin:2px 0 10px">${esc(a.where || 'Video call')}. About 45 minutes.</p><div class="chips">${a.slots.map(s => `<button class="btn btn-ghost btn-sm" data-act="pickslot" data-id="${a.id}" data-slot="${s}">${fmtSlot(s)}</button>`).join('')}</div></div>`;
-  return `<div class="slotbox ok"><div><b>Interview booked</b><div>${esc(a.interview || 'The employer will confirm a time')}</div></div>${a.when ? `<button class="btn btn-ghost btn-sm" data-act="ics" data-id="${a.id}">${icon('calendar')}Add to calendar</button>` : ''}</div>`;
+  return `<div class="slotbox ok"><div><b>Interview booked</b><div>${esc(a.interview || 'The employer will confirm a time')}</div></div><div style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn btn-ghost btn-sm" href="#/intern/practice/${a.id}">${icon('quiz')}Practise for it</a>${a.when ? `<button class="btn btn-ghost btn-sm" data-act="ics" data-id="${a.id}">${icon('calendar')}Add to calendar</button>` : ''}</div></div>`;
 }
 
 /* ---------- Sign up ---------- */
@@ -189,7 +189,7 @@ function placementView(){
       <section class="panel"><h2>Hours</h2><table class="table"><thead><tr><th>Week</th><th class="num">Hours</th><th>Status</th></tr></thead><tbody>${P.hours.map(h => `<tr><td>Week ${h.wk}</td><td class="num">${h.h}</td><td>${h.ok ? status('approved','Approved') : status('pending','Waiting')}</td></tr>`).join('')}</tbody></table>
         <form data-form="hours" class="row" style="flex-direction:row;gap:8px;margin-top:12px;align-items:flex-end"><div style="flex:1"><label for="hh" class="small">Add hours for week ${P.week}</label><input id="hh" name="h" type="number" min="1" max="10" value="6"></div><button class="btn btn-ghost" style="flex:none">Log hours</button></form>
         <p class="small muted" style="margin:10px 0 0">Approved hours are paid by your employer at ${money(13.5)} an hour.</p></section>
-      <section class="panel cert"><div class="cert-ico">${icon('graduation')}</div><h2>Completion certificate</h2><p class="small">Unlocks after week 6, with your employer's reference and the Experience of Work badge.</p><div class="meter honey"><i style="width:${Math.round(P.week / 6 * 100)}%"></i></div><p class="small muted" style="margin:6px 0 0">${6 - P.week} weeks to go</p></section>
+      <section class="panel cert"><div class="cert-ico">${icon('graduation')}</div><h2>Completion certificate</h2><p class="small">Unlocks after week 6, with your employer's reference and the Experience of Work badge.</p><div class="meter honey"><i style="width:${Math.round(P.week / 6 * 100)}%"></i></div><p class="small muted" style="margin:6px 0 12px">${6 - P.week} weeks to go</p><button class="btn btn-ghost btn-sm" data-act="cert">${icon('eye')}Preview certificate</button></section>
     </div>
   </div>`;
 }

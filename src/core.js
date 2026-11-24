@@ -281,8 +281,9 @@ function showIntro(){
     <p>This is a demo by <b>Alexej Zhukov</b> showing how the Talent Hive internship platform for Cambridgeshire and Peterborough could work for interns, employers and the CPCA team.</p>
     <ul><li>The employers, people and roles are invented.</li><li>Nothing you type is sent anywhere, and it all resets when you reload.</li><li>It is not an official Cambridgeshire and Peterborough Combined Authority website.</li></ul>
     <p class="small muted">Use the bar at the top to switch between Visitor, Intern, Employer and CPCA team views.</p>
-    <footer><button class="btn btn-primary" data-act="intro-ok">Explore the demo</button></footer>`, {label:'About this demo'});
+    <footer><a class="btn btn-ghost" href="#/about-demo" data-act="intro-fixes">See what it fixes</a><button class="btn btn-primary" data-act="intro-ok">Explore the demo</button></footer>`, {label:'About this demo'});
 }
+ACT['intro-fixes'] = () => { try { localStorage.setItem('th-intro-seen', '1'); } catch (e) {} closeModal(); go('#/about-demo'); };
 ACT['intro-ok'] = () => { try { localStorage.setItem('th-intro-seen', '1'); } catch (e) {} closeModal(); };
-ACT.about = () => showIntro();
+ACT.about = () => go('#/about-demo');
 function maybeIntro(){ let seen = false; try { seen = localStorage.getItem('th-intro-seen') === '1'; } catch (e) {} if (!seen) showIntro(); }
