@@ -207,7 +207,7 @@ function render(opts = {}){
   $('#app').innerHTML = html;
   $$('.demobar [data-role]').forEach(b => b.setAttribute('aria-pressed', b.dataset.role === r.role));
   document.title = (($('#app h1') || {}).textContent || 'Talent Hive') + ' | Talent Hive demo';
-  if (!opts.keepScroll) window.scrollTo(0, 0);
+  if (!opts.keepScroll) window.scrollTo({top:0, behavior:'instant'});
   if (!opts.keepFocus){ const h = $('#app h1'); if (h){ h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); } }
   AFTER.forEach(fn => fn(r));
 }

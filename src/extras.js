@@ -161,7 +161,7 @@ function confetti(){
 
 /* ---------- Guided tour ---------- */
 const TOUR = [
-  {r:'#/', sel:'.comb', t:'Browse by sector', b:'Visitors start from the jobs, not a news feed. Each sector shows how many roles are open right now.'},
+  {r:'#/', sel:'.sectors', t:'Browse by sector', b:'Visitors start from the jobs, not a news feed. Each sector shows how many roles are open right now.'},
   {r:'#/jobs/j1', sel:'.facts', t:'The facts up front', b:'Pay, hours, location and dates are required fields, so every listing answers the questions interns ask first.'},
   {r:'#/intern', sel:'.nextstep', t:'One clear next step', b:'Interns see the most important thing first. Here it is an interview, with help to prepare.'},
   {r:'#/intern/applications', sel:'.appcard', t:'Every application tracked', b:'No more emailing to ask what happened. Each status change shows here and sends a notification.'},
@@ -172,40 +172,101 @@ const TOUR = [
   {r:'#/cpca/approvals/j15', sel:'.checklist', t:'Automatic checks for CPCA', b:'Listings are checked before they go live. This one is blocked because the pay is too low.'},
   {r:'#/cpca', sel:'.kpis', t:'The whole programme at a glance', b:'Live numbers, stalled applications and where placements are happening across the region.'}
 ];
-let tourI = -1;
-ACT.tour = () => { closeModal(); tourI = 0; tourStep(); };
-function tourStep(){
-  const s = TOUR[tourI];
-  if (location.hash !== s.r && !(s.r === '#/' && (location.hash === '' || location.hash === '#/'))) location.hash = s.r;
-  setTimeout(() => {
-    $('#tour') && $('#tour').remove();
-    const el = $(s.sel);
-    if (el) el.scrollIntoView({block:'center', behavior:reducedMotion() ? 'auto' : 'smooth'});
-    setTimeout(() => drawTour(el, s), reducedMotion() ? 0 : 350);
-  }, 120);
-}
-function drawTour(el, s){
-  $('#tour') && $('#tour').remove();
-  const r = el ? el.getBoundingClientRect() : {top:innerHeight / 2 - 40, left:innerWidth / 2 - 160, width:320, height:80};
-  const pad = 8;
-  const t = document.createElement('div'); t.id = 'tour';
-  t.innerHTML = `<div class="tour-hole" style="top:${r.top - pad}px;left:${r.left - pad}px;width:${r.width + pad * 2}px;height:${r.height + pad * 2}px"></div>
-    <div class="tour-card" role="dialog" aria-modal="true" aria-labelledby="tour-t"><div class="small muted">Step ${tourI + 1} of ${TOUR.length}</div><h2 id="tour-t">${esc(s.t)}</h2><p>${esc(s.b)}</p>
-      <div class="tour-dots" aria-hidden="true">${TOUR.map((_, i) => `<i class="${i === tourI ? 'on' : ''}"></i>`).join('')}</div>
-      <div class="tour-btns"><button class="btn btn-quiet btn-sm" data-act="tour-end">End tour</button><span>${tourI ? '<button class="btn btn-ghost btn-sm" data-act="tour-back">Back</button>' : ''} <button class="btn btn-primary btn-sm" data-act="tour-next">${tourI === TOUR.length - 1 ? 'Finish' : 'Next'}</button></span></div></div>`;
+let tourI = -1, tourEl = null, tourRAF = 0, tourKey = '', tourStill = 0, tourLastTop = null, tourT0 = 0;
+/* While the tour runs the page is locked: no wheel, touch, keyboard or scrollbar scrolling.
+   Only the tour itself scrolls, and the spotlight is redrawn every frame so it always sits on the right thing. */
+ACT.tour = () => { closeModal(); closePop && closePop(); tourI = 0; document.documentElement.classList.add('tour-lock'); tourShell(); tourStep(); };
+function tourShell(){
+  if ($('#tour')) return;
+  const t = document.createElement('div'); t.id = 'tour'; t.className = 'moving';
+  t.innerHTML = `<div class="tour-hole"></div><div class="tour-card" role="dialog" aria-modal="true" aria-labelledby="tour-t"></div>`;
+  ['wheel', 'touchmove'].forEach(ev => t.addEventListener(ev, e => e.preventDefault(), {passive:false}));
   document.body.appendChild(t);
-  const card = $('.tour-card', t); const cw = card.offsetWidth, ch = card.offsetHeight;
-  let top = r.top + r.height + pad + 14; if (top + ch > innerHeight - 12) top = Math.max(12, r.top - pad - ch - 14);
-  if (top < 12) top = innerHeight - ch - 16;
-  card.style.top = top + 'px'; card.style.left = Math.max(12, Math.min(innerWidth - cw - 12, r.left)) + 'px';
-  $('[data-act=tour-next]', t).focus();
+  cancelAnimationFrame(tourRAF); tourRAF = requestAnimationFrame(tourFrame);
+}
+function tourStep(){
+  const s = TOUR[tourI], t = $('#tour');
+  t.classList.add('moving'); tourEl = null; tourKey = ''; tourStill = 0; tourLastTop = null; tourT0 = 0;
+  const card = $('.tour-card', t);
+  card.innerHTML = `<div class="small muted">Step ${tourI + 1} of ${TOUR.length}</div><h2 id="tour-t">${esc(s.t)}</h2><p>${esc(s.b)}</p>
+    <div class="tour-dots" aria-hidden="true">${TOUR.map((_, i) => `<i class="${i === tourI ? 'on' : ''}"></i>`).join('')}</div>
+    <div class="tour-btns"><button class="btn btn-quiet btn-sm" data-act="tour-end">End tour</button><span>${tourI ? '<button class="btn btn-ghost btn-sm" data-act="tour-back">Back</button>' : ''} <button class="btn btn-primary btn-sm" data-act="tour-next">${tourI === TOUR.length - 1 ? 'Finish' : 'Next'}</button></span></div>`;
+  const here = location.hash === s.r || (s.r === '#/' && (location.hash === '' || location.hash === '#/'));
+  const step = tourI;
+  const find = (t0 = performance.now()) => {
+    if (step !== tourI) return;
+    const el = $(s.sel);
+    if (el && el.getBoundingClientRect().height > 0){ tourEl = el; tourScroll(); return; }
+    if (performance.now() - t0 > 2500){ tourEl = null; tourT0 = performance.now(); return; }
+    setTimeout(() => find(t0), 40);
+  };
+  if (here) requestAnimationFrame(() => find());
+  else { window.addEventListener('hashchange', () => requestAnimationFrame(() => find()), {once:true}); location.hash = s.r; }
+}
+/* Height of anything stuck to the top of the screen (demo bar, mobile menu), so the spotlight never sits under it */
+function tourSafeTop(){
+  let y = 0;
+  $$('.demobar,.mobnav').forEach(b => { const cs = getComputedStyle(b); if (cs.display !== 'none' && (cs.position === 'sticky' || cs.position === 'fixed')) y = Math.max(y, (parseFloat(cs.top) || 0) + b.offsetHeight); });
+  return y;
+}
+function tourScroll(){
+  const card = $('.tour-card'), ch = card.offsetHeight, pad = 8, gap = 14, H = innerHeight, safe = tourSafeTop() + 12;
+  const r = tourEl.getBoundingClientRect(), block = r.height + pad * 2 + gap + ch;
+  const want = block <= H - safe - 12 ? safe + Math.max(0, (H - safe - 12 - block) / 2) + pad : safe + pad;
+  const max = document.documentElement.scrollHeight - H;
+  window.scrollTo({top:Math.max(0, Math.min(max, scrollY + r.top - want)), behavior:reducedMotion() ? 'instant' : 'smooth'});
+  tourT0 = performance.now();
+}
+function tourFrame(){
+  if (tourI < 0) return;
+  tourRAF = requestAnimationFrame(tourFrame);
+  const t = $('#tour'); if (!t) return;
+  const hole = $('.tour-hole', t), card = $('.tour-card', t);
+  if (tourEl && !tourEl.isConnected){ const el = $(TOUR[tourI].sel); tourEl = el || null; }
+  const W = innerWidth, H = innerHeight, pad = 8, gap = 14, cw = card.offsetWidth, ch = card.offsetHeight, safe = tourSafeTop() + 6;
+  let top, bottom, left, right, cardTop;
+  if (tourEl){
+    const r = tourEl.getBoundingClientRect();
+    top = r.top - pad; bottom = r.bottom + pad; left = Math.max(6, r.left - pad); right = Math.min(W - 6, r.right + pad);
+    if (bottom + gap + ch <= H - 12) cardTop = bottom + gap;
+    else if (top - gap - ch >= safe) cardTop = top - gap - ch;
+    else { cardTop = H - ch - 12; bottom = Math.min(bottom, cardTop - gap); }
+    top = Math.max(safe, top);
+    if (bottom - top < 24) bottom = top + 24;
+    /* fade in only once scrolling and page animations have settled */
+    if (t.classList.contains('moving')){
+      tourStill = (tourLastTop !== null && Math.abs(r.top - tourLastTop) < 0.5) ? tourStill + 1 : 0;
+      tourLastTop = r.top;
+      if (tourStill >= 4 || performance.now() - tourT0 > 1400){ t.classList.remove('moving'); $('[data-act=tour-next]', t)?.focus({preventScroll:true}); }
+    }
+  } else {
+    /* nothing to point at: centre the card with no spotlight */
+    top = bottom = H / 2; left = right = W / 2; cardTop = (H - ch) / 2;
+    if (t.classList.contains('moving') && performance.now() - tourT0 > 300 && tourT0){ t.classList.remove('moving'); $('[data-act=tour-next]', t)?.focus({preventScroll:true}); }
+  }
+  const cl = Math.max(12, Math.min(W - cw - 12, left));
+  const key = [top, left, right, bottom, cardTop, cl].map(Math.round).join(',');
+  if (key === tourKey) return;
+  tourKey = key;
+  Object.assign(hole.style, {top:top + 'px', left:left + 'px', width:(right - left) + 'px', height:(bottom - top) + 'px'});
+  Object.assign(card.style, {top:cardTop + 'px', left:cl + 'px'});
+  hole.classList.toggle('none', !tourEl);
 }
 ACT['tour-next'] = () => { if (tourI === TOUR.length - 1){ ACT['tour-end'](); toast('Tour finished. Explore any view from the bar at the top.'); return; } tourI++; tourStep(); };
 ACT['tour-back'] = () => { tourI = Math.max(0, tourI - 1); tourStep(); };
-ACT['tour-end'] = () => { tourI = -1; $('#tour') && $('#tour').remove(); };
-document.addEventListener('keydown', e => { if (tourI > -1 && e.key === 'Escape') ACT['tour-end'](); });
-window.addEventListener('resize', () => { if (tourI > -1) drawTour($(TOUR[tourI].sel), TOUR[tourI]); });
-window.addEventListener('scroll', () => { if (tourI > -1 && $('#tour')){ const el = $(TOUR[tourI].sel); if (!el) return; const r = el.getBoundingClientRect(); const h = $('.tour-hole'); h.style.top = (r.top - 8) + 'px'; h.style.left = (r.left - 8) + 'px'; } }, {passive:true});
+ACT['tour-end'] = () => { tourI = -1; tourEl = null; cancelAnimationFrame(tourRAF); $('#tour') && $('#tour').remove(); document.documentElement.classList.remove('tour-lock'); };
+document.addEventListener('keydown', e => {
+  if (tourI < 0) return;
+  if (e.key === 'Escape'){ ACT['tour-end'](); return; }
+  if (e.key === 'Tab'){ /* keep focus inside the tour card */
+    const f = $$('#tour .tour-card button'); if (!f.length) return;
+    const i = f.indexOf(document.activeElement);
+    e.preventDefault(); f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus({preventScroll:true});
+    return;
+  }
+  const scrollKeys = ['ArrowUp','ArrowDown','PageUp','PageDown','Home','End'];
+  if (scrollKeys.includes(e.key) || (e.key === ' ' && !e.target.closest('button'))) e.preventDefault();
+});
 
 /* ---------- Extra seed data used by later features ---------- */
 function seedExtras(){

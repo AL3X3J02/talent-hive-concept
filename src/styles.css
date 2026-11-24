@@ -617,8 +617,14 @@ kbd{font-family:var(--font);font-size:.72rem;border:1px solid var(--line);border
 @keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:99}
 #tour{position:fixed;inset:0;z-index:95}
-.tour-hole{position:fixed;border-radius:18px;box-shadow:0 0 0 9999px rgba(15,18,34,.55);transition:all .35s var(--ease);pointer-events:none;outline:2px solid #fff;outline-offset:2px}
-.tour-card{position:fixed;width:min(380px,calc(100vw - 24px));background:var(--white);border-radius:20px;padding:20px;box-shadow:var(--shadow-lg);animation:pop .3s var(--ease)}
+.tour-hole{position:fixed;border-radius:18px;box-shadow:0 0 0 9999px rgba(15,18,34,.55);pointer-events:none;outline:2px solid #fff;outline-offset:2px;transition:opacity .25s,outline-color .25s}
+.tour-hole.none{outline-color:transparent}
+#tour .tour-card{transition:opacity .25s}
+#tour.moving .tour-card{opacity:0;pointer-events:none}
+#tour.moving .tour-hole{outline-color:transparent}
+html.tour-lock{overflow:hidden;scrollbar-gutter:stable}
+html.tour-lock .helpbtn{visibility:hidden}
+.tour-card{position:fixed;width:min(380px,calc(100vw - 24px));background:var(--white);border-radius:20px;padding:20px;box-shadow:var(--shadow-lg)}
 .tour-card h2{font-size:1.2rem;margin:4px 0 6px}
 .tour-card p{color:var(--ink-2)}
 .tour-btns{display:flex;justify-content:space-between;align-items:center;gap:8px}
