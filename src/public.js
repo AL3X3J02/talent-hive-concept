@@ -1,14 +1,14 @@
 /* ---------- Public site ---------- */
 function pubHeader(current, onBlue){
   const nav = [['#/jobs','Find a role','jobs'],['#/employers','For employers','employers'],['#/events','Events','events']];
-  return `<header class="pub-header ${onBlue ? 'on-blue' : ''}"><div class="inner">${brand('#/')}
+  return `<header class="pub-header ${onBlue ? 'on-blue' : ''}"><div class="inner">${brand('#/', false)}<span class="cobrand">${cpcaLogo(42, onBlue)}</span>
     <nav class="pub-nav" aria-label="Main">${nav.map(([h,l,id]) => `<a href="${h}" ${current === id ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
     <div class="actions"><a class="btn btn-ghost btn-sm" href="#/signin">Sign in</a><a class="btn btn-primary btn-sm" href="#/join">Join Talent Hive</a></div>
   </div></header>`;
 }
 function pubFooter(){
   return `<footer class="pub-footer"><div class="section">
-    <div class="fgrid"><div><b style="color:var(--ink)">Talent Hive demo, designed and built by Alexej Zhukov</b><br>Sample data only. Not an official Cambridgeshire and Peterborough Combined Authority website.</div>
+    <div class="fgrid"><div class="fcpca">${cpcaLogo(58)}<div><b style="color:var(--ink)">Talent Hive is a Cambridgeshire and Peterborough Combined Authority programme.</b><br>This demo was designed and built by Alexej Zhukov. Sample data only, not an official CPCA website.</div></div>
     <div style="display:flex;gap:18px"><a href="#/jobs">Find a role</a><a href="#/employers">For employers</a><a href="#/join">Join</a><a href="#/signin">Sign in</a></div></div>
     <div class="huge" aria-hidden="true">Talent Hive</div>
   </div></footer>`;
@@ -322,6 +322,7 @@ function pubEmployers(){
 /* ---------- Sign in ---------- */
 function pubSignin(){
   return `<main id="main" class="section" style="max-width:820px">
+    <div class="signin-logo">${cpcaLogo(56)}</div>
     <h1>Sign in or join</h1>
     <p class="lede muted" style="font-size:1.1rem">In the full site you would sign in with a secure link sent to your email. In this demo, choose a role to continue.</p>
     <div class="grid-2" style="margin-top:24px">

@@ -41,7 +41,7 @@ const FIXES = [
 function aboutDemoView(){
   return `<main id="main">
     <section class="hero hero-sm" data-hero><div class="frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-      <div class="inner" style="grid-template-columns:1fr;padding-bottom:64px"><div><div class="kicker"><b>+</b> About this demo</div>
+      <div class="inner" style="grid-template-columns:1fr;padding-bottom:64px"><div><div class="builtfor"><span>Built for</span>${cpcaLogo(50, true)}</div><div class="kicker"><b>+</b> About this demo</div>
         <h1 style="max-width:16ch">12 problems with today's site, and how this fixes them.</h1>
         <p class="lede" style="max-width:60ch">This is a working demo by Alexej Zhukov of a redesigned Talent Hive for Cambridgeshire and Peterborough. Every fix below links to the part of the demo that shows it. All data is invented.</p>
         <div class="ctas"><button class="btn btn-primary btn-lg" data-act="tour">Take the guided tour</button><a class="btn btn-dark btn-lg" href="#/">Start from the home page</a></div></div></div>

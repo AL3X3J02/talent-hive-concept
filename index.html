@@ -1000,6 +1000,27 @@ html.dark .topbar .searchtrigger{background:var(--white)}
 html.dark .cvpaper .chip{background:#F4F5F8;border-color:#E4E6ED;color:#0F1222}
 html.dark .cvpaper .chip svg{color:var(--blue)}
 
+/* CPCA logo */
+.cpca-logo{display:inline-flex;flex:none}
+.cpca-logo img,img.cpca-logo{display:block;width:auto;max-width:100%}
+.cpca-logo .dk{display:none}
+html.dark .cpca-logo .lt{display:none}
+html.dark .cpca-logo .dk{display:block}
+.cobrand{display:flex;align-items:center;padding-left:22px;margin-left:-4px;border-left:1px solid var(--line);align-self:stretch}
+.pub-header.on-blue .cobrand{border-color:rgba(255,255,255,.28)}
+.side-cpca{margin-top:auto;padding:14px 8px 12px;display:flex;flex-direction:column;gap:8px;border-top:1px dashed var(--dash)}
+.side-cpca span{font-size:.72rem;color:var(--muted)}
+.side .side-cpca + .who{margin-top:0}
+.pub-footer .fcpca{display:flex;gap:18px;align-items:center;max-width:640px}
+.pub-footer .fcpca .cpca-logo{padding-right:18px;border-right:1px solid var(--line)}
+.intro-logo{margin:-2px 0 14px}
+.signin-logo{margin-bottom:22px}
+.builtfor{display:flex;align-items:center;gap:14px;margin-bottom:28px;color:rgba(255,255,255,.75);font-size:.85rem}
+@media (max-width:1100px){.pub-header .cobrand{display:none}}
+@media (max-width:720px){.pub-footer .fcpca{flex-direction:column;align-items:flex-start}.pub-footer .fcpca .cpca-logo{border-right:0;padding-right:0}}
+.table .rolecell{min-width:180px}
+.table.compact .hide-compact{display:none}
+
 </style>
 </head>
 <body>
@@ -1394,7 +1415,14 @@ const PASTELS = ['#DDE1FF','#FCE4F8','#EEFAD0','#FFE9DC','#D9F3E6','#ECEBFF','#F
 const pastel = n => PASTELS[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % PASTELS.length];
 const avatar = (p, cls='') => `<span class="avatar ${cls}" style="--av:${pastel(p.name)}" aria-hidden="true">${esc(p.name.split(' ').map(x => x[0]).join('').slice(0,2))}</span>`;
 const status = (s, label) => `<span class="status st-${s}">${esc(label || STATUS_LABEL[s] || s[0].toUpperCase() + s.slice(1))}</span>`;
-const brand = (href='#/') => `<a class="brand" href="${href}"><span class="mark" aria-hidden="true">th</span><span class="wm"><b>Talent Hive</b><small>Cambridgeshire and Peterborough</small></span><span class="concept-tag">Demo</span></a>`;
+const brand = (href='#/', sub=true) => `<a class="brand" href="${href}"><span class="mark" aria-hidden="true">th</span><span class="wm"><b>Talent Hive</b>${sub ? '<small>Cambridgeshire and Peterborough</small>' : ''}</span><span class="concept-tag">Demo</span></a>`;
+const CPCA_NAME = 'Cambridgeshire and Peterborough Combined Authority';
+/* CPCA logo: colour on light, white lettering in dark mode, all white (mono) on the blue hero */
+function cpcaLogo(h = 32, mono = false){
+  const w = Math.round(h * 746 / 214);
+  if (mono) return `<img class="cpca-logo" src="assets/cpca-logo-mono.png" alt="${CPCA_NAME}" width="${w}" height="${h}">`;
+  return `<span class="cpca-logo"><img class="lt" src="assets/cpca-logo.png" alt="${CPCA_NAME}" width="${w}" height="${h}"><img class="dk" src="assets/cpca-logo-white.png" alt="" aria-hidden="true" width="${w}" height="${h}"></span>`;
+}
 
 function jobRow(j, {base='#/jobs', showMatch=false} = {}){
   const e = emp(j.emp);
@@ -1483,7 +1511,7 @@ function shell(role, current, nav, who, body){
   const mob = nav.map(n => `<a href="${n.href}" ${n.id === current ? 'aria-current="page"' : ''}>${n.label}${n.count ? ` (${n.count})` : ''}</a>`).join('');
   return `<div class="shell">
     <aside class="side" aria-label="${role} menu">${brand('#/' + role)}<button class="side-search" data-act="palette">${icon('search')}<span>Search</span><kbd>/</kbd></button><nav>${links}</nav>
-      <div class="who">${who}</div></aside>
+      <div class="side-cpca"><span>A programme from</span>${cpcaLogo(40)}</div><div class="who">${who}</div></aside>
     <div class="col-main">
       <nav class="mobnav" aria-label="${role} menu">${brand('#/' + role)}${mob}</nav>
       ${topbar(role)}
@@ -1548,6 +1576,7 @@ ACT['signin-as'] = el => {
 /* ---------- First-visit notice ---------- */
 function showIntro(){
   openModal(`<header><h2>A working demo, not a real job board</h2></header>
+    <div class="intro-logo">${cpcaLogo(48)}</div>
     <p>This is a demo by <b>Alexej Zhukov</b> showing how the Talent Hive internship platform for Cambridgeshire and Peterborough could work for interns, employers and the CPCA team.</p>
     <ul><li>The employers, people and roles are invented.</li><li>Nothing you type is sent anywhere, and it all resets when you reload.</li><li>It is not an official Cambridgeshire and Peterborough Combined Authority website.</li></ul>
     <p class="small muted">Use the bar at the top to switch between Visitor, Intern, Employer and CPCA team views.</p>
@@ -1796,14 +1825,14 @@ seedExtras();
 /* ---------- Public site ---------- */
 function pubHeader(current, onBlue){
   const nav = [['#/jobs','Find a role','jobs'],['#/employers','For employers','employers'],['#/events','Events','events']];
-  return `<header class="pub-header ${onBlue ? 'on-blue' : ''}"><div class="inner">${brand('#/')}
+  return `<header class="pub-header ${onBlue ? 'on-blue' : ''}"><div class="inner">${brand('#/', false)}<span class="cobrand">${cpcaLogo(42, onBlue)}</span>
     <nav class="pub-nav" aria-label="Main">${nav.map(([h,l,id]) => `<a href="${h}" ${current === id ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
     <div class="actions"><a class="btn btn-ghost btn-sm" href="#/signin">Sign in</a><a class="btn btn-primary btn-sm" href="#/join">Join Talent Hive</a></div>
   </div></header>`;
 }
 function pubFooter(){
   return `<footer class="pub-footer"><div class="section">
-    <div class="fgrid"><div><b style="color:var(--ink)">Talent Hive demo, designed and built by Alexej Zhukov</b><br>Sample data only. Not an official Cambridgeshire and Peterborough Combined Authority website.</div>
+    <div class="fgrid"><div class="fcpca">${cpcaLogo(58)}<div><b style="color:var(--ink)">Talent Hive is a Cambridgeshire and Peterborough Combined Authority programme.</b><br>This demo was designed and built by Alexej Zhukov. Sample data only, not an official CPCA website.</div></div>
     <div style="display:flex;gap:18px"><a href="#/jobs">Find a role</a><a href="#/employers">For employers</a><a href="#/join">Join</a><a href="#/signin">Sign in</a></div></div>
     <div class="huge" aria-hidden="true">Talent Hive</div>
   </div></footer>`;
@@ -2117,6 +2146,7 @@ function pubEmployers(){
 /* ---------- Sign in ---------- */
 function pubSignin(){
   return `<main id="main" class="section" style="max-width:820px">
+    <div class="signin-logo">${cpcaLogo(56)}</div>
     <h1>Sign in or join</h1>
     <p class="lede muted" style="font-size:1.1rem">In the full site you would sign in with a secure link sent to your email. In this demo, choose a role to continue.</p>
     <div class="grid-2" style="margin-top:24px">
@@ -2835,7 +2865,7 @@ function empHome(){
     <div class="kpi"><div class="v" data-count="${live.reduce((s,j) => s + j.views, 0)}">${live.reduce((s,j) => s + j.views, 0)}</div><div class="l">Listing views</div></div>
   </div>
   <div class="grid-main">
-    <section class="panel"><div class="section-head" style="margin-bottom:8px"><h2 style="margin:0">Your listings</h2><a href="#/employer/listings">Manage listings</a></div>${listingsTable(jobs)}</section>
+    <section class="panel"><div class="section-head" style="margin-bottom:8px"><h2 style="margin:0">Your listings</h2><a href="#/employer/listings">Manage listings</a></div>${listingsTable(jobs, true)}</section>
     <div class="stack">
       ${draft ? `<section class="panel draftpanel"><h2>Finish your draft</h2><p class="small">${esc(draft.title)} is saved but not yet submitted for approval.</p><button class="btn btn-primary btn-sm" data-act="editdraft" data-id="${draft.id}">Finish and submit</button></section>` : ''}
       <section class="panel"><h2>Latest applicants</h2>${apps.sort((a,b) => d(b.history[0][1]) - d(a.history[0][1])).slice(0,4).map(a => { const i = intern(a.intern); return `<div class="listitem">${avatar(i)}<div class="grow"><b>${esc(i.name)}</b><div class="small muted">${esc(job(a.job).title)}. Applied ${fmt(a.history[0][1])}</div></div>${status(a.status)}</div>`; }).join('')}
@@ -2843,10 +2873,10 @@ function empHome(){
     </div>
   </div>`;
 }
-function listingsTable(jobs){
-  return `<div class="table-wrap"><table class="table"><thead><tr><th>Role</th><th>Status</th><th class="num">Applicants</th><th class="num">Views</th><th>Closes</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>
-    ${jobs.map(j => { const n = appsFor(j.id).length; return `<tr><td><b>${esc(j.title)}</b>${j.status === 'returned' && S.returned[j.id] ? `<div class="small" style="color:var(--red)">CPCA: ${esc(S.returned[j.id])}</div>` : ''}</td><td>${status(j.status, empStatusLabel(j.status))}</td><td class="num">${n}</td><td class="num">${j.views}</td><td class="nowrap">${j.closes ? fmt(j.closes) : ''}</td>
-      <td class="nowrap">${j.status === 'live' ? `<a class="btn btn-ghost btn-sm" href="#/employer/listings/${j.id}">Insights</a> <a class="btn btn-ghost btn-sm" href="#/employer/pipeline/${j.id}">Applicants</a>` : (j.status === 'draft' || j.status === 'returned') ? `<button class="btn btn-ghost btn-sm" data-act="editdraft" data-id="${j.id}">${j.status === 'returned' ? 'Edit and resubmit' : 'Finish draft'}</button>` : j.status === 'pending' ? '<span class="small muted">Usually 2 working days</span>' : ''}</td></tr>`; }).join('')}
+function listingsTable(jobs, compact){
+  return `<div class="table-wrap"><table class="table ${compact ? 'compact' : ''}"><thead><tr><th>Role</th><th>Status</th><th class="num">Applicants</th><th class="num hide-compact">Views</th><th>Closes</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>
+    ${jobs.map(j => { const n = appsFor(j.id).length; return `<tr><td class="rolecell"><b>${esc(j.title)}</b>${j.status === 'returned' && S.returned[j.id] ? `<div class="small" style="color:var(--red)">CPCA: ${esc(S.returned[j.id])}</div>` : ''}</td><td>${status(j.status, empStatusLabel(j.status))}</td><td class="num">${n}</td><td class="num hide-compact">${j.views}</td><td class="nowrap">${j.closes ? fmt(j.closes) : ''}</td>
+      <td class="nowrap">${j.status === 'live' ? (compact ? `<a class="btn btn-ghost btn-sm" href="#/employer/pipeline/${j.id}">Applicants</a>` : `<a class="btn btn-ghost btn-sm" href="#/employer/listings/${j.id}">Insights</a> <a class="btn btn-ghost btn-sm" href="#/employer/pipeline/${j.id}">Applicants</a>`) : (j.status === 'draft' || j.status === 'returned') ? `<button class="btn btn-ghost btn-sm" data-act="editdraft" data-id="${j.id}">${j.status === 'returned' ? 'Edit and resubmit' : 'Finish draft'}</button>` : j.status === 'pending' ? '<span class="small muted">Usually 2 working days</span>' : ''}</td></tr>`; }).join('')}
   </tbody></table></div>`;
 }
 function listingsView(){
@@ -3483,7 +3513,7 @@ const FIXES = [
 function aboutDemoView(){
   return `<main id="main">
     <section class="hero hero-sm" data-hero><div class="frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-      <div class="inner" style="grid-template-columns:1fr;padding-bottom:64px"><div><div class="kicker"><b>+</b> About this demo</div>
+      <div class="inner" style="grid-template-columns:1fr;padding-bottom:64px"><div><div class="builtfor"><span>Built for</span>${cpcaLogo(50, true)}</div><div class="kicker"><b>+</b> About this demo</div>
         <h1 style="max-width:16ch">12 problems with today's site, and how this fixes them.</h1>
         <p class="lede" style="max-width:60ch">This is a working demo by Alexej Zhukov of a redesigned Talent Hive for Cambridgeshire and Peterborough. Every fix below links to the part of the demo that shows it. All data is invented.</p>
         <div class="ctas"><button class="btn btn-primary btn-lg" data-act="tour">Take the guided tour</button><a class="btn btn-dark btn-lg" href="#/">Start from the home page</a></div></div></div>

@@ -62,7 +62,7 @@ function empHome(){
     <div class="kpi"><div class="v" data-count="${live.reduce((s,j) => s + j.views, 0)}">${live.reduce((s,j) => s + j.views, 0)}</div><div class="l">Listing views</div></div>
   </div>
   <div class="grid-main">
-    <section class="panel"><div class="section-head" style="margin-bottom:8px"><h2 style="margin:0">Your listings</h2><a href="#/employer/listings">Manage listings</a></div>${listingsTable(jobs)}</section>
+    <section class="panel"><div class="section-head" style="margin-bottom:8px"><h2 style="margin:0">Your listings</h2><a href="#/employer/listings">Manage listings</a></div>${listingsTable(jobs, true)}</section>
     <div class="stack">
       ${draft ? `<section class="panel draftpanel"><h2>Finish your draft</h2><p class="small">${esc(draft.title)} is saved but not yet submitted for approval.</p><button class="btn btn-primary btn-sm" data-act="editdraft" data-id="${draft.id}">Finish and submit</button></section>` : ''}
       <section class="panel"><h2>Latest applicants</h2>${apps.sort((a,b) => d(b.history[0][1]) - d(a.history[0][1])).slice(0,4).map(a => { const i = intern(a.intern); return `<div class="listitem">${avatar(i)}<div class="grow"><b>${esc(i.name)}</b><div class="small muted">${esc(job(a.job).title)}. Applied ${fmt(a.history[0][1])}</div></div>${status(a.status)}</div>`; }).join('')}
@@ -70,10 +70,10 @@ function empHome(){
     </div>
   </div>`;
 }
-function listingsTable(jobs){
-  return `<div class="table-wrap"><table class="table"><thead><tr><th>Role</th><th>Status</th><th class="num">Applicants</th><th class="num">Views</th><th>Closes</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>
-    ${jobs.map(j => { const n = appsFor(j.id).length; return `<tr><td><b>${esc(j.title)}</b>${j.status === 'returned' && S.returned[j.id] ? `<div class="small" style="color:var(--red)">CPCA: ${esc(S.returned[j.id])}</div>` : ''}</td><td>${status(j.status, empStatusLabel(j.status))}</td><td class="num">${n}</td><td class="num">${j.views}</td><td class="nowrap">${j.closes ? fmt(j.closes) : ''}</td>
-      <td class="nowrap">${j.status === 'live' ? `<a class="btn btn-ghost btn-sm" href="#/employer/listings/${j.id}">Insights</a> <a class="btn btn-ghost btn-sm" href="#/employer/pipeline/${j.id}">Applicants</a>` : (j.status === 'draft' || j.status === 'returned') ? `<button class="btn btn-ghost btn-sm" data-act="editdraft" data-id="${j.id}">${j.status === 'returned' ? 'Edit and resubmit' : 'Finish draft'}</button>` : j.status === 'pending' ? '<span class="small muted">Usually 2 working days</span>' : ''}</td></tr>`; }).join('')}
+function listingsTable(jobs, compact){
+  return `<div class="table-wrap"><table class="table ${compact ? 'compact' : ''}"><thead><tr><th>Role</th><th>Status</th><th class="num">Applicants</th><th class="num hide-compact">Views</th><th>Closes</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>
+    ${jobs.map(j => { const n = appsFor(j.id).length; return `<tr><td class="rolecell"><b>${esc(j.title)}</b>${j.status === 'returned' && S.returned[j.id] ? `<div class="small" style="color:var(--red)">CPCA: ${esc(S.returned[j.id])}</div>` : ''}</td><td>${status(j.status, empStatusLabel(j.status))}</td><td class="num">${n}</td><td class="num hide-compact">${j.views}</td><td class="nowrap">${j.closes ? fmt(j.closes) : ''}</td>
+      <td class="nowrap">${j.status === 'live' ? (compact ? `<a class="btn btn-ghost btn-sm" href="#/employer/pipeline/${j.id}">Applicants</a>` : `<a class="btn btn-ghost btn-sm" href="#/employer/listings/${j.id}">Insights</a> <a class="btn btn-ghost btn-sm" href="#/employer/pipeline/${j.id}">Applicants</a>`) : (j.status === 'draft' || j.status === 'returned') ? `<button class="btn btn-ghost btn-sm" data-act="editdraft" data-id="${j.id}">${j.status === 'returned' ? 'Edit and resubmit' : 'Finish draft'}</button>` : j.status === 'pending' ? '<span class="small muted">Usually 2 working days</span>' : ''}</td></tr>`; }).join('')}
   </tbody></table></div>`;
 }
 function listingsView(){

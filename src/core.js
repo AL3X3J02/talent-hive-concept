@@ -124,7 +124,14 @@ const PASTELS = ['#DDE1FF','#FCE4F8','#EEFAD0','#FFE9DC','#D9F3E6','#ECEBFF','#F
 const pastel = n => PASTELS[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % PASTELS.length];
 const avatar = (p, cls='') => `<span class="avatar ${cls}" style="--av:${pastel(p.name)}" aria-hidden="true">${esc(p.name.split(' ').map(x => x[0]).join('').slice(0,2))}</span>`;
 const status = (s, label) => `<span class="status st-${s}">${esc(label || STATUS_LABEL[s] || s[0].toUpperCase() + s.slice(1))}</span>`;
-const brand = (href='#/') => `<a class="brand" href="${href}"><span class="mark" aria-hidden="true">th</span><span class="wm"><b>Talent Hive</b><small>Cambridgeshire and Peterborough</small></span><span class="concept-tag">Demo</span></a>`;
+const brand = (href='#/', sub=true) => `<a class="brand" href="${href}"><span class="mark" aria-hidden="true">th</span><span class="wm"><b>Talent Hive</b>${sub ? '<small>Cambridgeshire and Peterborough</small>' : ''}</span><span class="concept-tag">Demo</span></a>`;
+const CPCA_NAME = 'Cambridgeshire and Peterborough Combined Authority';
+/* CPCA logo: colour on light, white lettering in dark mode, all white (mono) on the blue hero */
+function cpcaLogo(h = 32, mono = false){
+  const w = Math.round(h * 746 / 214);
+  if (mono) return `<img class="cpca-logo" src="assets/cpca-logo-mono.png" alt="${CPCA_NAME}" width="${w}" height="${h}">`;
+  return `<span class="cpca-logo"><img class="lt" src="assets/cpca-logo.png" alt="${CPCA_NAME}" width="${w}" height="${h}"><img class="dk" src="assets/cpca-logo-white.png" alt="" aria-hidden="true" width="${w}" height="${h}"></span>`;
+}
 
 function jobRow(j, {base='#/jobs', showMatch=false} = {}){
   const e = emp(j.emp);
@@ -213,7 +220,7 @@ function shell(role, current, nav, who, body){
   const mob = nav.map(n => `<a href="${n.href}" ${n.id === current ? 'aria-current="page"' : ''}>${n.label}${n.count ? ` (${n.count})` : ''}</a>`).join('');
   return `<div class="shell">
     <aside class="side" aria-label="${role} menu">${brand('#/' + role)}<button class="side-search" data-act="palette">${icon('search')}<span>Search</span><kbd>/</kbd></button><nav>${links}</nav>
-      <div class="who">${who}</div></aside>
+      <div class="side-cpca"><span>A programme from</span>${cpcaLogo(40)}</div><div class="who">${who}</div></aside>
     <div class="col-main">
       <nav class="mobnav" aria-label="${role} menu">${brand('#/' + role)}${mob}</nav>
       ${topbar(role)}
@@ -278,6 +285,7 @@ ACT['signin-as'] = el => {
 /* ---------- First-visit notice ---------- */
 function showIntro(){
   openModal(`<header><h2>A working demo, not a real job board</h2></header>
+    <div class="intro-logo">${cpcaLogo(48)}</div>
     <p>This is a demo by <b>Alexej Zhukov</b> showing how the Talent Hive internship platform for Cambridgeshire and Peterborough could work for interns, employers and the CPCA team.</p>
     <ul><li>The employers, people and roles are invented.</li><li>Nothing you type is sent anywhere, and it all resets when you reload.</li><li>It is not an official Cambridgeshire and Peterborough Combined Authority website.</li></ul>
     <p class="small muted">Use the bar at the top to switch between Visitor, Intern, Employer and CPCA team views.</p>
