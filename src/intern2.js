@@ -11,24 +11,38 @@ const RIVERS = [
   [[52.55,-0.42],[52.57,-0.24],[52.59,-0.10],[52.62,0.05],[52.66,0.16],[52.73,0.19]],
   [[52.17,0.08],[52.21,0.13],[52.27,0.19],[52.33,0.22],[52.36,0.24]]
 ];
+const CALLOUT = {'Peterborough':['l',-16,-62],'Wisbech':['r',16,-44],'March':['r',18,-16],'Ely':['r',18,-44],'Alconbury Weald':['l',-16,-50],'Huntingdon':['l',-16,6],'St Ives':['r',14,-56],'St Neots':['l',-16,0],'Northstowe':['r',16,-10],'Cambridge':['r',20,-8]};
+let mapN = 0;
 function regionMap({counts, unit, act, title}){
-  const W = 560, H = 620, pad = 30;
+  const W = 560, H = 620, pad = 30, id = 'm' + (++mapN);
   const lats = OUTLINE.map(p => p[0]), lons = OUTLINE.map(p => p[1]);
   const la0 = Math.min(...lats), la1 = Math.max(...lats), lo0 = Math.min(...lons), lo1 = Math.max(...lons);
   const k = Math.cos(52.4 * Math.PI / 180);
-  const sx = (W - pad * 2) / ((lo1 - lo0) * k), sy = (H - pad * 2) / (la1 - la0), s = Math.min(sx, sy);
+  const s = Math.min((W - pad * 2) / ((lo1 - lo0) * k), (H - pad * 2) / (la1 - la0));
   const offX = (W - (lo1 - lo0) * k * s) / 2, offY = (H - (la1 - la0) * s) / 2;
   const P = ([la, lo]) => [offX + (lo - lo0) * k * s, offY + (la1 - la) * s];
-  const path = pts => pts.map((p, i) => (i ? 'L' : 'M') + P(p).map(v => v.toFixed(1)).join(' ')).join('');
-  const max = Math.max(1, ...Object.values(counts));
-  const towns = Object.entries(TOWNS).map(([n, ll]) => { const [x, y] = P(ll); const c = counts[n] || 0; const r = c ? 10 + 18 * Math.sqrt(c / max) : 4; const L = LABEL_POS[n] || ['r', 0]; const right = L[0] === 'r'; const dy = L[1];
-    return c ? `<g class="town" role="button" tabindex="0" data-act="${act}" data-area="${n}" aria-label="${n}: ${c} ${unit}${c === 1 ? '' : 's'}"><circle cx="${x}" cy="${y}" r="${r + 6}" fill="transparent"/><circle class="bub" cx="${x}" cy="${y}" r="${r}"/><text class="cnt" x="${x}" y="${y + 4}" text-anchor="middle">${c}</text><text class="lbl" x="${right ? x + r + 6 : x - r - 6}" y="${y + 4 + dy}" text-anchor="${right ? 'start' : 'end'}">${n}</text></g>`
-      : `<g class="town empty" aria-hidden="true"><circle cx="${x}" cy="${y}" r="3.5"/><text class="lbl" x="${right ? x + 8 : x - 8}" y="${y + 4 + dy}" text-anchor="${right ? 'start' : 'end'}">${n}</text></g>`; }).join('');
-  return `<figure class="regionmap"><svg viewBox="0 0 ${W} ${H}" role="group" aria-label="${esc(title)}">
-    <path class="land" d="${path(OUTLINE)}Z"/>
-    ${RIVERS.map(r => `<path class="river" d="${path(r)}"/>`).join('')}
-    ${towns}
-  </svg><figcaption class="small muted">Simplified map. Circle size shows the number of ${unit}s in each town.</figcaption></figure>`;
+  const poly = OUTLINE.map(P);
+  const inside = (x, y) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++){ const [xi, yi] = poly[i], [xj, yj] = poly[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
+  let dots = '';
+  for (let y = 12; y < H; y += 12) for (let x = 12 + ((y / 12) % 2) * 6; x < W; x += 12) if (inside(x, y)) dots += `<circle class="dot" cx="${x}" cy="${y}" r="2.4"/>`;
+  let n = 0;
+  const towns = Object.entries(TOWNS).map(([name, ll]) => {
+    const [x, y] = P(ll); const c = counts[name] || 0; const [side, dx, dy] = CALLOUT[name] || ['r', 16, -20];
+    if (!c) return `<g class="empty" aria-hidden="true"><circle cx="${x}" cy="${y}" r="3"/><text x="${side === 'r' ? x + 8 : x - 8}" y="${y + 4}" text-anchor="${side === 'r' ? 'start' : 'end'}">${name}</text></g>`;
+    const label = `${c} ${unit}${c === 1 ? '' : 's'}`;
+    const w = Math.max(name.length * 7.6, label.length * 6.6) + 22, h = 40;
+    const bx = side === 'r' ? x + dx : x + dx - w, by = y + dy;
+    const ex = side === 'r' ? bx : bx + w, ey = by + h / 2;
+    const delay = 150 + (n++) * 90;
+    return `<g class="town drop" style="animation-delay:${delay}ms" role="button" tabindex="0" data-act="${act}" data-area="${name}" aria-label="${name}: ${label}">
+      <line class="lead" x1="${x}" y1="${y - 14}" x2="${ex}" y2="${ey}"/>
+      <rect class="callout" x="${bx}" y="${by}" width="${w}" height="${h}" rx="8"/>
+      <text class="cnm" x="${bx + 11}" y="${by + 17}">${name}</text><text class="cct" x="${bx + 11}" y="${by + 32}">${label}</text>
+      <circle class="pinring" cx="${x}" cy="${y - 15}" r="9"/>
+      <path class="pin" d="M${x} ${y}c-1-5-9-8.5-9-15.5a9 9 0 1 1 18 0c0 7-8 10.5-9 15.5z"/><circle cx="${x}" cy="${y - 15.5}" r="3.4" fill="#fff"/>
+    </g>`;
+  }).join('');
+  return `<figure class="regionmap"><svg viewBox="0 0 ${W} ${H}" role="group" aria-label="${esc(title)}">${dots}${towns}</svg><figcaption class="small muted">Simplified map of Cambridgeshire and Peterborough. Select a town to filter.</figcaption></figure>`;
 }
 document.addEventListener('keydown', e => {
   const g = e.target.closest && e.target.closest('[role=button][data-act]');

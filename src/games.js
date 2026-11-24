@@ -61,7 +61,7 @@ function wordleBoard(){
   return `<div class="wordle" role="group" aria-label="Guesses">${rows}</div>
     <p role="status" class="small" style="text-align:center;min-height:1.5em;font-weight:700">${esc(W.msg)}</p>
     ${W.done ? `<div class="panel" style="max-width:520px;margin:0 auto;text-align:center"><h2>${W.won ? 'Nice work' : 'Today\'s word'}: ${W.answer}</h2><p>${esc(W.answer[0] + W.answer.slice(1).toLowerCase())} is ${esc(W.def)}</p><a class="btn btn-primary" href="#/intern/boost">Back to today's games</a></div>` : `<div class="kbd" aria-label="Keyboard">${kb}</div>`}
-    <div class="legend" style="margin-top:16px"><span><i class="hex" style="background:var(--mint)"></i>Right letter, right place</span><span><i class="hex" style="background:var(--honey)"></i>In the word, wrong place</span><span><i class="hex" style="background:#8C9AAB"></i>Not in the word</span></div>`;
+    <div class="legend" style="margin-top:16px"><span><i style="background:var(--mint)"></i>Right letter, right place</span><span><i style="background:#FFB547"></i>In the word, wrong place</span><span><i style="background:#7C8396"></i>Not in the word</span></div>`;
 }
 function wordleView(){
   return `<a class="back" href="#/intern/boost">${icon('left')}Daily Career Boost</a><div class="pagehead"><div><h1>Career Wordle</h1><p>Guess the five-letter workplace word. You have six tries. Type on your keyboard or use the keys below.</p></div></div><div id="wordle">${wordleBoard()}</div>`;

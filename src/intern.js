@@ -67,7 +67,7 @@ function internHome(){
   const next = offer ? {t:`You have an offer from ${emp(job(offer.job).emp).name}`, s:`${job(offer.job).title}. Reply by ${fmt('2026-11-27')} to accept or decline.`, b:'<a class="btn btn-honey" href="#/intern/applications">Review offer</a>'}
     : interview ? {t:`Interview with ${emp(job(interview.job).emp).name}`, s:interview.slots ? 'They have offered three times. Pick the one that suits you.' : `${interview.interview}`, b:`<button class="btn btn-honey" data-act="prep" data-id="${interview.id}">Prepare for it</button>`}
     : {t:'Find your next role', s:'New roles are added every week.', b:'<a class="btn btn-honey" href="#/intern/jobs">Browse jobs</a>'};
-  return `<div class="pagehead"><div><h1>Good morning, Jordan</h1><p>Tuesday 24 November. Here is what needs your attention.</p></div></div>
+  return `<div class="pagehead"><div><h1>Good morning, Jordan</h1><p>Here is what needs your attention today.</p></div></div>
   <section class="nextstep" aria-label="Next step"><div class="hexdeco hex">${icon('calendar')}</div><div><h2>${esc(next.t)}</h2><p>${esc(next.s)}</p></div>${next.b}</section>
   <div class="grid-main">
     <div class="stack">
@@ -81,7 +81,7 @@ function internHome(){
       </section>
     </div>
     <div class="stack">
-      <section class="panel" aria-labelledby="boost-h" style="background:var(--honey-50);border-color:#F6D9A8">
+      <section class="panel" aria-labelledby="boost-h" style="background:linear-gradient(165deg,#fff 35%,#FCE4F8);border-color:#F6D3EF">
         <h2 id="boost-h">Daily Career Boost</h2>
         <div class="boosthead" style="margin-bottom:12px"><div class="streak" style="background:#fff"><span class="hex">${S.boost.streak}</span><div><b>day streak</b><div class="small muted">${S.boost.points} points</div></div></div></div>
         <p class="small" style="margin-bottom:12px">${played === 3 ? 'All three games done today. Come back tomorrow to keep your streak.' : `${3 - played} of 3 games left today. Each takes about two minutes.`}</p>

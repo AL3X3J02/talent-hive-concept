@@ -96,6 +96,14 @@ const ICONS = {
   link:'<path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
   flame:'<path d="M12 22c4 0 7-2.7 7-7 0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-2 2-5 5-5 8 0 4.3 3 7 7 7z"/>',
   edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  code:'<path d="M8 8l-5 4 5 4M16 8l5 4-5 4M13.5 5l-3 14"/>',
+  cog:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M2.5 12h3M18.5 12h3M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"/>',
+  heart:'<path d="M12 20s-7-4.4-9-9a5 5 0 0 1 9-3 5 5 0 0 1 9 3c-2 4.6-9 9-9 9z"/>',
+  flask:'<path d="M9 3h6M10 3v6L4.5 18.5A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-2.5L14 9V3"/><path d="M7 15h10"/>',
+  hardhat:'<path d="M3 17h18v2.5H3zM5 17a7 7 0 0 1 14 0"/><path d="M10 10.5V6h4v4.5"/>',
+  wrench:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5z"/>',
+  arrowr:'<path d="M5 12h14M13 6l6 6-6 6"/>',
+  plusx:'<path d="M12 5v14M5 12h14"/>',
   bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',
   map:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
   star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
@@ -111,10 +119,12 @@ const ICONS = {
 const icon = (n, cls='') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n] || ''}</svg>`;
 
 /* ---------- Bits ---------- */
-const logo = (e, cls='') => `<span class="logo hex ${cls}" style="background:${e.color}" aria-hidden="true">${esc(e.initials)}</span>`;
-const avatar = (p, cls='') => `<span class="avatar ${cls}" style="background:${p.color}" aria-hidden="true">${esc(p.name.split(' ').map(x => x[0]).join('').slice(0,2))}</span>`;
+const logo = (e, cls='') => `<span class="logo ${cls}" style="background:${e.color}" aria-hidden="true">${esc(e.initials)}</span>`;
+const PASTELS = ['#DDE1FF','#FCE4F8','#EEFAD0','#FFE9DC','#D9F3E6','#ECEBFF','#FFF0CC','#DCF0FF'];
+const pastel = n => PASTELS[[...n].reduce((a, c) => a + c.charCodeAt(0), 0) % PASTELS.length];
+const avatar = (p, cls='') => `<span class="avatar ${cls}" style="--av:${pastel(p.name)}" aria-hidden="true">${esc(p.name.split(' ').map(x => x[0]).join('').slice(0,2))}</span>`;
 const status = (s, label) => `<span class="status st-${s}">${esc(label || STATUS_LABEL[s] || s[0].toUpperCase() + s.slice(1))}</span>`;
-const brand = (href='#/') => `<a class="brand" href="${href}"><span class="mark hex"><i class="hex"></i></span><span><b>Talent Hive <span class="concept-tag">Demo</span></b><small>Cambridgeshire and Peterborough</small></span></a>`;
+const brand = (href='#/') => `<a class="brand" href="${href}"><span class="mark" aria-hidden="true">th</span><span class="wm"><b>Talent Hive</b><small>Cambridgeshire and Peterborough</small></span><span class="concept-tag">Demo</span></a>`;
 
 function jobRow(j, {base='#/jobs', showMatch=false} = {}){
   const e = emp(j.emp);
@@ -132,10 +142,9 @@ function jobRow(j, {base='#/jobs', showMatch=false} = {}){
       </div>
     </div>
     <div class="jside">
-      ${showMatch ? `<span class="match">${matchScore(j)}% match</span>` : ''}
+      <div class="js-top">${showMatch ? `<span class="match">${matchScore(j)}% match</span>` : ''}<button class="icon-btn" data-act="save" data-id="${j.id}" aria-pressed="${saved}" aria-label="${saved ? 'Remove from saved jobs' : 'Save job'}: ${esc(j.title)}">${icon('bookmark')}</button></div>
+      <span class="small ${daysUntil(j.closes) <= 7 ? '' : 'muted'}" style="${daysUntil(j.closes) <= 7 ? 'color:var(--peach-ink);font-weight:600' : ''}">${closingText(j)}</span>
       ${showMatch ? `<label class="cmpbox small"><input type="checkbox" data-change="cmp" data-id="${j.id}" ${S.compare && S.compare.has(j.id) ? 'checked' : ''}> Compare</label>` : ''}
-      <span class="small ${daysUntil(j.closes) <= 7 ? '' : 'muted'}" style="${daysUntil(j.closes) <= 7 ? 'color:var(--honey-ink);font-weight:700' : ''}">${closingText(j)}</span>
-      <button class="icon-btn" data-act="save" data-id="${j.id}" aria-pressed="${saved}" aria-label="${saved ? 'Remove from saved jobs' : 'Save job'}: ${esc(j.title)}">${icon('bookmark')}</button>
     </div>
   </article>`;
 }
@@ -203,7 +212,7 @@ function shell(role, current, nav, who, body){
   const links = nav.map(n => `<a href="${n.href}" ${n.id === current ? 'aria-current="page"' : ''}>${icon(n.icon)}<span>${n.label}</span>${n.count ? `<span class="count" aria-label="${n.count} new">${n.count}</span>` : ''}</a>`).join('');
   const mob = nav.map(n => `<a href="${n.href}" ${n.id === current ? 'aria-current="page"' : ''}>${n.label}${n.count ? ` (${n.count})` : ''}</a>`).join('');
   return `<div class="shell">
-    <aside class="side" aria-label="${role} menu">${brand('#/' + role)}<nav>${links}</nav>
+    <aside class="side" aria-label="${role} menu">${brand('#/' + role)}<button class="side-search" data-act="palette">${icon('search')}<span>Search</span><kbd>/</kbd></button><nav>${links}</nav>
       <div class="who">${who}</div></aside>
     <div class="col-main">
       <nav class="mobnav" aria-label="${role} menu">${brand('#/' + role)}${mob}</nav>

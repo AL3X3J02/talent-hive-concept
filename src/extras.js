@@ -26,7 +26,8 @@ function notify(role, text, href){ S.notifs[role].unshift({id:uid('n'), text, hr
 function topbar(role){
   const unread = S.notifs[role].filter(n => n.unread).length;
   return `<div class="topbar">
-    <button class="searchtrigger" data-act="palette"><span class="st-icon">${icon('search')}</span><span class="st-label">Search jobs, people and pages</span><kbd>Ctrl K</kbd></button>
+    <span class="today">Tuesday 24 November 2026</span>
+    <button class="searchtrigger" data-act="palette">${icon('search')}<span>Search</span></button>
     <div class="tb-actions">
       <button class="icon-btn tb-btn" data-act="display" aria-label="Display and accessibility settings"><span class="aa" aria-hidden="true">Aa</span></button>
       <button class="icon-btn tb-btn bell" data-act="notifs" aria-haspopup="true" aria-label="Notifications${unread ? `, ${unread} unread` : ''}">${icon('bell')}${unread ? `<span class="badge-dot">${unread}</span>` : ''}</button>
@@ -95,7 +96,7 @@ function paletteResults(q){
 INPUT.palq = el => { palSel = 0; $('#palres').innerHTML = paletteResults(el.value); };
 ACT['pal-go'] = el => { closeModal(); go(el.getAttribute('href')); };
 document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k'){ e.preventDefault(); if (!$('#palres')) ACT.palette(); return; }
+  if (((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') || (e.key === '/' && !e.target.matches('input,textarea,select') && !$('#modal-root').innerHTML && !$('#wordle'))){ e.preventDefault(); if (!$('#palres')) ACT.palette(); return; }
   const res = $('#palres'); if (!res) return;
   const items = $$('.pal-item', res);
   if (e.key === 'ArrowDown' || e.key === 'ArrowUp'){ e.preventDefault(); palSel = (palSel + (e.key === 'ArrowDown' ? 1 : -1) + items.length) % items.length; items.forEach((x, k) => x.setAttribute('aria-selected', k === palSel)); items[palSel] && items[palSel].scrollIntoView({block:'nearest'}); $('#palq').setAttribute('aria-activedescendant', 'pal-' + palSel); }
@@ -146,7 +147,7 @@ function confetti(){
   const c = document.createElement('canvas'); c.className = 'confetti'; document.body.appendChild(c);
   const dpr = window.devicePixelRatio || 1; c.width = innerWidth * dpr; c.height = innerHeight * dpr;
   const x = c.getContext('2d'); x.scale(dpr, dpr);
-  const cols = ['#F2A93B','#1E9BD7','#2F9E6E','#0E2A47','#E8604C'];
+  const cols = ['#2E3BFF','#F7A8EE','#B6E33A','#FFB547','#5A4BF2','#1FA463'];
   const P = Array.from({length:140}, () => ({x:innerWidth / 2 + (Math.random() - .5) * 160, y:innerHeight * .35, vx:(Math.random() - .5) * 13, vy:-Math.random() * 12 - 4, s:Math.random() * 7 + 4, r:Math.random() * 6, vr:(Math.random() - .5) * .3, c:cols[Math.floor(Math.random() * cols.length)]}));
   const t0 = performance.now();
   const tick = t => {

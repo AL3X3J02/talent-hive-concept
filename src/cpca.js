@@ -38,18 +38,20 @@ function columnChart(data, {label, unit='applications'} = {}){
   const y = v => padT + (H - padT - padB) * (1 - v / max);
   const peak = data.reduce((m,x,i) => x.n > data[m].n ? i : m, 0);
   const ticks = [0, max / 2, max];
+  const pid = 'hp' + Math.random().toString(36).slice(2, 7);
   return `<div class="chart" style="position:relative"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">
-    ${ticks.map(t => `<line x1="${padL}" x2="${W - 6}" y1="${y(t)}" y2="${y(t)}" stroke="#E3E9F0" stroke-width="1"/><text x="${padL - 8}" y="${y(t) + 4}" text-anchor="end">${t}</text>`).join('')}
+    <defs><pattern id="${pid}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#EEF0FF"/><rect width="2" height="6" fill="#9AA3FF"/></pattern><linearGradient id="${pid}g" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#4B57FF"/><stop offset="1" stop-color="#2E3BFF"/></linearGradient></defs>
+    ${ticks.map(t => `<line x1="${padL}" x2="${W - 6}" y1="${y(t)}" y2="${y(t)}" stroke="#E4E6ED" stroke-dasharray="3 4" stroke-width="1"/><text x="${padL - 8}" y="${y(t) + 4}" text-anchor="end">${t}</text>`).join('')}
     ${data.map((x,i) => { const cx = padL + bw * i + bw / 2, top = y(x.n), h = H - padB - top, partial = i === data.length - 1;
       const r = Math.min(4, h);
       return `<g class="bar" tabindex="0" data-tip="${esc(x.w)}${partial ? ' (week so far)' : ''}: ${x.n} ${unit}" aria-label="Week of ${esc(x.w)}${partial ? ', so far' : ''}: ${x.n} ${unit}">
         <rect x="${cx - bw / 2}" y="${padT}" width="${bw}" height="${H - padT - padB}" fill="transparent"/>
-        <path d="M${cx - barW / 2} ${H - padB}V${top + r}Q${cx - barW / 2} ${top} ${cx - barW / 2 + r} ${top}H${cx + barW / 2 - r}Q${cx + barW / 2} ${top} ${cx + barW / 2} ${top + r}V${H - padB}Z" fill="${partial ? '#9FB2C6' : '#0E2A47'}"/>
+        <path d="M${cx - barW / 2} ${H - padB}V${top + r}Q${cx - barW / 2} ${top} ${cx - barW / 2 + r} ${top}H${cx + barW / 2 - r}Q${cx + barW / 2} ${top} ${cx + barW / 2} ${top + r}V${H - padB}Z" fill="${partial ? `url(#${pid})` : `url(#${pid}g)`}" class="grow" style="animation-delay:${i * 60}ms"/>
         ${i === peak || partial ? `<text class="val" x="${cx}" y="${top - 6}" text-anchor="middle">${x.n}</text>` : ''}
         <text x="${cx}" y="${H - 9}" text-anchor="middle">${esc(x.w)}</text></g>`; }).join('')}
-    <line x1="${padL}" x2="${W - 6}" y1="${H - padB}" y2="${H - padB}" stroke="#B9C6D4"/>
+    <line x1="${padL}" x2="${W - 6}" y1="${H - padB}" y2="${H - padB}" stroke="#CDD2DD"/>
   </svg><div class="tip" role="tooltip" hidden style="position:absolute;pointer-events:none;background:var(--ink);color:#fff;font-size:.85rem;padding:6px 10px;border-radius:8px;white-space:nowrap;transform:translate(-50%,-110%)"></div>
-  <p class="small muted" style="margin:6px 0 0">The lighter bar is the current week, still in progress.</p></div>`;
+  <p class="small muted" style="margin:6px 0 0">The hatched bar is the current week, still in progress.</p></div>`;
 }
 function hbars(data){
   const max = Math.max(...data.map(x => x.n));

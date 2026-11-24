@@ -60,7 +60,7 @@ function empHome(){
   <div class="grid-main">
     <section class="panel"><div class="section-head" style="margin-bottom:8px"><h2 style="margin:0">Your listings</h2><a href="#/employer/listings">Manage listings</a></div>${listingsTable(jobs)}</section>
     <div class="stack">
-      ${draft ? `<section class="panel" style="background:var(--honey-50);border-color:#F6D9A8"><h2>Finish your draft</h2><p class="small">${esc(draft.title)} is saved but not yet submitted for approval.</p><button class="btn btn-primary btn-sm" data-act="editdraft" data-id="${draft.id}">Finish and submit</button></section>` : ''}
+      ${draft ? `<section class="panel" style="background:linear-gradient(160deg,#fff 30%,var(--blue-50));border-color:var(--blue-100)"><h2>Finish your draft</h2><p class="small">${esc(draft.title)} is saved but not yet submitted for approval.</p><button class="btn btn-primary btn-sm" data-act="editdraft" data-id="${draft.id}">Finish and submit</button></section>` : ''}
       <section class="panel"><h2>Latest applicants</h2>${apps.sort((a,b) => d(b.history[0][1]) - d(a.history[0][1])).slice(0,4).map(a => { const i = intern(a.intern); return `<div class="listitem">${avatar(i)}<div class="grow"><b>${esc(i.name)}</b><div class="small muted">${esc(job(a.job).title)}. Applied ${fmt(a.history[0][1])}</div></div>${status(a.status)}</div>`; }).join('')}
       <a class="btn btn-quiet btn-sm" href="#/employer/pipeline">Open pipeline</a></section>
     </div>

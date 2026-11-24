@@ -1,15 +1,16 @@
 /* ---------- Public site ---------- */
-function pubHeader(current){
+function pubHeader(current, onBlue){
   const nav = [['#/jobs','Find a role','jobs'],['#/employers','For employers','employers'],['#/events','Events','events']];
-  return `<header class="pub-header"><div class="inner">${brand('#/')}
+  return `<header class="pub-header ${onBlue ? 'on-blue' : ''}"><div class="inner">${brand('#/')}
     <nav class="pub-nav" aria-label="Main">${nav.map(([h,l,id]) => `<a href="${h}" ${current === id ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
     <div class="actions"><a class="btn btn-ghost btn-sm" href="#/signin">Sign in</a><a class="btn btn-primary btn-sm" href="#/join">Join Talent Hive</a></div>
   </div></header>`;
 }
 function pubFooter(){
   return `<footer class="pub-footer"><div class="section">
-    <div><b style="color:var(--ink)">Talent Hive demo, designed and built by Alexej Zhukov</b><br>Sample data only. Not an official Cambridgeshire and Peterborough Combined Authority website.</div>
-    <div><a href="#/jobs">Find a role</a> &nbsp; <a href="#/employers">For employers</a> &nbsp; <a href="#/signin">Sign in</a></div>
+    <div class="fgrid"><div><b style="color:var(--ink)">Talent Hive demo, designed and built by Alexej Zhukov</b><br>Sample data only. Not an official Cambridgeshire and Peterborough Combined Authority website.</div>
+    <div style="display:flex;gap:18px"><a href="#/jobs">Find a role</a><a href="#/employers">For employers</a><a href="#/join">Join</a><a href="#/signin">Sign in</a></div></div>
+    <div class="huge" aria-hidden="true">Talent Hive</div>
   </div></footer>`;
 }
 function renderPublic(r){
@@ -24,23 +25,14 @@ function renderPublic(r){
   else if (p[0] === 'company') { body = `<main id="main" class="section">${companyView(p[1], '#/jobs')}</main>`; cur = 'jobs'; }
   else if (p[0] === 'events') { body = `<main id="main" class="section"><div class="pagehead"><div><h1>Events</h1><p>Free sessions to help you get ready and meet employers.</p></div></div><div class="panel">${S.events.map(eventItem).join('')}</div></main>`; cur = 'events'; }
   else body = `<main id="main" class="section"><h1>Page not found</h1><p>The page you tried to open does not exist. Try the <a href="#/jobs">jobs board</a> or go back to the <a href="#/">home page</a>.</p></main>`;
-  return `<a class="skip" href="#main">Skip to content</a>${pubHeader(cur)}${body}${pubFooter()}`;
+  return `<a class="skip" href="#main">Skip to content</a>${pubHeader(cur, !p[0])}${body}${pubFooter()}`;
 }
 
-function comb(){
+const SECTOR_ICON = {digital:'code', marketing:'megaphone', business:'chart', science:'flask', engineering:'cog', education:'graduation', health:'heart', construction:'hardhat', charity:'heart', facilities:'wrench'};
+function sectorsGrid(){
   const count = id => liveJobs().filter(j => j.sector === id).length;
-  const spots = [
-    ['marketing','c-blue',0,69],['construction','c-line',0,207],['digital','c-honey',118,0],
-    ['all','c-ink',118,138],['education','c-mint',118,276],['business','c-line',236,69],
-    ['engineering','c-blue',236,207],['science','c-mint',354,138]
-  ];
-  return `<div class="comb" role="group" aria-label="Browse roles by sector">
-    ${spots.map(([id,c,x,y]) => {
-      const n = id === 'all' ? liveJobs().length : count(id);
-      const name = id === 'all' ? 'All roles' : sectorName(id);
-      return `<button class="hex ${c}" style="left:${x}px;top:${y}px" data-act="sector" data-id="${id}">${esc(name)}<small>${n} open</small></button>`;
-    }).join('')}
-  </div>`;
+  const ids = ['digital','marketing','business','science','engineering','education','health','construction'];
+  return `<div class="sectors" role="group" aria-label="Browse roles by sector">${ids.map(id => `<button class="sector" data-act="sector" data-id="${id}">${icon(SECTOR_ICON[id])}<span><span class="nm">${esc(sectorName(id))}</span><br><span class="ct">${count(id)} open ${count(id) === 1 ? 'role' : 'roles'}</span></span><span class="arr">${icon('arrowr')}</span></button>`).join('')}</div>`;
 }
 ACT.sector = el => {
   S.filters.sectors = new Set(el.dataset.id === 'all' ? [] : [el.dataset.id]);
@@ -48,59 +40,114 @@ ACT.sector = el => {
   go(base);
 };
 
+function heroCards(){
+  const j = job('j1'), e = emp(j.emp);
+  return `<div class="hero-cards" aria-hidden="true">
+    <div class="fcard" style="top:6px;left:30px;width:310px;--r:-2deg"><div class="fc-top">${logo(e)}<div><div class="fc-t">${esc(j.title)}</div><div class="fc-s">${esc(e.name)}, ${esc(j.area)}</div></div></div>
+      <div class="chips" style="margin-top:10px"><span class="chip">${money(j.pay)} an hour</span><span class="chip">${esc(j.mode)}</span><span class="match">${matchScore(j)}% match</span></div></div>
+    <div class="fcard" style="top:142px;right:0;width:270px;--r:2.5deg"><div class="fc-top">${avatar({name:'Jordan Ellis'})}<div><div class="fc-t">Jordan Ellis</div><div class="fc-s">Application update. Just now</div></div></div>
+      <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:8px"><span class="small">Junior Web Developer</span>${status('shortlisted')}</div></div>
+    <div class="fcard pinkpill" style="top:276px;left:0;--r:-3deg"><span class="cal">3<br><small style="font-weight:500;font-size:.6rem">DEC</small></span><div><div class="fc-t">Interview booked</div><div class="fc-s" style="color:#5b1d52">Ouse Valley Housing, 10:30</div></div></div>
+    <div class="fcard stat" style="bottom:4px;right:28px;width:240px;--r:1.5deg"><div class="fc-s">Placements this cohort</div><div class="big">59</div><div class="hbar"><i style="width:68%"></i></div><div class="fc-s" style="margin-top:6px">68% of the cohort target</div></div>
+  </div>`;
+}
+function marquee(){
+  const styles = ['', 'serif', 'thin', 'round', '', 'thin', 'serif', 'round'];
+  const names = Object.values(S.employers).filter(e => e.verified).map((e, i) => `<span class="wordmark ${styles[i % styles.length]}"><i style="background:${e.color};opacity:.55"></i>${esc(e.name)}</span>`).join('');
+  return `<section class="marquee" aria-label="Employers offering placements"><div class="lbl">Employers offering placements this cohort</div><div class="track">${names}${names.replace(/<span class="wordmark/g, '<span aria-hidden="true" class="wordmark')}</div></section>`;
+}
 function pubHome(){
   const live = liveJobs();
   const soon = [...live].sort((a,b) => d(a.closes) - d(b.closes));
+  const counts = {}; live.forEach(j => counts[j.area] = (counts[j.area] || 0) + 1);
+  const words = 'Paid internships, close to home.'.split(' ');
   return `<main id="main">
-    <section class="hero"><div class="inner">
-      <div>
-        <h1>Find a paid internship close to home</h1>
-        <p class="lede">Six-week paid placements with employers across Cambridgeshire and Peterborough. Free to join, with support from application to your first day.</p>
+    <section class="hero" data-hero>
+      <div class="frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="inner">
+        <div>
+          <div class="kicker"><b>+</b> Cambridgeshire and Peterborough</div>
+          <h1 aria-label="Paid internships, close to home.">${words.map((w, i) => `<span class="w" aria-hidden="true" style="animation-delay:${120 + i * 90}ms">${w}</span>`).join(' ')}</h1>
+          <p class="lede">Six-week paid placements with local employers. Free to join, with support from your first application to your first day.</p>
+          <div class="ctas"><a class="btn btn-primary btn-lg" href="#/jobs">Find a role</a><a class="btn btn-dark btn-lg" href="#/employers">I'm an employer</a></div>
+        </div>
+        ${heroCards()}
+      </div>
+      <div class="hero-foot">
         <form class="searchbar" data-form="hero-search" role="search">
           <label class="sr-only" for="hq">Job title or skill</label>
           <input id="hq" name="q" type="search" placeholder="Job title or skill">
           <label class="sr-only" for="ha">Area</label>
           <select id="ha" name="area"><option value="">All areas</option>${AREAS.map(a => `<option>${a}</option>`).join('')}</select>
-          <button class="btn btn-primary">${icon('search')}Search roles</button>
+          <button class="btn btn-primary">${icon('search')}Search ${live.length} roles</button>
         </form>
-        <p class="closing">${live.length} roles open now. Next to close: <a href="#/jobs/${soon[0].id}">${esc(soon[0].title)}</a>, ${fmt(soon[0].closes)}.</p>
+        <p class="closing">Next to close: <a href="#/jobs/${soon[0].id}">${esc(soon[0].title)}</a>, ${fmt(soon[0].closes)}.</p>
+        <div class="hero-sectors" aria-hidden="true"><span>Digital and tech</span><span>Business and finance</span><span>Marketing and media</span><span>Science and engineering</span></div>
       </div>
-      ${comb()}
-    </div></section>
+    </section>
+    ${marquee()}
 
-    <section class="section" aria-labelledby="soon-h">
-      <div class="section-head"><div><h2 id="soon-h">Closing soon</h2><p>Apply before these roles close.</p></div><a class="btn btn-ghost" href="#/jobs">See all ${live.length} roles</a></div>
+    <section class="section" aria-labelledby="sec-h">
+      <div class="split"><div><div class="eyebrow">Sectors</div><h2 class="bigtitle" id="sec-h">Find the kind of work that suits you</h2></div><p>Every role is checked by the CPCA team and pays at least the National Living Wage. Pick a sector to see what is open right now.</p></div>
+      ${sectorsGrid()}
+    </section>
+
+    <section class="section" aria-labelledby="soon-h" style="padding-top:0">
+      <div class="section-head"><div><div class="eyebrow">Closing soon</div><h2 class="bigtitle" id="soon-h" style="font-size:2rem">Apply before these close</h2></div><a class="btn btn-ghost" href="#/jobs">See all ${live.length} roles</a></div>
       <div class="joblist">${soon.slice(0,4).map(j => jobRow(j)).join('')}</div>
     </section>
 
-    <section class="section" aria-labelledby="how-h" style="padding-top:8px">
-      <h2 id="how-h">How it works</h2>
-      <ol class="steps">
-        <li><h3>Join and build your profile</h3><p class="muted">Check you are eligible, then create your profile and CV. Our team reviews it within two working days.</p></li>
-        <li><h3>Apply in a few clicks</h3><p class="muted">Send your saved CV with a short note. No emails or attachments to chase.</p></li>
-        <li><h3>Track it to your first day</h3><p class="muted">See when your application is viewed, shortlisted and offered, with support at every stage.</p></li>
+    <section class="blueband" aria-labelledby="how-h"><div class="section">
+      <div class="split"><div><div class="eyebrow">How it works</div><h2 class="bigtitle" id="how-h">From sign-up to your first day</h2></div><p>One place for everything: your profile, your CV, every application and your placement once it starts.</p></div>
+      <ol class="steps" style="grid-template-columns:repeat(4,1fr)">
+        <li><h3>Join</h3><p class="muted">Check your postcode and create a free account in about five minutes.</p></li>
+        <li><h3>Build your CV</h3><p class="muted">A guided builder with a live preview. Your badges show as verified skills.</p></li>
+        <li><h3>Apply</h3><p class="muted">Send your CV with a short note, then track it as employers review it.</p></li>
+        <li><h3>Start your placement</h3><p class="muted">Log hours, set weekly goals and check in with your mentor.</p></li>
       </ol>
+    </div></section>
+
+    <section class="violetband" aria-labelledby="num-h"><div class="section">
+      <div class="split"><div><div class="eyebrow">Winter 2026 cohort</div><h2 class="bigtitle" id="num-h">The programme so far</h2></div><p style="color:rgba(255,255,255,.8)">Sample figures for this demo, updated as interns move from sign-up to placement.</p></div>
+      <div class="statgrid">${[[527,'','people have joined this cohort',100],[76,'%','completed their profile and CV',76],[288,'','applied for at least one role',55],[59,'','started or confirmed a placement',11]].map(([n,u,t,w]) => `<div class="stat"><div class="n"><span data-count="${n}">${n}</span><small>${u}</small></div><div class="t">${t}</div><div class="hatchbar"><i data-w="${w}"></i></div></div>`).join('')}</div>
+    </div></section>
+
+    <section class="section" aria-labelledby="map-h">
+      <div class="split" style="align-items:center"><div><div class="eyebrow">Across the region</div><h2 class="bigtitle" id="map-h">Roles from Wisbech to St&nbsp;Neots</h2><p style="margin-top:16px">Placements are spread across Cambridgeshire and Peterborough. Select a town to see its roles.</p></div>
+      <div class="panel" style="padding:12px">${regionMap({counts, unit:'role', act:'homearea', title:'Open roles by town'})}</div></div>
     </section>
 
     <section class="employer-band" aria-labelledby="emp-h"><div class="section">
       <div>
+        <div class="eyebrow" style="color:#8E98FF">For employers</div>
         <h2 id="emp-h">Offer a paid placement</h2>
         <p>Post a role in about ten minutes. We check it, share it with local candidates, and you review everyone who applies in one place.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px"><a class="btn btn-honey btn-lg" href="#/employer/post">Post a role</a><a class="btn btn-ghost btn-lg" href="#/employers">How it works for employers</a></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:24px"><a class="btn btn-honey btn-lg" href="#/employer/post">Post a role</a><a class="btn btn-ghost btn-lg" href="#/employers">How it works for employers</a></div>
       </div>
       <ul>
         <li>${icon('check')}<span>A guided form with a live preview, so your listing has everything candidates ask about</span></li>
         <li>${icon('check')}<span>Every applicant in one pipeline, with their CV, badges and answers</span></li>
+        <li>${icon('check')}<span>Offer interview times and candidates book a slot themselves</span></li>
         <li>${icon('check')}<span>Support from the CPCA team from your first post to their first day</span></li>
       </ul>
     </div></section>
 
     <section class="section" id="events" aria-labelledby="ev-h">
-      <div class="section-head"><div><h2 id="ev-h">Upcoming events</h2><p>Free sessions to help you get ready and meet employers.</p></div></div>
+      <div class="section-head"><div><div class="eyebrow">Events</div><h2 class="bigtitle" id="ev-h" style="font-size:2rem">Free sessions to get you ready</h2></div><a class="btn btn-ghost" href="#/events">All events</a></div>
       <div class="panel">${S.events.slice(0,3).map(eventItem).join('')}</div>
     </section>
   </main>`;
 }
+ACT.homearea = el => { S.filters.area = el.dataset.area; go('#/jobs'); };
+AFTER.push(r => {
+  const h = $('[data-hero]');
+  if (h && !reducedMotion()) h.addEventListener('pointermove', e => { const b = h.getBoundingClientRect(); h.style.setProperty('--mx', (e.clientX - b.left) + 'px'); h.style.setProperty('--my', (e.clientY - b.top) + 'px'); });
+  const bars = $$('.hatchbar i[data-w]');
+  if (bars.length){
+    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting){ en.target.style.width = en.target.dataset.w + '%'; io.unobserve(en.target); } }), {threshold:.4});
+    bars.forEach(b => io.observe(b));
+  }
+});
 function eventItem(ev){
   const x = d(ev.date);
   const booked = S.booked.has(ev.id);
