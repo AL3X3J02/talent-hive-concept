@@ -11,6 +11,7 @@ It is not a real job board and not an official Cambridgeshire and Peterborough C
 Use the bar at the top of the page to switch views, or press **Take the tour** for a guided walkthrough.
 
 * **Visitor:** browse roles by sector, search and filter the jobs board (as a list or on a map), read job pages and employer profiles with reviews, and sign up with a postcode check.
+* **Documentation:** a paged report at /docs/ (built with `python3 build_docs.py`), with a PDF copy.
 * **Intern:** dashboard, apply with a saved CV, compare roles side by side, track applications, book an interview slot and add it to your calendar, build a CV with a live preview, earn badges, follow a placement week by week, and play ten Daily Career Boost games (Word Hive, Career Wordle, Career Connections, Workplace Quiz, Inbox Rush, STAR Builder, Spot the Slip, Pay Check, Job Scramble and Skill Match) with streaks, a weekly challenge, levels, achievements, shareable results and a leaderboard.
 * **Employer:** post a role through a guided four-step form, see insights for each listing, rate and compare applicants in a drag and drop pipeline, offer interview times, search for talent, approve hours and write references.
 * **CPCA team:** approve or return listings with automatic checks, verify employers and new interns, spot stalled applications, see placements on a map, message whole groups, download reports and check the audit log.

@@ -4178,7 +4178,7 @@ function aboutDemoView(){
       <div class="inner" style="grid-template-columns:1fr;padding-bottom:64px"><div><div class="builtfor"><span>Built for</span>${cpcaLogo(50, true)}</div><div class="kicker"><b>+</b> About this demo</div>
         <h1 style="max-width:16ch">12 problems with today's site, and how this fixes them.</h1>
         <p class="lede" style="max-width:60ch">This is a working demo by Alexej Zhukov of a redesigned Talent Hive for Cambridgeshire and Peterborough. Every fix below links to the part of the demo that shows it. All data is invented.</p>
-        <div class="ctas"><button class="btn btn-primary btn-lg" data-act="tour">Take the guided tour</button><a class="btn btn-dark btn-lg" href="#/">Start from the home page</a></div></div></div>
+        <div class="ctas"><button class="btn btn-primary btn-lg" data-act="tour">Take the guided tour</button><a class="btn btn-dark btn-lg" href="#/">Start from the home page</a><a class="btn btn-dark btn-lg" href="docs/">Read the documentation</a></div></div></div>
     </section>
     <section class="section">
       <div class="fixgrid">${FIXES.map(([p, f, href, label], i) => `<article class="fix"><div class="fix-n">${String(i + 1).padStart(2, '0')}</div><div class="fix-was"><span class="small muted">Today</span><p>${esc(p)}</p></div><div class="fix-now"><span class="small" style="color:var(--blue);font-weight:600">In the demo</span><p>${esc(f)}</p></div><a class="btn btn-ghost btn-sm" href="${href}">Show me: ${esc(label)}${icon('arrowr')}</a></article>`).join('')}</div>
