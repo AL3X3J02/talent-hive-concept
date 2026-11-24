@@ -11,7 +11,7 @@ function resetState(){
     saved: new Set(['j2','j5']),
     booked: new Set(['ev2']),
     filters: {q:'', area:'', sectors:new Set(), modes:new Set(), programme:'', minPay:false, sort:'newest'},
-    boost: {streak:4, points:120, played:{wordle:false, quiz:false, match:false}, counted:false},
+    boost: {streak:4, points:120, played:{hive:false, wordle:false, connections:false, quiz:false, inbox:false, star:false, slip:false, pay:false, scramble:false, match:false}, weekBonus:false, counted:false},
     wordle: null, quiz: null, match: null,
     draft: null, postStep: 0,
     pipelineJob: 'j1',

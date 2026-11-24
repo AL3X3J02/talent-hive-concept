@@ -8,28 +8,13 @@ function finishGame(key, pts){
   S.boost.points += pts;
   if (!S.boost.counted){ S.boost.counted = true; S.boost.streak += 1; setTimeout(() => toast(`Streak extended to ${S.boost.streak} days. +${pts} points`), 400); }
   else setTimeout(() => toast(`+${pts} points`), 400);
+  if (!S.boost.weekBonus && weekGames() >= 12){ S.boost.weekBonus = true; S.boost.points += 50; setTimeout(() => toast('Weekly challenge complete. +50 bonus points'), 1600); }
 }
 
 function boostView(game){
-  if (game === 'wordle') return wordleView();
-  if (game === 'quiz') return quizView();
-  if (game === 'match') return matchView();
-  const P = S.boost.played;
-  const card = (key, ic, title, desc, pts) => `<article class="gamecard ${P[key] ? 'done' : ''}"><div class="gicon hex">${icon(P[key] ? 'check' : ic)}</div><h2 style="font-size:1.2rem;margin:4px 0 0">${title}</h2><p class="muted small" style="margin:0">${desc}</p><p class="small" style="margin:0"><b>${P[key] ? 'Done today' : `${pts} points`}</b></p>
-    <a class="btn ${P[key] ? 'btn-ghost' : 'btn-primary'}" href="#/intern/boost/${key}">${P[key] ? 'See result' : 'Play'}</a></article>`;
-  const played = Object.values(P).filter(Boolean).length;
-  return `<div class="pagehead"><div><h1>Daily Career Boost</h1><p>Three short games a day to sharpen your workplace know-how. New ones every morning.</p></div>
-    <div class="streak"><span class="hex">${S.boost.streak}</span><div><b>day streak</b><div class="small muted">${S.boost.points} points</div></div></div></div>
-  <div class="gamecards">
-    ${card('wordle','grid','Career Wordle','Guess today\'s five-letter workplace word in six tries.',30)}
-    ${card('quiz','quiz','Workplace Quiz','Five quick questions on interviews and first days, with tips after each.',50)}
-    ${card('match','link','Skill Match','Pair four skills with the roles that use them.',20)}
-  </div>${boostExtras()}
-  <section class="panel" style="margin-top:20px"><h2>Today</h2>
-    <div class="meter honey" style="margin-bottom:8px"><i style="width:${played / 3 * 100}%"></i></div>
-    <p class="small" style="margin:0">${played} of 3 games played. ${S.boost.streak >= 7 ? '' : `Keep going for ${7 - S.boost.streak} more ${7 - S.boost.streak === 1 ? 'day' : 'days'} to earn the 7-day streak badge.`}</p>
-  </section>
-  <section class="panel"><h2>New roles since your last visit</h2><div class="joblist">${liveJobs().filter(j => daysSince(j.posted) <= 5).slice(0,2).map(j => jobRow(j, {base:'#/intern/jobs', showMatch:true})).join('')}</div></section>`;
+  const views = {wordle:wordleView, quiz:quizView, match:matchView, hive:hiveView, connections:connView, inbox:inboxView, star:starView, slip:slipView, pay:payView, scramble:scrambleView};
+  if (game && views[game]) return views[game]();
+  return boostHub();
 }
 
 /* Career Wordle */

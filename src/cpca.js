@@ -204,8 +204,18 @@ function reportsView(){
   </div>
   <section class="panel" style="margin-top:20px"><h2>Funnel this cohort</h2>${funnelChart([['Signed up',527],['Completed profile and CV',402],['Applied for at least one role',288],['Interviewed',131],['Placed',59]])}<details style="margin-top:10px"><summary class="small" style="cursor:pointer;color:var(--link);font-weight:700">Show as a table</summary><div class="table-wrap"><table class="table"><thead><tr><th>Stage</th><th class="num">People</th><th class="num">Share of sign-ups</th></tr></thead><tbody>
     ${[['Signed up',527],['Completed profile and CV',402],['Applied for at least one role',288],['Interviewed',131],['Placed',59]].map(([s,n]) => `<tr><td>${s}</td><td class="num">${n}</td><td class="num">${Math.round(n / 527 * 100)}%</td></tr>`).join('')}
-  </tbody></table></div></details><p class="small muted" style="margin:10px 0 0">Sample figures for the demo.</p></section>`;
+  </tbody></table></div></details><p class="small muted" style="margin:10px 0 0">Sample figures for the demo.</p></section>
+  <section class="panel" style="margin-top:20px" aria-labelledby="eng-h"><div class="section-head"><h2 id="eng-h" style="margin:0">Daily Career Boost this week</h2><span class="small muted">Monday 23 to Tuesday 24 November</span></div>
+    <div class="kpis" style="margin:12px 0 18px">
+      <div class="kpi"><div class="v" data-count="148">148</div><div class="l">Interns who played</div><div class="d">69% of active interns</div></div>
+      <div class="kpi"><div class="v" data-count="1236">1236</div><div class="l">Games played</div></div>
+      <div class="kpi"><div class="v">3.4</div><div class="l">Average streak, in days</div></div>
+      <div class="kpi"><div class="v" data-count="37">37</div><div class="l">On a 7-day streak or longer</div></div>
+    </div>
+    <h3 style="font-size:1rem;margin:0 0 10px">Games played, by game</h3>${hbars(BOOST_PLAYS)}
+    <p class="small muted" style="margin:12px 0 0">Seven games launched this week, so their numbers are still building. Sample figures for the demo.</p></section>`;
 }
+const BOOST_PLAYS = [{s:'Career Wordle',n:312},{s:'Word Hive',n:268},{s:'Career Connections',n:221},{s:'Workplace Quiz',n:164},{s:'Inbox Rush',n:92},{s:'Pay Check',n:61},{s:'STAR Builder',n:48},{s:'Spot the Slip',n:37},{s:'Job Scramble',n:21},{s:'Skill Match',n:12}];
 ACT.csv = () => {
   const lines = ['Section,Label,Value', ...WEEKLY_APPS.map(x => `Applications per week,${x.w},${x.n}`), ...PLACEMENTS_BY_SECTOR.map(x => `Placements by sector,${x.s},${x.n}`)];
   const blob = new Blob([lines.join('\n')], {type:'text/csv'});

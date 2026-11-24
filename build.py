@@ -1,7 +1,7 @@
 import pathlib
 src = pathlib.Path(__file__).parent / 'src'
 css = (src/'styles.css').read_text()
-js = '\n'.join((src/f).read_text() for f in ['data.js','core.js','extras.js','public.js','intern.js','intern2.js','games.js','employer.js','employer2.js','cpca.js','cpca2.js','more.js'])
+js = '\n'.join((src/f).read_text() for f in ['data.js','core.js','extras.js','public.js','intern.js','intern2.js','games.js','games2.js','employer.js','employer2.js','cpca.js','cpca2.js','more.js'])
 js += "\nrender();\nmaybeIntro();\n"
 html = f'''<!doctype html>
 <html lang="en-GB">

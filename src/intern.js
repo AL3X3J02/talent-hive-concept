@@ -2,7 +2,7 @@
 const myApps = () => S.apps.filter(a => a.intern === DEMO_PEOPLE.intern);
 function internNav(){
   const unread = S.threads.filter(t => t.role === 'intern' && t.unread).length;
-  const gamesLeft = Object.values(S.boost.played).filter(x => !x).length;
+  const gamesLeft = featuredLeft();
   return [
     {id:'home',href:'#/intern',icon:'home',label:'Dashboard'},
     {id:'jobs',href:'#/intern/jobs',icon:'briefcase',label:'Jobs'},
@@ -87,8 +87,9 @@ function internHome(){
       <section class="panel boostpanel" aria-labelledby="boost-h">
         <h2 id="boost-h">Daily Career Boost</h2>
         <div class="boosthead" style="margin-bottom:12px"><div class="streak"><span class="hex">${S.boost.streak}</span><div><b>day streak</b><div class="small muted">${S.boost.points} points</div></div></div></div>
-        <p class="small" style="margin-bottom:12px">${played === 3 ? 'All three games done today. Come back tomorrow to keep your streak.' : `${3 - played} of 3 games left today. Each takes about two minutes.`}</p>
-        <a class="btn btn-primary" href="#/intern/boost">${played === 3 ? 'See your progress' : 'Play today\'s games'}</a>
+        <p class="small" style="margin-bottom:10px">${featuredLeft() ? `Today's three: ${FEATURED.map(k => gameInfo(k).title).join(', ')}. ${featuredLeft()} left to play.` : 'Today\'s three are done. Seven more games are waiting if you want them.'}</p>
+        <div class="minigames">${FEATURED.map(k => `<a href="#/intern/boost/${k}" class="${S.boost.played[k] ? 'done' : ''}"><span class="gicon">${icon(S.boost.played[k] ? 'check' : gameInfo(k).ic)}</span>${gameInfo(k).title}</a>`).join('')}</div>
+        <a class="btn btn-primary" href="#/intern/boost">${featuredLeft() ? 'Play today\'s games' : 'See all ten games'}</a>
       </section>
       <section class="panel" aria-labelledby="cv-h">
         <h2 id="cv-h">Your CV is ${pct}% complete</h2>

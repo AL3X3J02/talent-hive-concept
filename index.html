@@ -1027,6 +1027,220 @@ html.dark .cpca-logo .dk{display:block}
 .table .rolecell{min-width:180px}
 .table.compact .hide-compact{display:none}
 
+/* ===== Daily Career Boost: hub ===== */
+.btnrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.newtag{position:absolute;top:16px;right:16px;font-size:.72rem;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--ink);color:var(--white)}
+.newtag.inline{position:static;display:inline-block;vertical-align:2px;margin-left:4px;font-size:.66rem;padding:1px 7px}
+.gamelib{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.gametile{display:flex;gap:14px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-card);background:var(--white);color:var(--ink);text-decoration:none;transition:border-color .15s,transform .2s var(--ease)}
+.gametile:hover{border-color:var(--blue);transform:translateY(-2px)}
+.gametile .gicon{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--blue-50);color:var(--blue);flex:none}
+.gametile .gicon svg{width:20px;height:20px}
+.gametile .grow{display:flex;flex-direction:column;gap:2px;min-width:0}
+.gametile.done .gicon{background:var(--mint-50);color:var(--mint-ink)}
+.gametile .gt-meta{font-weight:600;white-space:nowrap;color:var(--ink-2)}
+.tomorrow{display:flex;align-items:center;gap:8px;margin:14px 0 0}
+.tomorrow svg{width:16px;height:16px}
+.streakcal{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:4px}
+.sday{display:flex;flex-direction:column;align-items:center;gap:4px}
+.sday i{width:100%;max-width:30px;aspect-ratio:1;border-radius:9px;background:var(--surface-2);border:1px dashed var(--dash);display:grid;place-items:center;color:#fff}
+.sday i svg{width:14px;height:14px}
+.sday.on i{background:linear-gradient(140deg,#FF8A3D,#FF4D6D);border:0}
+.sday.today i{outline:2px solid var(--blue);outline-offset:2px}
+.sday .small{font-size:.68rem}
+.minigames{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.minigames a{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:var(--white);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:600;font-size:.9rem}
+.minigames a:hover{border-color:var(--blue)}
+.minigames .gicon{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:var(--blue);color:#fff}
+.minigames .gicon svg{width:15px;height:15px}
+.minigames a.done{color:var(--muted)}
+.minigames a.done .gicon{background:var(--mint)}
+
+/* ===== Word Hive ===== */
+.hive-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+.hive-play{display:flex;flex-direction:column;align-items:center;gap:14px;padding-top:6px}
+.hive-rank{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.rankdots{display:flex;align-items:center;gap:0}
+.rankdots i{width:10px;height:10px;border-radius:50%;background:var(--surface-2);border:1px solid var(--dash);margin-right:14px;position:relative}
+.rankdots i:not(:last-child)::after{content:"";position:absolute;left:10px;top:3px;width:14px;height:2px;background:var(--line)}
+.rankdots i.on{background:var(--blue);border-color:var(--blue)}
+.rankdots i.now{width:14px;height:14px;box-shadow:0 0 0 4px var(--blue-50)}
+.hive-input{min-height:52px;font-size:2rem;font-weight:600;letter-spacing:.06em;display:flex;align-items:center;justify-content:center;border-bottom:2px solid var(--line);min-width:260px;padding:0 10px}
+.hive-input .cen{color:var(--blue)}
+.hive-input .bad{color:var(--muted);text-decoration:line-through}
+.hive-input .ph{font-size:1rem;font-weight:400;color:var(--muted);letter-spacing:0}
+.hive-input.shake{animation:shake .3s}
+.hive-input.good{animation:bump .25s}
+.hive-input.pangram{animation:bump .4s}
+.hive{position:relative;width:240px;height:252px}
+.hcell{position:absolute;width:88px;height:80px;padding:0;border:0;background:none;cursor:pointer;border-radius:16px}
+.hcell .hexshape{display:grid;place-items:center;width:100%;height:100%;clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);background:#DCE0EB;color:var(--ink);font-size:1.6rem;font-weight:700;transition:transform .1s,background .15s}
+.hcell:hover .hexshape{background:var(--blue-100)}
+.hcell:active .hexshape{transform:scale(.92)}
+.hcell.centre .hexshape{background:var(--blue);color:#fff}
+.hcell.centre:hover .hexshape{background:var(--blue-600)}
+.hcell:focus-visible{outline:none}
+.hcell:focus-visible .hexshape{box-shadow:inset 0 0 0 4px var(--ink)}
+.hcell:disabled{cursor:default;opacity:.7}
+.hive-ctrls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.hive-ctrls svg{width:16px;height:16px}
+.hive-msg{font-weight:700;min-height:1.5em;margin:0;text-align:center}
+.wordcols{columns:3;column-gap:20px;list-style:none;padding:0;margin:0}
+.wordcols li{padding:5px 0;border-bottom:1px dashed var(--line);break-inside:avoid;font-weight:500}
+.wordcols li.pan{color:var(--blue);font-weight:700}
+.wordcols.missed li{color:var(--muted)}
+.wordcols.missed li.pan{color:var(--blue)}
+
+/* ===== Career Connections ===== */
+.conn-wrap{max-width:640px;margin:0 auto}
+.conn-board{display:flex;flex-direction:column;gap:8px}
+.conn-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.conn-tile{min-height:76px;border-radius:14px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font-weight:700;font-size:.92rem;letter-spacing:.02em;cursor:pointer;padding:6px;word-break:break-word;transition:transform .1s,background .15s}
+.conn-tile.long{font-size:.74rem}
+.conn-tile:hover{background:var(--blue-50)}
+.conn-tile:active{transform:scale(.96)}
+.conn-tile.sel{background:var(--ink);color:var(--white);border-color:var(--ink)}
+.conn-tile.shake{animation:shake .3s}
+.conn-solved{min-height:76px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px;color:#0F1222;animation:pop .35s var(--ease)}
+.conn-solved b{font-size:.95rem}
+.conn-solved span{font-size:.88rem}
+.conn-solved.lvl0{background:#FFE08A}
+.conn-solved.lvl1{background:#C9EE8F}
+.conn-solved.lvl2{background:#BFC6FF}
+.conn-solved.lvl3{background:#EDB8F2}
+.conn-mistakes{display:flex;align-items:center;justify-content:center;gap:10px;margin:6px 0 12px}
+.conn-mistakes i{display:inline-block;width:12px;height:12px;border-radius:50%;background:var(--surface-2);margin:0 3px;border:1px solid var(--dash)}
+.conn-mistakes i.on{background:var(--ink);border-color:var(--ink)}
+.conn-ctrls{justify-content:center}
+
+/* ===== Inbox Rush ===== */
+.inbox-grid{display:grid;grid-template-columns:320px minmax(0,1fr);gap:18px;align-items:start}
+.inbox-list{list-style:none;margin:0;padding:6px;background:var(--white);border:1px solid var(--line);border-radius:var(--r-panel)}
+.inbox-list li{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;font-size:.9rem}
+.inbox-list li .grow{min-width:0}
+.inbox-list li .grow .small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted)}
+.inbox-list li.cur{background:var(--blue-50);box-shadow:inset 3px 0 0 var(--blue)}
+.inbox-list li.sorted{opacity:.85}
+.ibtag{font-size:.72rem;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.ibtag.ok{background:var(--mint-50);color:var(--mint-ink)}
+.ibtag.no{background:var(--red-50);color:var(--red)}
+.mailfrom{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.mailbody{font-size:1.05rem;line-height:1.6;margin:16px 0 20px}
+.bins{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.binbtn{display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:var(--r-ctl);border:1px solid var(--line);background:var(--white);color:var(--ink);font-weight:600;cursor:pointer;text-align:left;transition:border-color .15s,background .15s}
+.binbtn svg{width:18px;height:18px;color:var(--blue);flex:none}
+.binbtn:hover:not(:disabled){border-color:var(--blue);background:var(--blue-50)}
+.binbtn.right{border-color:var(--mint);background:var(--mint-50)}
+.binbtn.right svg{color:var(--mint-ink)}
+.binbtn.wrong{border-color:var(--red);background:var(--red-50)}
+.binbtn:disabled{cursor:default}
+
+/* ===== STAR Builder ===== */
+.starslots{display:flex;flex-direction:column;gap:10px}
+.starslot{display:grid;grid-template-columns:200px minmax(0,1fr);gap:12px;align-items:center;padding:10px;border:1px dashed var(--dash);border-radius:var(--r-card)}
+.starslot.right{border:1px solid var(--mint);background:var(--mint-50)}
+.starslot.wrong{border:1px solid var(--red);background:var(--red-50)}
+.starlbl{display:flex;gap:10px;align-items:center}
+.hexbadge{width:34px;height:34px;flex:none;border-radius:10px;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700}
+.starempty{padding:10px 12px}
+.starpool{display:flex;flex-direction:column;gap:8px}
+.starsent{display:block;width:100%;text-align:left;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--white);color:var(--ink);cursor:pointer;font:inherit;line-height:1.45;transition:border-color .15s,transform .1s}
+.starsent:hover:not(:disabled){border-color:var(--blue)}
+.starsent:active{transform:scale(.99)}
+.starsent.placed{background:transparent;border-color:transparent;padding:6px 8px}
+.starsent:disabled{cursor:default}
+
+/* ===== Spot the Slip ===== */
+.cvmini{display:flex;flex-direction:column;padding-bottom:12px;border-bottom:2px solid var(--ink)}
+.cvmini b{font-size:1.3rem}
+.slipbody{font-size:1.08rem;line-height:2.1;margin:0}
+.slipword{font:inherit;color:inherit;background:none;border:0;padding:1px 2px;margin:0 -2px;border-radius:5px;cursor:pointer}
+.slipword:hover{background:var(--blue-50);box-shadow:inset 0 -2px 0 var(--blue)}
+.slipword.nope{background:var(--red-50);animation:shake .3s}
+.slipword:disabled{cursor:default}
+.slipfix{padding:2px 6px;border-radius:6px;white-space:nowrap}
+.slipfix s{color:var(--red);text-decoration-thickness:2px}
+.slipfix.got{background:var(--mint-50)}
+.slipfix.got b{color:var(--mint-ink)}
+.slipfix.miss{background:var(--honey-50)}
+.slipfix.miss b{color:var(--honey-ink)}
+.slipcount{display:flex;align-items:baseline;gap:8px}
+.slipcount b{font-size:2.4rem;font-weight:600;line-height:1}
+
+/* ===== Pay Check ===== */
+.paypair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:14px;align-items:stretch;margin-bottom:16px}
+.paypair .vs{align-self:center;font-weight:700;color:var(--muted)}
+.paycard{display:flex;flex-direction:column;gap:14px;text-align:left;padding:18px;border-radius:var(--r-panel);border:1.5px solid var(--line);background:var(--white);color:var(--ink);cursor:pointer;font:inherit;transition:border-color .15s,transform .2s var(--ease)}
+.paycard:hover:not(:disabled){border-color:var(--blue);transform:translateY(-2px)}
+.paycard:disabled{cursor:default}
+.paycard.right{border-color:var(--mint);background:var(--mint-50)}
+.paycard.wrong{border-color:var(--red);background:var(--red-50)}
+.payhead{display:flex;gap:12px;align-items:center}
+.payhead > span:last-child{display:flex;flex-direction:column}
+.payfacts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.payfacts > span{display:flex;flex-direction:column;padding:10px 12px;border-radius:12px;background:var(--surface)}
+.payfacts b{font-size:1.3rem;font-weight:600}
+.payweek{display:flex;flex-direction:column;padding-top:10px;border-top:1px dashed var(--dash);animation:pop .3s var(--ease)}
+.payweek b{font-size:1.5rem}
+
+/* ===== Job Scramble ===== */
+.scrprog{display:flex;gap:6px}
+.scrprog i{flex:1;height:6px;border-radius:99px;background:var(--surface-2)}
+.scrprog i.now{background:var(--blue-100)}
+.scrprog i.ok{background:var(--mint)}
+.scrprog i.skip{background:var(--honey)}
+.scrtiles{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 18px}
+.scrtiles span{width:46px;height:52px;display:grid;place-items:center;border-radius:12px;background:var(--ink);color:var(--white);font-size:1.4rem;font-weight:700}
+.scrtiles.anim span{animation:pop .3s var(--ease) both}
+.scrtiles.anim span:nth-child(2n){animation-delay:.04s}.scrtiles.anim span:nth-child(3n){animation-delay:.08s}
+.scrform{display:flex;gap:10px}
+.scrform input{flex:1;text-transform:uppercase;font-size:1.1rem;letter-spacing:.06em}
+
+/* Boost responsive */
+@media (max-width:900px){
+  .hive-layout,.inbox-grid{grid-template-columns:minmax(0,1fr)}
+  .gamelib{grid-template-columns:minmax(0,1fr)}
+  .starslot{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:600px){
+  .paypair{grid-template-columns:minmax(0,1fr)}
+  .paypair .vs{justify-self:center}
+  .bins{grid-template-columns:minmax(0,1fr)}
+  .conn-tile{min-height:64px;font-size:.78rem;padding:4px}
+  .conn-tile.long{font-size:.62rem}
+  .conn-grid{gap:6px}
+  .wordcols{columns:2}
+  .streakcal{gap:2px}
+  .sday .small{font-size:.6rem}
+  .scrtiles span{width:38px;height:46px;font-size:1.2rem}
+  .hive-input{font-size:1.6rem;min-width:0;width:100%}
+  .inbox-list li .grow .small{white-space:normal}
+}
+@media (prefers-reduced-motion:reduce){.scrtiles span,.conn-solved,.payweek{animation:none}}
+html.a11y-motion .scrtiles span,html.a11y-motion .conn-solved,html.a11y-motion .payweek{animation:none}
+
+/* Boost dark mode */
+html.dark .conn-tile.sel{background:#ECEEF6;color:#0F1222;border-color:#ECEEF6}
+html.dark .conn-mistakes i.on{background:#ECEEF6;border-color:#ECEEF6}
+html.dark .scrtiles span{background:#ECEEF6;color:#0F1222}
+html.dark .newtag{background:#ECEEF6;color:#0F1222}
+html.dark .hcell.centre .hexshape{background:#4B57FF}
+html.dark .hcell:focus-visible .hexshape{box-shadow:inset 0 0 0 4px #fff}
+html.dark .cvmini{border-color:#ECEEF6}
+
+.gametile .gt-title{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+html.dark .hcell .hexshape{background:#2A3048}
+html.dark .hcell:hover .hexshape{background:var(--blue-100)}
+@media (max-width:600px){
+  .conn-tile{font-size:.68rem;letter-spacing:0;word-break:normal;overflow-wrap:normal;padding:2px}
+  .conn-tile.long{font-size:.56rem}
+  .scrform input{min-width:0}
+  .inbox-grid .mailpane{order:-1}
+  .track li{font-size:0}
+  .track li.now{font-size:.72rem;overflow:visible}
+}
+.scrform input{min-width:0}
+
 </style>
 </head>
 <body>
@@ -1308,7 +1522,7 @@ function resetState(){
     saved: new Set(['j2','j5']),
     booked: new Set(['ev2']),
     filters: {q:'', area:'', sectors:new Set(), modes:new Set(), programme:'', minPay:false, sort:'newest'},
-    boost: {streak:4, points:120, played:{wordle:false, quiz:false, match:false}, counted:false},
+    boost: {streak:4, points:120, played:{hive:false, wordle:false, connections:false, quiz:false, inbox:false, star:false, slip:false, pay:false, scramble:false, match:false}, weekBonus:false, counted:false},
     wordle: null, quiz: null, match: null,
     draft: null, postStep: 0,
     pipelineJob: 'j1',
@@ -2228,7 +2442,7 @@ function pubSignin(){
 const myApps = () => S.apps.filter(a => a.intern === DEMO_PEOPLE.intern);
 function internNav(){
   const unread = S.threads.filter(t => t.role === 'intern' && t.unread).length;
-  const gamesLeft = Object.values(S.boost.played).filter(x => !x).length;
+  const gamesLeft = featuredLeft();
   return [
     {id:'home',href:'#/intern',icon:'home',label:'Dashboard'},
     {id:'jobs',href:'#/intern/jobs',icon:'briefcase',label:'Jobs'},
@@ -2313,8 +2527,9 @@ function internHome(){
       <section class="panel boostpanel" aria-labelledby="boost-h">
         <h2 id="boost-h">Daily Career Boost</h2>
         <div class="boosthead" style="margin-bottom:12px"><div class="streak"><span class="hex">${S.boost.streak}</span><div><b>day streak</b><div class="small muted">${S.boost.points} points</div></div></div></div>
-        <p class="small" style="margin-bottom:12px">${played === 3 ? 'All three games done today. Come back tomorrow to keep your streak.' : `${3 - played} of 3 games left today. Each takes about two minutes.`}</p>
-        <a class="btn btn-primary" href="#/intern/boost">${played === 3 ? 'See your progress' : 'Play today\'s games'}</a>
+        <p class="small" style="margin-bottom:10px">${featuredLeft() ? `Today's three: ${FEATURED.map(k => gameInfo(k).title).join(', ')}. ${featuredLeft()} left to play.` : 'Today\'s three are done. Seven more games are waiting if you want them.'}</p>
+        <div class="minigames">${FEATURED.map(k => `<a href="#/intern/boost/${k}" class="${S.boost.played[k] ? 'done' : ''}"><span class="gicon">${icon(S.boost.played[k] ? 'check' : gameInfo(k).ic)}</span>${gameInfo(k).title}</a>`).join('')}</div>
+        <a class="btn btn-primary" href="#/intern/boost">${featuredLeft() ? 'Play today\'s games' : 'See all ten games'}</a>
       </section>
       <section class="panel" aria-labelledby="cv-h">
         <h2 id="cv-h">Your CV is ${pct}% complete</h2>
@@ -2700,7 +2915,7 @@ FORM.checkin = f => { const t = f.t.value.trim(); if (!t){ f.t.focus(); return; 
 function boostExtras(){
   const pts = S.boost.points, lvl = Math.floor(pts / 100) + 1, into = pts % 100;
   const board = [{n:'Priyanka N',p:340,s:12},{n:'Ben O',p:295,s:9},{n:'Amira H',p:250,s:7},{n:'Callum R',p:210,s:6},{n:'You',p:pts,s:S.boost.streak,me:true},{n:'Sofia M',p:140,s:3},{n:'Tariq A',p:95,s:2},{n:'Lucy T',p:60,s:1}].sort((a, b) => b.p - a.p);
-  const ach = [['First game played',true],['3 games in one day',Object.values(S.boost.played).every(Boolean)],['5-day streak',S.boost.streak >= 5],['Perfect quiz',S.quiz && S.quiz.done && S.quiz.score === 5],['Wordle in 3 or fewer',S.wordle && S.wordle.won && S.wordle.guesses.length <= 3],['7-day streak',S.boost.streak >= 7]];
+  const ach = [['First game played',true],["Today's three in one day",FEATURED.every(k => S.boost.played[k])],['All ten games in one day',Object.values(S.boost.played).every(Boolean)],['Hive mind in Word Hive',S.hive && hiveRank().name === 'Hive mind'],['Connections with no mistakes',S.conn && S.conn.done && S.conn.mistakes === 0],['Every CV slip spotted',S.slip && S.slip.found.length === SLIP_FIX.length],['Inbox sorted perfectly',S.inbox && S.inbox.done && S.inbox.picks.every((p, i) => p === INBOX.at(i).a)],['5-day streak',S.boost.streak >= 5],['Perfect quiz',S.quiz && S.quiz.done && S.quiz.score === 5],['Wordle in 3 or fewer',S.wordle && S.wordle.won && S.wordle.guesses.length <= 3],['7-day streak',S.boost.streak >= 7]];
   return `<div class="grid-2" style="margin-top:20px">
     <section class="panel"><div class="section-head" style="margin-bottom:10px"><h2 style="margin:0">Level ${lvl}</h2><span class="small muted">${100 - into} points to level ${lvl + 1}</span></div><div class="meter honey"><i style="width:${into}%"></i></div>
       <h3 style="margin-top:20px;font-size:1rem">Achievements</h3><ul class="achv">${ach.map(([t, ok]) => `<li class="${ok ? 'got' : ''}"><span class="ach-ico">${icon(ok ? 'trophy' : 'target')}</span>${t}<span class="sr-only">${ok ? ', earned' : ', not yet earned'}</span></li>`).join('')}</ul></section>
@@ -2741,28 +2956,13 @@ function finishGame(key, pts){
   S.boost.points += pts;
   if (!S.boost.counted){ S.boost.counted = true; S.boost.streak += 1; setTimeout(() => toast(`Streak extended to ${S.boost.streak} days. +${pts} points`), 400); }
   else setTimeout(() => toast(`+${pts} points`), 400);
+  if (!S.boost.weekBonus && weekGames() >= 12){ S.boost.weekBonus = true; S.boost.points += 50; setTimeout(() => toast('Weekly challenge complete. +50 bonus points'), 1600); }
 }
 
 function boostView(game){
-  if (game === 'wordle') return wordleView();
-  if (game === 'quiz') return quizView();
-  if (game === 'match') return matchView();
-  const P = S.boost.played;
-  const card = (key, ic, title, desc, pts) => `<article class="gamecard ${P[key] ? 'done' : ''}"><div class="gicon hex">${icon(P[key] ? 'check' : ic)}</div><h2 style="font-size:1.2rem;margin:4px 0 0">${title}</h2><p class="muted small" style="margin:0">${desc}</p><p class="small" style="margin:0"><b>${P[key] ? 'Done today' : `${pts} points`}</b></p>
-    <a class="btn ${P[key] ? 'btn-ghost' : 'btn-primary'}" href="#/intern/boost/${key}">${P[key] ? 'See result' : 'Play'}</a></article>`;
-  const played = Object.values(P).filter(Boolean).length;
-  return `<div class="pagehead"><div><h1>Daily Career Boost</h1><p>Three short games a day to sharpen your workplace know-how. New ones every morning.</p></div>
-    <div class="streak"><span class="hex">${S.boost.streak}</span><div><b>day streak</b><div class="small muted">${S.boost.points} points</div></div></div></div>
-  <div class="gamecards">
-    ${card('wordle','grid','Career Wordle','Guess today\'s five-letter workplace word in six tries.',30)}
-    ${card('quiz','quiz','Workplace Quiz','Five quick questions on interviews and first days, with tips after each.',50)}
-    ${card('match','link','Skill Match','Pair four skills with the roles that use them.',20)}
-  </div>${boostExtras()}
-  <section class="panel" style="margin-top:20px"><h2>Today</h2>
-    <div class="meter honey" style="margin-bottom:8px"><i style="width:${played / 3 * 100}%"></i></div>
-    <p class="small" style="margin:0">${played} of 3 games played. ${S.boost.streak >= 7 ? '' : `Keep going for ${7 - S.boost.streak} more ${7 - S.boost.streak === 1 ? 'day' : 'days'} to earn the 7-day streak badge.`}</p>
-  </section>
-  <section class="panel"><h2>New roles since your last visit</h2><div class="joblist">${liveJobs().filter(j => daysSince(j.posted) <= 5).slice(0,2).map(j => jobRow(j, {base:'#/intern/jobs', showMatch:true})).join('')}</div></section>`;
+  const views = {wordle:wordleView, quiz:quizView, match:matchView, hive:hiveView, connections:connView, inbox:inboxView, star:starView, slip:slipView, pay:payView, scramble:scrambleView};
+  if (game && views[game]) return views[game]();
+  return boostHub();
 }
 
 /* Career Wordle */
@@ -2867,6 +3067,391 @@ ACT.mjob = el => {
   render({keepScroll:true, keepFocus:true});
   const next = $('[data-act=mskill]:not([disabled])') || $('#app .btn-primary'); if (next) next.focus();
 };
+
+/* ---------- Daily Career Boost: the full games library ---------- */
+const GAMES = [
+  {key:'hive', title:'Word Hive', ic:'hex', mins:3, pts:'Up to 50', isNew:true, desc:'Make words from seven letters. Every word must use the centre letter.'},
+  {key:'wordle', title:'Career Wordle', ic:'grid', mins:2, pts:'30', desc:'Guess today\'s five-letter workplace word in six tries.'},
+  {key:'connections', title:'Career Connections', ic:'columns', mins:3, pts:'Up to 40', isNew:true, desc:'Sort sixteen words into four hidden groups. Four mistakes allowed.'},
+  {key:'quiz', title:'Workplace Quiz', ic:'quiz', mins:2, pts:'Up to 50', desc:'Five quick questions on interviews and first days, with tips after each.'},
+  {key:'inbox', title:'Inbox Rush', ic:'mail', mins:3, pts:'Up to 45', isNew:true, desc:'Eight work emails land at once. Decide what to do with each.'},
+  {key:'star', title:'STAR Builder', ic:'star', mins:3, pts:'Up to 30', isNew:true, desc:'Put three interview answers into Situation, Task, Action, Result order.'},
+  {key:'slip', title:'Spot the Slip', ic:'edit', mins:2, pts:'Up to 30', isNew:true, desc:'Find the six mistakes in a CV before an employer does.'},
+  {key:'pay', title:'Pay Check', ic:'pound', mins:2, pts:'Up to 30', isNew:true, desc:'Which role pays more each week? The hourly rate is only half the story.'},
+  {key:'scramble', title:'Job Scramble', ic:'briefcase', mins:2, pts:'Up to 30', isNew:true, desc:'Unscramble five job titles. Hints cost points.'},
+  {key:'match', title:'Skill Match', ic:'link', mins:1, pts:'20', desc:'Pair four skills with the roles that use them.'}
+];
+const FEATURED = ['hive', 'wordle', 'connections'];
+const TOMORROW = ['inbox', 'star', 'pay'];
+const gameInfo = k => GAMES.find(g => g.key === k);
+const featuredLeft = () => FEATURED.filter(k => !S.boost.played[k]).length;
+function gameHead(key, sub){
+  const g = gameInfo(key);
+  return `<a class="back" href="#/intern/boost">${icon('left')}Daily Career Boost</a><div class="pagehead"><div><h1>${g.title}</h1><p>${sub}</p></div><span class="chip">${icon('clock')}About ${g.mins} ${g.mins === 1 ? 'minute' : 'minutes'}</span></div>`;
+}
+const backToGames = () => `<a class="btn btn-primary" href="#/intern/boost">Back to today's games</a>`;
+const shareBtn = key => `<button class="btn btn-ghost" data-act="share" data-key="${key}">${icon('send')}Share result</button>`;
+
+/* Share: a spoiler-free summary, like the newspaper puzzles */
+function shareText(key){
+  const head = `Talent Hive ${gameInfo(key).title}, ${fmtLong('2026-11-24')}`;
+  if (key === 'wordle' && S.wordle){ const W = S.wordle; const em = {correct:'🟩', present:'🟨', absent:'⬜'}; return `${head}\n${W.won ? W.guesses.length : 'X'}/6\n${W.guesses.map(g => scoreGuess(g, W.answer).map(s => em[s]).join('')).join('\n')}`; }
+  if (key === 'connections' && S.conn){ const em = ['🟨','🟩','🟦','🟪']; return `${head}\n${S.conn.guesses.map(g => g.map(w => em[CONN.findIndex(c => c.words.includes(w))]).join('')).join('\n')}`; }
+  if (key === 'hive' && S.hive){ return `${head}\n${hiveRank().name}: ${S.hive.found.length} words, ${hiveTotal()} points`; }
+  if (key === 'inbox' && S.inbox){ return `${head}\n${S.inbox.picks.map((p, i) => p === INBOX.at(i).a ? '✅' : '❌').join('')} in ${S.inbox.secs} seconds`; }
+  if (key === 'star' && S.star){ return `${head}\n${S.star.results.map(r => r ? '⭐' : '☆').join('')}`; }
+  if (key === 'slip' && S.slip){ return `${head}\nFound ${S.slip.found.length} of ${SLIP_FIX.length} mistakes`; }
+  if (key === 'pay' && S.pay){ return `${head}\n${S.pay.picks.map((p, i) => p === payWinner(i) ? '💷' : '❌').join('')}`; }
+  if (key === 'scramble' && S.scr){ return `${head}\n${SCRAMBLE.map((_, i) => S.scr.solved.includes(i) ? (S.scr.hints.includes(i) ? '🟨' : '🟩') : '⬜').join('')}`; }
+  if (key === 'quiz' && S.quiz){ return `${head}\n${S.quiz.score}/5`; }
+  return `${head}\nDone`;
+}
+ACT.share = async el => {
+  const txt = shareText(el.dataset.key);
+  try { await navigator.clipboard.writeText(txt); }
+  catch(e){ const t = document.createElement('textarea'); t.value = txt; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0'; document.body.appendChild(t); t.select(); try { document.execCommand('copy'); } catch(_){} t.remove(); }
+  toast('Result copied. Paste it into a message to share.');
+};
+
+/* ===== Word Hive ===== */
+const HIVE = {centre:'A', outer:['P','L','C','I','N','G'], words:['ACING','AGING','ALIGN','ALIGNING','ALPACA','ANGLING','APING','APPAL','APPALLING','CAGING','CALL','CALLING','CANAL','CANNING','CAPPING','CLAN','CLANG','CLANGING','CLAP','CLAPPING','GAIN','GAINING','GALA','GALL','GALLING','GANGLIA','GAPING','GAPPING','LACING','LAGGING','LAIN','LANCING','LAPPING','LILAC','NAAN','NAGGING','NAIL','NAILING','NAPPING','PACING','PAGAN','PAGING','PAIL','PAIN','PALING','PALL','PALLING','PANG','PANIC','PANNING','PAPAL','PLACING','PLAIN','PLAN','PLANING','PLANNING']};
+const HIVE_ALL = [HIVE.centre, ...HIVE.outer];
+const isPangram = w => HIVE_ALL.every(l => w.includes(l));
+const hiveScore = w => (w.length === 4 ? 1 : w.length) + (isPangram(w) ? 7 : 0);
+const HIVE_MAX = HIVE.words.reduce((s, w) => s + hiveScore(w), 0);
+const HIVE_RANKS = [['Getting started', 0], ['Warming up', .04], ['Good', .1], ['Solid', .18], ['Great', .3], ['Amazing', .45], ['Hive mind', .65]];
+function hiveState(){ if (!S.hive) S.hive = {found:[], cur:'', msg:'', order:[0,1,2,3,4,5], done:false, flash:''}; return S.hive; }
+const hiveTotal = () => hiveState().found.reduce((s, w) => s + hiveScore(w), 0);
+function hiveRank(){
+  const f = hiveTotal() / HIVE_MAX; let idx = 0;
+  HIVE_RANKS.forEach(([n, t], i) => { if (f >= t) idx = i; });
+  const next = HIVE_RANKS.at(idx + 1);
+  return {name:HIVE_RANKS.at(idx)[0], idx, toNext:next ? Math.ceil(next[1] * HIVE_MAX) - hiveTotal() : 0, nextName:next ? next[0] : ''};
+}
+const HEXPOS = [[120,46],[190,86],[190,166],[120,206],[50,166],[50,86]];
+function hiveBoard(){
+  const H = hiveState(), R = hiveRank();
+  const cell = (L, x, y, centre) => `<button class="hcell ${centre ? 'centre' : ''}" style="left:${x - 44}px;top:${y - 40}px" data-act="hkey" data-k="${L}" aria-label="${L}${centre ? ', centre letter' : ''}" ${H.done ? 'disabled' : ''}><span class="hexshape">${L}</span></button>`;
+  const typed = H.cur ? H.cur.split('').map(c => `<span class="${c === HIVE.centre ? 'cen' : HIVE_ALL.includes(c) ? '' : 'bad'}">${c}</span>`).join('') : '<span class="ph">Type or tap letters</span>';
+  const dots = HIVE_RANKS.map((r, i) => `<i class="${i <= R.idx ? 'on' : ''} ${i === R.idx ? 'now' : ''}" title="${r[0]}"></i>`).join('');
+  const found = [...H.found].sort();
+  const missed = H.done ? HIVE.words.filter(w => !H.found.includes(w)) : [];
+  return `<div class="hive-layout">
+    <div class="hive-play">
+      <div class="hive-rank"><b>${R.name}</b><div class="rankdots" aria-hidden="true">${dots}</div><span class="small muted">${R.toNext > 0 ? `${R.toNext} points to ${R.nextName}` : 'Top rank reached'}</span></div>
+      <div class="hive-input ${H.flash}" aria-live="polite" aria-label="Current word">${typed}</div>
+      <div class="hive" role="group" aria-label="Today's letters. The centre letter is ${HIVE.centre}.">
+        ${cell(HIVE.centre, 120, 126, true)}${H.order.map((o, i) => cell(HIVE.outer.at(o), HEXPOS.at(i)[0], HEXPOS.at(i)[1], false)).join('')}
+      </div>
+      ${H.done ? '' : `<div class="hive-ctrls"><button class="btn btn-ghost" data-act="hkey" data-k="Backspace">Delete</button><button class="btn btn-ghost" data-act="hshuf" aria-label="Shuffle the outer letters">${icon('arrowr')}Shuffle</button><button class="btn btn-primary" data-act="hkey" data-k="Enter">Enter</button></div>`}
+      <p role="status" class="small hive-msg">${esc(H.msg)}</p>
+    </div>
+    <section class="panel hive-found" aria-labelledby="hf-h">
+      <div class="section-head" style="margin-bottom:8px"><h2 id="hf-h" style="margin:0">You have found ${H.found.length} ${H.found.length === 1 ? 'word' : 'words'}</h2><span class="chip">${hiveTotal()} points</span></div>
+      <ul class="wordcols">${found.map(w => `<li class="${isPangram(w) ? 'pan' : ''}">${w[0] + w.slice(1).toLowerCase()}${isPangram(w) ? '<span class="sr-only"> (uses all seven letters)</span>' : ''}</li>`).join('')}</ul>
+      ${H.done ? `<h3 style="font-size:1rem;margin-top:16px">Words you missed (${missed.length})</h3><ul class="wordcols missed">${missed.map(w => `<li class="${isPangram(w) ? 'pan' : ''}">${w[0] + w.slice(1).toLowerCase()}</li>`).join('')}</ul>
+        <div class="explain" style="margin-top:14px"><b>Today's theme: getting placed.</b> Placing, planning, aligning and gaining were all in there.</div>
+        <div class="btnrow" style="margin-top:14px">${backToGames()}${shareBtn('hive')}</div>`
+      : `<p class="small muted" style="margin:14px 0 8px">Four-letter words score 1. Longer words score one point per letter. A word using all seven letters scores 7 extra and shows in blue.</p><button class="btn btn-quiet" data-act="hfinish">Finish for today</button>`}
+    </section>
+  </div>`;
+}
+function hiveDraw(focusSel){ const b = $('#hivegame'); if (b) b.innerHTML = hiveBoard(); if (focusSel){ const f = $(focusSel); if (f) f.focus(); } }
+function hiveKey(k){
+  const H = hiveState(); if (H.done) return;
+  H.msg = ''; H.flash = '';
+  if (k === 'Backspace') H.cur = H.cur.slice(0, -1);
+  else if (k === 'Enter'){
+    const w = H.cur;
+    if (!w) return;
+    if (w.length < 4) H.msg = 'Too short. Words need four letters or more.';
+    else if (!w.includes(HIVE.centre)) H.msg = `Every word needs the centre letter, ${HIVE.centre}.`;
+    else if ([...w].some(c => !HIVE_ALL.includes(c))) H.msg = 'That uses a letter that is not in today\'s hive.';
+    else if (H.found.includes(w)) H.msg = 'Already found.';
+    else if (!HIVE.words.includes(w)) H.msg = 'Not in today\'s word list.';
+    else {
+      const before = hiveRank().idx;
+      H.found.push(w); const p = hiveScore(w);
+      H.msg = isPangram(w) ? `Uses all seven letters! +${p}` : p === 1 ? 'Nice. +1' : `Great word. +${p}`;
+      H.flash = isPangram(w) ? 'pangram' : 'good';
+      if (hiveRank().idx > before){ H.msg += `. You reached ${hiveRank().name}.`; if (hiveRank().name === 'Hive mind') setTimeout(confetti, 150); }
+      H.cur = ''; hiveDraw(); return;
+    }
+    H.flash = 'shake'; H.cur = '';
+  }
+  else if (/^[A-Z]$/.test(k) && H.cur.length < 14) H.cur += k;
+  hiveDraw();
+}
+ACT.hkey = el => { const k = el.dataset.k; hiveKey(k); hiveDraw(`[data-act=hkey][data-k="${k}"]`); };
+ACT.hshuf = () => { const H = hiveState(); for (let i = H.order.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [H.order[i], H.order[j]] = [H.order[j], H.order[i]]; } hiveDraw('[data-act=hshuf]'); };
+ACT.hfinish = () => { const H = hiveState(); H.done = true; H.cur = ''; const R = hiveRank(); finishGame('hive', Math.min(50, 10 + R.idx * 7)); render({keepScroll:true}); };
+function hiveView(){ hiveState(); return gameHead('hive', `Make words of four letters or more. Every word must use the centre letter, ${HIVE.centre}, and letters can be used more than once.`) + `<div id="hivegame">${hiveBoard()}</div>`; }
+
+/* ===== Career Connections ===== */
+const CONN = [
+  {name:'Kinds of interview', words:['PANEL','PHONE','VIDEO','GROUP']},
+  {name:'Sections of a CV', words:['PROFILE','SKILLS','EDUCATION','REFERENCES']},
+  {name:'Microsoft 365 apps', words:['EXCEL','TEAMS','OUTLOOK','WORD']},
+  {name:'They all go before LETTER', words:['COVER','OFFER','RESIGNATION','REJECTION']}
+];
+const CONN_START = ['TEAMS','COVER','PANEL','SKILLS','OUTLOOK','REJECTION','PHONE','PROFILE','WORD','GROUP','OFFER','EDUCATION','VIDEO','EXCEL','REFERENCES','RESIGNATION'];
+function connState(){ if (!S.conn) S.conn = {order:[...CONN_START], sel:[], solved:[], mistakes:0, guesses:[], msg:'', done:false, shake:false}; return S.conn; }
+function connView(){
+  const C = connState();
+  const solvedRows = C.solved.map(gi => `<div class="conn-solved lvl${gi}"><b>${esc(CONN.at(gi).name)}</b><span>${CONN.at(gi).words.map(w => w[0] + w.slice(1).toLowerCase()).join(', ')}</span></div>`).join('');
+  const left = C.order.filter(w => !C.solved.some(gi => CONN.at(gi).words.includes(w)));
+  const tiles = left.map(w => `<button class="conn-tile ${C.sel.includes(w) ? 'sel' : ''} ${C.shake && C.sel.includes(w) ? 'shake' : ''} ${w.length > 8 ? 'long' : ''}" data-act="ccsel" data-w="${w}" aria-pressed="${C.sel.includes(w)}" ${C.done ? 'disabled' : ''}>${w}</button>`).join('');
+  return gameHead('connections', 'Find four groups of four words that share something. Select four, then submit. You can make four mistakes.') + `
+  <div class="conn-wrap">
+    <div class="conn-board" role="group" aria-label="Words">${solvedRows}${left.length ? `<div class="conn-grid">${tiles}</div>` : ''}</div>
+    <p role="status" class="small" style="text-align:center;font-weight:700;min-height:1.5em;margin:12px 0 4px">${esc(C.msg)}</p>
+    ${C.done ? `<div class="panel" style="max-width:560px;margin:8px auto 0;text-align:center"><h2>${C.solved.length === 4 && C.mistakes < 4 ? (C.mistakes === 0 ? 'Perfect. No mistakes.' : `Solved with ${C.mistakes} ${C.mistakes === 1 ? 'mistake' : 'mistakes'}.`) : 'Out of guesses. Here are the groups.'}</h2><p class="small muted">The trickiest group is usually the one hiding in plain sight. Today it was words that go before letter.</p><div class="btnrow" style="justify-content:center">${backToGames()}${shareBtn('connections')}</div></div>` : `
+    <div class="conn-mistakes small">Mistakes left <span aria-hidden="true">${[0,1,2,3].map(i => `<i class="${i < 4 - C.mistakes ? 'on' : ''}"></i>`).join('')}</span><span class="sr-only">${4 - C.mistakes} of 4</span></div>
+    <div class="btnrow conn-ctrls"><button class="btn btn-ghost" data-act="ccshuf">Shuffle</button><button class="btn btn-ghost" data-act="ccclear" ${C.sel.length ? '' : 'disabled'}>Deselect all</button><button class="btn btn-primary" data-act="ccsub" ${C.sel.length === 4 ? '' : 'disabled'}>Submit</button></div>`}
+  </div>`;
+}
+const connDraw = sel => { render({keepScroll:true}); if (sel){ const f = $(sel); if (f) f.focus(); } };
+ACT.ccsel = el => { const C = connState(); const w = el.dataset.w; C.shake = false; C.msg = ''; if (C.sel.includes(w)) C.sel = C.sel.filter(x => x !== w); else if (C.sel.length < 4) C.sel.push(w); connDraw(`[data-act=ccsel][data-w="${w}"]`); };
+ACT.ccclear = () => { const C = connState(); C.sel = []; C.msg = ''; connDraw('[data-act=ccshuf]'); };
+ACT.ccshuf = () => { const C = connState(); for (let i = C.order.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [C.order[i], C.order[j]] = [C.order[j], C.order[i]]; } connDraw('[data-act=ccshuf]'); };
+ACT.ccsub = () => {
+  const C = connState(); if (C.sel.length !== 4) return;
+  const key = [...C.sel].sort().join();
+  if (C.guesses.some(g => [...g].sort().join() === key)){ C.msg = 'You have already tried that group.'; connDraw('[data-act=ccsub]'); return; }
+  C.guesses.push([...C.sel]);
+  const gi = CONN.findIndex(g => C.sel.every(w => g.words.includes(w)));
+  if (gi > -1){
+    C.solved.push(gi); C.sel = []; C.msg = `Correct: ${CONN.at(gi).name}.`;
+    if (C.solved.length === 4){ C.done = true; finishGame('connections', Math.max(10, 40 - C.mistakes * 10)); if (!C.mistakes) setTimeout(confetti, 150); }
+    connDraw('[data-act=ccsel]');
+    return;
+  }
+  C.mistakes++; C.shake = true;
+  const oneAway = CONN.some(g => C.sel.filter(w => g.words.includes(w)).length === 3);
+  C.msg = oneAway ? 'One away. Three of those belong together.' : 'Not a group. Try again.';
+  if (C.mistakes >= 4){ C.done = true; C.sel = []; CONN.forEach((_, i) => { if (!C.solved.includes(i)) C.solved.push(i); }); C.msg = 'No mistakes left.'; finishGame('connections', 5); }
+  connDraw('[data-act=ccsub]');
+};
+
+/* ===== Inbox Rush ===== */
+const INBOX = [
+  {from:'Priya Shah', who:'Your manager', time:'08:52', subj:'Client demo moved to 11:00', body:'The Ouse Valley demo is now at 11:00 today. Can you send me the updated slides by 10:30?', a:'now', why:'Your manager needs it for a client today, with a deadline in under two hours. Do this first.'},
+  {from:'IT Service Desk', who:'Fenlight Digital', time:'08:40', subj:'Your password expires in 14 days', body:'Please choose a new password before 8 December.', a:'plan', why:'It matters, but not today. Put a reminder in your calendar for next week.'},
+  {from:'Ben Clarke', who:'Senior developer', time:'09:05', subj:'Contact form is broken on the live site', body:'Customers are getting an error when they send a message. Can you look at it with me now?', a:'now', why:'Customers are affected right now, and a senior colleague has asked for your help.'},
+  {from:'Accounts mailbox', who:'Shared inbox', time:'09:10', subj:'Question about invoice 2291', body:'Hi, I think we were charged twice for October. Can someone check?', a:'pass', why:'Invoices are not a development intern\'s job. Forward it to the finance team so the customer gets the right answer.'},
+  {from:'Pay Team', who:'payroll-update@fenlight-pay.co', time:'09:14', subj:'URGENT: confirm your bank details today', body:'Your pay will be delayed unless you confirm your bank details at the link below within 2 hours.', a:'pass', why:'This looks like phishing: pressure, an odd address and a link asking for bank details. Do not click anything. Report it to IT.'},
+  {from:'Sam Hollis', who:'Office manager, all staff', time:'09:20', subj:'Cake in the kitchen', body:'It is Jo\'s birthday. Cake in the kitchen from 3pm.', a:'archive', why:'Nice to know, nothing to do. Archive it and enjoy the cake later.'},
+  {from:'Talent Hive', who:'CPCA', time:'09:31', subj:'Your weekly check-in is due Friday', body:'Tell your mentor how week 2 went. It takes about five minutes.', a:'plan', why:'Due on Friday, so plan a slot for it. Leaving it to the last minute is how check-ins get missed.'},
+  {from:'Priya Shah', who:'Your manager', time:'09:45', subj:'Ideas for next week\'s team meeting', body:'Could you bring three ideas for improving our onboarding to Tuesday\'s meeting?', a:'plan', why:'Important, but due next week. Book time to prepare rather than doing it right now.'}
+];
+const BINS = [['now','Do now','flame'],['plan','Plan for later','calendar'],['pass','Pass on or report','send'],['archive','Archive','file']];
+const binName = k => BINS.find(b => b.at(0) === k).at(1);
+function inboxState(){ if (!S.inbox) S.inbox = {i:0, picks:[], show:false, done:false, start:null, secs:0}; return S.inbox; }
+function inboxView(){
+  const I = inboxState();
+  const head = gameHead('inbox', 'You are in week two of a placement at Fenlight Digital. Eight emails arrived before 10am. Decide what to do with each one.');
+  const list = INBOX.map((m, i) => { const p = I.picks[i]; const ok = p && p === m.a; return `<li class="${i === I.i && !I.done ? 'cur' : ''} ${p ? 'sorted' : ''}"><div class="grow"><b>${esc(m.from)}</b><div class="small">${esc(m.subj)}</div></div>${p ? `<span class="ibtag ${ok ? 'ok' : 'no'}">${esc(binName(p))}</span>` : `<span class="small muted">${m.time}</span>`}</li>`; }).join('');
+  if (I.done){
+    const right = I.picks.filter((p, i) => p === INBOX.at(i).a).length;
+    return head + `<div class="inbox-grid"><ul class="inbox-list" aria-label="Your inbox">${list}</ul><section class="panel"><h2>${right} of 8 sorted well, in ${I.secs} seconds</h2><p>${right === 8 ? 'Calm, quick and safe. That is exactly how a good first month looks.' : 'Worth a second look at the ones in red. The phishing email is the one that catches most people out.'}</p>
+      <ul class="small" style="padding-left:18px;line-height:1.6">${INBOX.map((m, i) => I.picks[i] === m.a ? '' : `<li><b>${esc(m.subj)}</b>: best answer is ${esc(binName(m.a))}. ${esc(m.why)}</li>`).join('')}</ul>
+      <div class="btnrow">${backToGames()}${shareBtn('inbox')}</div></section></div>`;
+  }
+  const m = INBOX.at(I.i), p = I.picks[I.i];
+  return head + `<div class="inbox-grid">
+    <ul class="inbox-list" aria-label="Your inbox">${list}</ul>
+    <section class="panel mailpane" aria-labelledby="mail-subj">
+      <div class="small muted">Email ${I.i + 1} of 8. Received ${m.time}</div>
+      <h2 id="mail-subj" style="margin:6px 0">${esc(m.subj)}</h2>
+      <div class="mailfrom"><span class="avatar" style="--av:${['#E8EAFF','#FCE4F8','#EEFAD0','#FFE8D6'].at(I.i % 4)}">${esc(m.from.split(' ').map(x => x[0]).join('').slice(0, 2))}</span><div><b>${esc(m.from)}</b><div class="small muted">${esc(m.who)}</div></div></div>
+      <p class="mailbody">${esc(m.body)}</p>
+      <div class="bins" role="group" aria-label="What will you do with this email?">${BINS.map(([k, n, ic]) => `<button class="binbtn ${p ? (k === m.a ? 'right' : k === p ? 'wrong' : '') : ''}" data-act="ibpick" data-k="${k}" ${p ? 'disabled' : ''}>${icon(ic)}${n}</button>`).join('')}</div>
+      ${p ? `<div class="explain" role="status"><b>${p === m.a ? 'Good call.' : `Better: ${binName(m.a)}.`}</b> ${esc(m.why)}</div><button class="btn btn-primary" data-act="ibnext">${I.i === 7 ? 'See how you did' : 'Next email'}</button>` : ''}
+    </section></div>`;
+}
+ACT.ibpick = el => { const I = inboxState(); if (I.start === null) I.start = Date.now(); I.picks[I.i] = el.dataset.k; render({keepScroll:true}); const n = $('[data-act=ibnext]'); if (n) n.focus(); };
+ACT.ibnext = () => {
+  const I = inboxState();
+  if (I.i === 7){ I.done = true; I.secs = Math.max(1, Math.round((Date.now() - (I.start || Date.now())) / 1000)); const right = I.picks.filter((p, i) => p === INBOX.at(i).a).length; finishGame('inbox', right * 5 + (I.secs < 120 ? 5 : 0)); if (right === 8) setTimeout(confetti, 150); }
+  else I.i++;
+  render({keepScroll:true}); const b = $('.binbtn'); if (b) b.focus();
+};
+
+/* ===== STAR Builder ===== */
+const STAR_LABELS = [['S','Situation','Set the scene'],['T','Task','What you had to do'],['A','Action','What you did'],['R','Result','What happened in the end']];
+const STARQ = [
+  {q:'Tell me about a time you solved a problem.', mix:[2,0,3,1], parts:[
+    'In my final year, our group\'s survey app kept crashing the day before our presentation.',
+    'I was responsible for finding the cause and getting it working in time.',
+    'I read the error logs, traced it to one faulty update, rolled it back and tested every screen.',
+    'The app ran smoothly in the presentation and we got the top mark in the module.']},
+  {q:'Tell me about a time you worked well in a team.', mix:[1,3,0,2], parts:[
+    'At my part-time café job, two staff called in sick on our busiest Saturday.',
+    'The manager asked me to keep the queue moving while she covered the kitchen.',
+    'I split the till and coffee jobs with a new starter and showed her a quicker way to take orders.',
+    'Waiting times stayed under five minutes, and I was asked to train new staff afterwards.']},
+  {q:'Tell me about a time you had to learn something quickly.', mix:[3,1,2,0], parts:[
+    'A week before my volunteer shift at the food bank, they moved to a new stock system.',
+    'I needed to be able to log donations on my own by the first shift.',
+    'I watched the training videos, practised on the test version and made a one-page guide.',
+    'I logged over 200 items on day one, and the team now gives my guide to new volunteers.']}
+];
+function starState(){ if (!S.star) S.star = {qi:0, placed:[null,null,null,null], checked:false, tries:0, results:[], score:0, done:false}; return S.star; }
+function starView(){
+  const T = starState();
+  const head = gameHead('star', 'Strong interview answers follow STAR: Situation, Task, Action, Result. Put each answer\'s sentences in that order.');
+  if (T.done) return head + `<section class="panel" style="max-width:720px"><h2>${T.results.filter(Boolean).length} of 3 right first time</h2><p>Use the same shape for any "tell me about a time" question. Keep the Action part the longest, and finish with a result you can measure if you can.</p><div class="btnrow">${backToGames()}<a class="btn btn-ghost" href="#/intern/practice">Practise your own answers</a>${shareBtn('star')}</div></section>`;
+  const Q = STARQ.at(T.qi);
+  const full = T.placed.every(x => x !== null), allRight = T.checked && T.placed.every((x, i) => x === i);
+  const slots = STAR_LABELS.map(([l, n, h], i) => { const x = T.placed[i]; const st = T.checked && x !== null ? (x === i ? 'right' : 'wrong') : ''; return `<div class="starslot ${st}"><div class="starlbl"><span class="hexbadge">${l}</span><div><b>${n}</b><div class="small muted">${h}</div></div></div>${x === null ? `<div class="starempty small muted">Choose a sentence below</div>` : `<button class="starsent placed" data-act="stback" data-slot="${i}" ${allRight ? 'disabled' : ''} aria-label="${esc(Q.parts.at(x))}. Remove from ${n}">${esc(Q.parts.at(x))}</button>`}</div>`; }).join('');
+  const pool = Q.mix.filter(k => !T.placed.includes(k)).map(k => `<button class="starsent" data-act="stput" data-k="${k}">${esc(Q.parts.at(k))}</button>`).join('');
+  return head + `<section class="panel" style="max-width:820px">
+    <div class="small muted">Question ${T.qi + 1} of 3</div>
+    <h2 style="font-size:1.3rem;margin:4px 0 16px">"${esc(Q.q)}"</h2>
+    <div class="starslots">${slots}</div>
+    ${pool ? `<h3 class="small muted" style="margin:16px 0 8px;font-weight:600">Sentences to place</h3><div class="starpool" role="group" aria-label="Sentences to place">${pool}</div>` : ''}
+    <p role="status" class="small" style="font-weight:700;min-height:1.5em;margin:12px 0">${T.checked ? (allRight ? (T.tries === 1 ? 'Spot on, first time. +10' : 'All in order now. +5') : 'Not quite. The ones in red are in the wrong place.') : ''}</p>
+    <div class="btnrow">${allRight ? `<button class="btn btn-primary" data-act="stnext">${T.qi === 2 ? 'See how you did' : 'Next question'}</button>` : T.checked ? `<button class="btn btn-primary" data-act="stretry">Move the red ones</button>` : `<button class="btn btn-primary" data-act="stcheck" ${full ? '' : 'disabled'}>Check my answer</button>`}</div>
+  </section>`;
+}
+ACT.stput = el => { const T = starState(); const i = T.placed.indexOf(null); if (i > -1) T.placed[i] = +el.dataset.k; render({keepScroll:true}); const n = $('[data-act=stput]') || $('[data-act=stcheck]'); if (n) n.focus(); };
+ACT.stback = el => { const T = starState(); T.placed[+el.dataset.slot] = null; T.checked = false; render({keepScroll:true}); const n = $('[data-act=stput]'); if (n) n.focus(); };
+ACT.stcheck = () => { const T = starState(); T.checked = true; T.tries++; const ok = T.placed.every((x, i) => x === i); if (ok){ T.results.push(T.tries === 1); T.score += T.tries === 1 ? 10 : 5; } render({keepScroll:true}); const n = $('[data-act=stnext]') || $('[data-act=stretry]'); if (n) n.focus(); };
+ACT.stretry = () => { const T = starState(); T.placed = T.placed.map((x, i) => x === i ? x : null); T.checked = false; render({keepScroll:true}); const n = $('[data-act=stput]'); if (n) n.focus(); };
+ACT.stnext = () => { const T = starState(); if (T.qi === 2){ T.done = true; finishGame('star', T.score); if (T.results.every(Boolean)) setTimeout(confetti, 150); } else { T.qi++; T.placed = [null,null,null,null]; T.checked = false; T.tries = 0; } render({keepScroll:true}); const n = $('[data-act=stput]'); if (n) n.focus(); };
+
+/* ===== Spot the Slip ===== */
+const SLIP_TEXT = 'Organised and reliable graduate with strong attension to detail. At Bean There Café I worked closely with the manger to train new staff and helped customers with there orders. I recieved an Employee of the Month award and handled loads of cash payments each day. Confident using Microsoft Excell and Teams.';
+const SLIP_FIX = [['attension','attention','Spelling.'],['manger','manager','A manger is where animals feed.'],['there','their','Their shows belonging.'],['recieved','received','I before E, except after C.'],['loads','a high number','"Loads of" is too casual for a CV.'],['Excell','Excel','Get software names exactly right.']];
+const slipTokens = () => SLIP_TEXT.split(' ').map(t => { const m = t.match(/^(.*?)([.,]?)$/); return {w:m[1], p:m[2]}; });
+function slipState(){ if (!S.slip) S.slip = {found:[], wrong:0, last:null, done:false}; return S.slip; }
+function slipView(){
+  const L = slipState();
+  const toks = slipTokens();
+  const words = toks.map((t, i) => {
+    const fixIdx = SLIP_FIX.findIndex(f => f.at(0) === t.w);
+    const found = L.found.includes(fixIdx) && fixIdx > -1;
+    const reveal = L.done && fixIdx > -1;
+    if (found || reveal) return `<span class="slipfix ${found ? 'got' : 'miss'}"><s>${esc(t.w)}</s> <b>${esc(SLIP_FIX.at(fixIdx).at(1))}</b></span>${esc(t.p)} `;
+    return `<button class="slipword ${L.last === i ? 'nope' : ''}" data-act="slpick" data-i="${i}" ${L.done ? 'disabled' : ''}>${esc(t.w)}</button>${esc(t.p)} `;
+  }).join('');
+  const head = gameHead('slip', 'An employer spends seconds on a CV, and small mistakes stand out. Tap each word that is wrong. There are six.');
+  return head + `<div class="grid-main">
+    <section class="panel slipcv" aria-labelledby="slip-h"><div class="cvmini"><b id="slip-h">Jordan Ellis</b><span class="small muted">Peterborough. Graduate, BSc Computing</span></div><h3 style="font-size:.95rem;margin:16px 0 6px">About me and experience</h3><p class="slipbody">${words}</p></section>
+    <aside class="stack"><section class="panel"><h2 style="font-size:1.1rem">Mistakes found</h2><div class="slipcount"><b>${L.found.length}</b><span>of ${SLIP_FIX.length}</span></div><div class="meter honey" style="margin:10px 0"><i style="width:${L.found.length / SLIP_FIX.length * 100}%"></i></div>
+      <p role="status" class="small" style="font-weight:700;min-height:1.5em">${L.last !== null && !L.done ? 'That one is fine. Look again.' : L.found.length && !L.done ? `${esc(SLIP_FIX.at(L.found.at(-1)).at(2))}` : ''}</p>
+      ${L.wrong ? `<p class="small muted" style="margin:0">Wrong taps: ${L.wrong}</p>` : ''}
+      ${L.done ? `<div class="btnrow" style="margin-top:12px">${backToGames()}${shareBtn('slip')}</div>` : `<button class="btn btn-quiet" data-act="slreveal" style="margin-top:8px">Show me the answers</button>`}</section>
+      <section class="panel"><h2 style="font-size:1.1rem">Why it matters</h2><p class="small" style="margin:0">Spelling mistakes are one of the most common reasons employers give for turning down a CV. Read yours aloud, or use the checker in your CV builder before you apply.</p></section></aside></div>`;
+}
+ACT.slpick = el => {
+  const L = slipState(); const i = +el.dataset.i; const t = slipTokens().at(i);
+  const fixIdx = SLIP_FIX.findIndex(f => f.at(0) === t.w);
+  if (fixIdx > -1){ L.found.push(fixIdx); L.last = null; if (L.found.length === SLIP_FIX.length){ L.done = true; finishGame('slip', Math.max(5, 30 - L.wrong * 2)); setTimeout(confetti, 150); } }
+  else { L.wrong++; L.last = i; }
+  render({keepScroll:true}); const n = $(`[data-act=slpick][data-i="${i}"]`) || $('[data-act=slpick]') || $('#app .btn-primary'); if (n) n.focus();
+};
+ACT.slreveal = () => { const L = slipState(); L.done = true; L.last = null; finishGame('slip', Math.max(5, L.found.length * 5 - L.wrong * 2)); render({keepScroll:true}); };
+
+/* ===== Pay Check ===== */
+const PAYPAIRS = [['j5','j1'],['j3','j7'],['j2','j6'],['j8','j11'],['j4','j12']];
+const wk = j => j.pay * j.hours;
+const payWinner = i => { const [a, b] = PAYPAIRS.at(i).map(job); return wk(a) >= wk(b) ? a.id : b.id; };
+function payState(){ if (!S.pay) S.pay = {i:0, picks:[], done:false}; return S.pay; }
+function payView(){
+  const P = payState();
+  const head = gameHead('pay', 'Two real roles from the jobs board. Which one pays more each week? Multiply the hourly rate by the hours.');
+  if (P.done){
+    const right = P.picks.filter((p, i) => p === payWinner(i)).length;
+    const [a, b] = PAYPAIRS.at(2).map(job);
+    return head + `<section class="panel" style="max-width:720px"><h2>${right} of 5 correct</h2><p>A higher hourly rate does not always mean more money. ${esc(b.title)} pays less per hour than ${esc(a.title)}, but its longer week adds up to ${money((wk(b) - wk(a)) * 6)} more over a six-week placement.</p><div class="btnrow">${backToGames()}<a class="btn btn-ghost" href="#/intern/jobs">Browse roles</a>${shareBtn('pay')}</div></section>`;
+  }
+  const pair = PAYPAIRS.at(P.i).map(job), picked = P.picks[P.i], win = payWinner(P.i);
+  const card = j => { const e = emp(j.emp); const st = picked ? (j.id === win ? 'right' : j.id === picked ? 'wrong' : '') : ''; return `<button class="paycard ${st}" data-act="paypick" data-id="${j.id}" ${picked ? 'disabled' : ''}><span class="payhead">${logo(e)}<span><b>${esc(j.title)}</b><span class="small muted">${esc(e.name)}, ${esc(j.area)}</span></span></span><span class="payfacts"><span><span class="small muted">Hourly</span><b>${money(j.pay)}</b></span><span><span class="small muted">Hours a week</span><b>${j.hours}</b></span></span>${picked ? `<span class="payweek"><span class="small">${money(j.pay)} × ${j.hours} hours</span><b>${money(wk(j))} a week</b></span>` : ''}</button>`; };
+  const [a, b] = pair, diff = Math.abs(wk(a) - wk(b));
+  return head + `<section class="panel" style="max-width:860px"><div class="small muted">Round ${P.i + 1} of 5</div><h2 style="margin:4px 0 16px">Which pays more each week?</h2>
+    <div class="paypair" role="group" aria-label="Choose a role">${card(a)}<span class="vs" aria-hidden="true">or</span>${card(b)}</div>
+    ${picked ? `<div class="explain" role="status"><b>${picked === win ? 'Correct.' : 'Not this time.'}</b> ${esc(job(win).title)} pays ${money(diff)} more each week${a.pay !== b.pay && (a.pay > b.pay) !== (wk(a) > wk(b)) ? ', even though its hourly rate is lower' : ''}.</div><button class="btn btn-primary" data-act="paynext">${P.i === 4 ? 'See my score' : 'Next round'}</button>` : ''}
+  </section>`;
+}
+ACT.paypick = el => { const P = payState(); P.picks[P.i] = el.dataset.id; render({keepScroll:true}); const n = $('[data-act=paynext]'); if (n) n.focus(); };
+ACT.paynext = () => { const P = payState(); if (P.i === 4){ P.done = true; const right = P.picks.filter((p, i) => p === payWinner(i)).length; finishGame('pay', right * 6); if (right === 5) setTimeout(confetti, 150); } else P.i++; render({keepScroll:true}); const n = $('[data-act=paypick]'); if (n) n.focus(); };
+
+/* ===== Job Scramble ===== */
+const SCRAMBLE = [
+  {w:'ANALYST', s:'TSYLANA', hint:'Works with data to spot trends and explain them'},
+  {w:'DESIGNER', s:'GERNSIDE', hint:'Plans how something looks and how people use it'},
+  {w:'ENGINEER', s:'RINEEGEN', hint:'Designs, builds and fixes machines, systems or structures'},
+  {w:'ACCOUNTANT', s:'TACCNUOTAN', hint:'Keeps the money side of a business accurate'},
+  {w:'TECHNICIAN', s:'NICHECTINA', hint:'Runs and looks after equipment, often in a lab'}
+];
+function scrState(){ if (!S.scr) S.scr = {i:0, hints:[], solved:[], skipped:[], msg:'', done:false}; return S.scr; }
+function scrambleView(){
+  const R = scrState();
+  const head = gameHead('scramble', 'Each set of letters spells a job title. Type your answer. A hint costs 2 points.');
+  const prog = SCRAMBLE.map((_, i) => `<i class="${R.solved.includes(i) ? 'ok' : R.skipped.includes(i) ? 'skip' : i === R.i && !R.done ? 'now' : ''}"></i>`).join('');
+  if (R.done) return head + `<section class="panel" style="max-width:640px"><div class="scrprog" aria-hidden="true">${prog}</div><h2>${R.solved.length} of 5 unscrambled</h2><ul class="small" style="padding-left:18px;line-height:1.7">${SCRAMBLE.map((x, i) => `<li><b>${x.w[0] + x.w.slice(1).toLowerCase()}</b>: ${esc(x.hint.toLowerCase())}${R.solved.includes(i) ? '' : ' <span class="muted">(skipped)</span>'}</li>`).join('')}</ul><div class="btnrow">${backToGames()}${shareBtn('scramble')}</div></section>`;
+  const x = SCRAMBLE.at(R.i); const fresh = R.shown !== R.i; R.shown = R.i;
+  return head + `<section class="panel" style="max-width:640px">
+    <div class="scrprog" aria-hidden="true">${prog}</div>
+    <div class="small muted" style="margin-top:10px">Word ${R.i + 1} of 5. ${x.w.length} letters</div>
+    <div class="scrtiles ${fresh ? 'anim' : ''}" aria-label="Scrambled letters: ${x.s.split('').join(' ')}">${x.s.split('').map(c => `<span>${c}</span>`).join('')}</div>
+    ${R.hints.includes(R.i) ? `<div class="explain" style="margin-bottom:12px"><b>Hint.</b> ${esc(x.hint)}. It starts with ${x.w[0]}.</div>` : ''}
+    <form data-form="scr" class="scrform" novalidate><label for="scr-in" class="sr-only">Your answer</label><input id="scr-in" name="a" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Your answer" value=""><button class="btn btn-primary">Check</button></form>
+    <p role="status" class="small" style="font-weight:700;min-height:1.5em;margin:10px 0">${esc(R.msg)}</p>
+    <div class="btnrow">${R.hints.includes(R.i) ? '' : `<button class="btn btn-ghost" data-act="scrhint">Get a hint</button>`}<button class="btn btn-quiet" data-act="scrskip">Skip this one</button></div>
+  </section>`;
+}
+function scrAdvance(){ const R = scrState(); if (R.i === SCRAMBLE.length - 1){ R.done = true; const pts = R.solved.reduce((s, i) => s + (R.hints.includes(i) ? 4 : 6), 0); finishGame('scramble', Math.max(5, pts)); if (R.solved.length === 5) setTimeout(confetti, 150); } else R.i++; }
+FORM.scr = f => {
+  const R = scrState(); const a = f.a.value.trim().toUpperCase(); const x = SCRAMBLE.at(R.i);
+  if (!a){ R.msg = 'Type a job title first.'; render({keepScroll:true}); $('#scr-in').focus(); return; }
+  if (a === x.w){ R.solved.push(R.i); R.msg = `Yes, ${x.w[0] + x.w.slice(1).toLowerCase()}.`; scrAdvance(); }
+  else R.msg = a.length !== x.w.length ? `Not quite. It has ${x.w.length} letters.` : 'Not quite. Try again.';
+  render({keepScroll:true}); const n = $('#scr-in') || $('#app .btn-primary'); if (n) n.focus();
+};
+ACT.scrhint = () => { const R = scrState(); if (!R.hints.includes(R.i)) R.hints.push(R.i); R.msg = ''; render({keepScroll:true}); $('#scr-in').focus(); };
+ACT.scrskip = () => { const R = scrState(); R.skipped.push(R.i); R.msg = `It was ${SCRAMBLE.at(R.i).w[0] + SCRAMBLE.at(R.i).w.slice(1).toLowerCase()}.`; scrAdvance(); render({keepScroll:true}); const n = $('#scr-in') || $('#app .btn-primary'); if (n) n.focus(); };
+
+/* Keyboard play for Word Hive */
+document.addEventListener('keydown', e => {
+  if (!$('#hivegame') || $('#modal-root').innerHTML || (typeof tourI !== 'undefined' && tourI > -1)) return;
+  if (e.target.matches('input,textarea,select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'Enter' && e.target.closest('button')) return;
+  const k = e.key.length === 1 ? e.key.toUpperCase() : e.key;
+  if (k === 'Enter' || k === 'Backspace' || /^[A-Z]$/.test(k)){ e.preventDefault(); hiveKey(k); }
+});
+
+/* ===== Hub ===== */
+const BOOST_HISTORY = ['2026-11-10','2026-11-11','2026-11-12','2026-11-14','2026-11-15','2026-11-16','2026-11-20','2026-11-21','2026-11-22','2026-11-23'];
+function streakCalendar(){
+  const days = Array.from({length:14}, (_, i) => { const x = new Date(TODAY); x.setDate(x.getDate() - 13 + i); return x; });
+  const iso = x => `${x.getFullYear()}-${String(x.getMonth() + 1).padStart(2, '0')}-${String(x.getDate()).padStart(2, '0')}`;
+  return `<div class="streakcal" role="list" aria-label="Days played in the last two weeks">${days.map(x => { const k = iso(x), isToday = k === '2026-11-24', on = BOOST_HISTORY.includes(k) || (isToday && S.boost.counted); return `<div role="listitem" class="sday ${on ? 'on' : ''} ${isToday ? 'today' : ''}"><span class="small">${'SMTWTFS'[x.getDay()]}</span><i>${on ? icon('check') : ''}</i><span class="sr-only">${fmt(k)}: ${on ? 'played' : 'not played'}${isToday ? ', today' : ''}</span><span class="small muted" aria-hidden="true">${x.getDate()}</span></div>`; }).join('')}</div>`;
+}
+function weekGames(){ return 3 + Object.values(S.boost.played).filter(Boolean).length; }
+function boostHub(){
+  const P = S.boost.played;
+  const played = GAMES.filter(g => P[g.key]).length;
+  const lvl = Math.floor(S.boost.points / 100) + 1;
+  const big = k => { const g = gameInfo(k); return `<article class="gamecard ${P[k] ? 'done' : ''}">${g.isNew ? '<span class="newtag">New</span>' : ''}<div class="gicon hex">${icon(P[k] ? 'check' : g.ic)}</div><h3 style="font-size:1.2rem;margin:4px 0 0">${g.title}</h3><p class="muted small" style="margin:0">${g.desc}</p><p class="small" style="margin:0"><b>${P[k] ? 'Done today' : `${g.pts} points`}</b> <span class="muted">${P[k] ? '' : `About ${g.mins} min`}</span></p><a class="btn ${P[k] ? 'btn-ghost' : 'btn-primary'}" href="#/intern/boost/${k}">${P[k] ? 'See result' : 'Play'}</a></article>`; };
+  const small = g => `<a class="gametile ${P[g.key] ? 'done' : ''}" href="#/intern/boost/${g.key}"><span class="gicon">${icon(P[g.key] ? 'check' : g.ic)}</span><span class="grow"><span class="gt-title"><b>${g.title}</b>${g.isNew ? '<span class="newtag inline">New</span>' : ''}</span><span class="small muted">${g.desc}</span></span><span class="small gt-meta">${P[g.key] ? 'Done' : `${g.pts} pts`}</span></a>`;
+  const wkg = weekGames(), wkTarget = 12;
+  return `<div class="pagehead"><div><h1>Daily Career Boost</h1><p>Ten short games that build workplace know-how. Three are picked for you each day, and every game resets at midnight.</p></div>
+    <div class="streak"><span class="hex">${S.boost.streak}</span><div><b>day streak</b><div class="small muted">${S.boost.points} points. Level ${lvl}</div></div></div></div>
+  <div class="section-head"><h2 style="margin:0">Today's three</h2><span class="small muted">${featuredLeft() ? `${featuredLeft()} left to keep your streak` : 'All done. Your streak is safe.'}</span></div>
+  <div class="gamecards">${FEATURED.map(big).join('')}</div>
+  <div class="grid-2" style="margin-top:20px">
+    <section class="panel"><div class="section-head" style="margin-bottom:10px"><h2 style="margin:0">Your last two weeks</h2><span class="small muted">${S.boost.streak} day streak</span></div>${streakCalendar()}<p class="small muted" style="margin:10px 0 0">Play any game to count the day.</p></section>
+    <section class="panel"><div class="section-head" style="margin-bottom:10px"><h2 style="margin:0">Weekly challenge</h2><span class="chip">${icon('trophy')}+50 points</span></div><p style="margin:0 0 10px">Play ${wkTarget} games before Sunday.</p><div class="meter honey"><i style="width:${Math.min(100, wkg / wkTarget * 100)}%"></i></div><p class="small muted" style="margin:8px 0 0">${wkg >= wkTarget ? 'Challenge complete. Bonus added.' : `${wkg} of ${wkTarget} played this week`}</p></section>
+  </div>
+  <div class="section-head" style="margin-top:24px"><h2 style="margin:0">All games</h2><span class="small muted">${played} of ${GAMES.length} played today</span></div>
+  <div class="gamelib">${GAMES.filter(g => !FEATURED.includes(g.key)).map(small).join('')}</div>
+  <p class="small muted tomorrow">${icon('calendar')}Tomorrow's three: ${TOMORROW.map(k => gameInfo(k).title).join(', ')}.</p>
+  ${boostExtras()}
+  <section class="panel" style="margin-top:20px"><h2>New roles since your last visit</h2><div class="joblist">${liveJobs().filter(j => daysSince(j.posted) <= 5).slice(0,2).map(j => jobRow(j, {base:'#/intern/jobs', showMatch:true})).join('')}</div></section>`;
+}
 
 /* ---------- Employer area ---------- */
 const ME_EMP = () => emp(DEMO_PEOPLE.employer);
@@ -3460,8 +4045,18 @@ function reportsView(){
   </div>
   <section class="panel" style="margin-top:20px"><h2>Funnel this cohort</h2>${funnelChart([['Signed up',527],['Completed profile and CV',402],['Applied for at least one role',288],['Interviewed',131],['Placed',59]])}<details style="margin-top:10px"><summary class="small" style="cursor:pointer;color:var(--link);font-weight:700">Show as a table</summary><div class="table-wrap"><table class="table"><thead><tr><th>Stage</th><th class="num">People</th><th class="num">Share of sign-ups</th></tr></thead><tbody>
     ${[['Signed up',527],['Completed profile and CV',402],['Applied for at least one role',288],['Interviewed',131],['Placed',59]].map(([s,n]) => `<tr><td>${s}</td><td class="num">${n}</td><td class="num">${Math.round(n / 527 * 100)}%</td></tr>`).join('')}
-  </tbody></table></div></details><p class="small muted" style="margin:10px 0 0">Sample figures for the demo.</p></section>`;
+  </tbody></table></div></details><p class="small muted" style="margin:10px 0 0">Sample figures for the demo.</p></section>
+  <section class="panel" style="margin-top:20px" aria-labelledby="eng-h"><div class="section-head"><h2 id="eng-h" style="margin:0">Daily Career Boost this week</h2><span class="small muted">Monday 23 to Tuesday 24 November</span></div>
+    <div class="kpis" style="margin:12px 0 18px">
+      <div class="kpi"><div class="v" data-count="148">148</div><div class="l">Interns who played</div><div class="d">69% of active interns</div></div>
+      <div class="kpi"><div class="v" data-count="1236">1236</div><div class="l">Games played</div></div>
+      <div class="kpi"><div class="v">3.4</div><div class="l">Average streak, in days</div></div>
+      <div class="kpi"><div class="v" data-count="37">37</div><div class="l">On a 7-day streak or longer</div></div>
+    </div>
+    <h3 style="font-size:1rem;margin:0 0 10px">Games played, by game</h3>${hbars(BOOST_PLAYS)}
+    <p class="small muted" style="margin:12px 0 0">Seven games launched this week, so their numbers are still building. Sample figures for the demo.</p></section>`;
 }
+const BOOST_PLAYS = [{s:'Career Wordle',n:312},{s:'Word Hive',n:268},{s:'Career Connections',n:221},{s:'Workplace Quiz',n:164},{s:'Inbox Rush',n:92},{s:'Pay Check',n:61},{s:'STAR Builder',n:48},{s:'Spot the Slip',n:37},{s:'Job Scramble',n:21},{s:'Skill Match',n:12}];
 ACT.csv = () => {
   const lines = ['Section,Label,Value', ...WEEKLY_APPS.map(x => `Applications per week,${x.w},${x.n}`), ...PLACEMENTS_BY_SECTOR.map(x => `Placements by sector,${x.s},${x.n}`)];
   const blob = new Blob([lines.join('\n')], {type:'text/csv'});
