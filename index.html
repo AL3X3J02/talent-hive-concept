@@ -1,0 +1,2207 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talent Hive redesign concept</title>
+<meta name="description" content="A design concept by Alexej Zhukov for a redesigned Talent Hive internship platform in Cambridgeshire and Peterborough. Sample data only; not an official CPCA website.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Talent Hive redesign concept">
+<meta property="og:description" content="A clickable design concept by Alexej Zhukov: a jobs board, applicant pipeline and approvals for interns, employers and the CPCA team. Sample data only.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://al3x3j02.github.io/talent-hive-concept/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E2A47;
+  --ink-2:#2C4560;
+  --muted:#56677B;
+  --blue:#1E9BD7;
+  --link:#0B78B0;
+  --blue-50:#E8F5FC;
+  --honey:#F2A93B;
+  --honey-50:#FEF3E1;
+  --honey-ink:#8A5200;
+  --mint:#2F9E6E;
+  --mint-50:#E4F4EC;
+  --mint-ink:#1D6E4B;
+  --red:#B8392F;
+  --red-50:#FBEAE8;
+  --surface:#F6F8FB;
+  --surface-2:#EDF1F6;
+  --line:#DCE3EC;
+  --white:#FFFFFF;
+  --focus:0 0 0 3px #fff,0 0 0 6px var(--blue);
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r-panel:16px;--r-card:12px;--r-ctl:10px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--body);font-size:16px;line-height:1.55;color:var(--ink);background:var(--surface);}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.15;margin:0 0 .5em;letter-spacing:-.01em;color:var(--ink)}
+h1{font-size:clamp(2rem,4.2vw,3.25rem);font-weight:700;letter-spacing:-.025em}
+h2{font-size:1.6rem;font-weight:700}
+h3{font-size:1.2rem;font-weight:650}
+h4{font-size:1rem;font-weight:650}
+p{margin:0 0 1em}
+a{color:var(--link);text-underline-offset:3px}
+a:hover{color:var(--ink)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:none;box-shadow:var(--focus);border-radius:6px}
+[tabindex="-1"]:focus{outline:none;box-shadow:none}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:#fff;padding:10px 14px;border-radius:8px;z-index:100}
+.skip:focus{top:52px}
+.muted{color:var(--muted)}
+.small{font-size:.875rem}
+.nowrap{white-space:nowrap}
+
+/* Demo bar */
+.demobar{position:sticky;top:0;z-index:50;background:var(--ink);color:#fff;font-size:.875rem;display:flex;align-items:center;gap:12px;padding:6px 16px;flex-wrap:wrap}
+.demobar strong{font-family:var(--display);font-weight:600}
+.demobar .note{opacity:.8}
+.demobar .roles{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap;align-items:center}
+.demobar .roles span{opacity:.8;margin-right:4px}
+.demobar button{background:transparent;border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:999px;padding:3px 12px;cursor:pointer}
+.demobar button[aria-pressed="true"]{background:var(--honey);border-color:var(--honey);color:var(--ink);font-weight:700}
+.demobar button:hover{border-color:#fff}
+.demobar .reset{border-style:dashed}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--r-ctl);padding:10px 18px;font-weight:700;border:1.5px solid transparent;cursor:pointer;text-decoration:none;line-height:1.2;transition:background .15s,border-color .15s}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-primary{background:var(--ink);color:#fff}
+.btn-primary:hover{background:#18406A;color:#fff}
+.btn-honey{background:var(--honey);color:var(--ink)}
+.btn-honey:hover{background:#E59A27;color:var(--ink)}
+.btn-ghost{background:var(--white);border-color:var(--line);color:var(--ink)}
+.btn-ghost:hover{border-color:var(--ink-2);color:var(--ink)}
+.btn-quiet{background:transparent;color:var(--link);padding:8px 10px}
+.btn-quiet:hover{background:var(--blue-50);color:var(--ink)}
+.btn-danger{background:var(--white);border-color:#E7B9B4;color:var(--red)}
+.btn-sm{padding:6px 12px;font-size:.875rem;border-radius:8px}
+.btn-lg{padding:14px 22px;font-size:1.05rem}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.icon-btn{background:transparent;border:0;padding:8px;border-radius:8px;cursor:pointer;color:var(--ink-2);display:inline-flex}
+.icon-btn:hover{background:var(--surface-2)}
+.icon-btn svg{width:20px;height:20px}
+.icon-btn[aria-pressed="true"] svg{fill:var(--honey);stroke:var(--honey-ink)}
+
+/* Forms */
+label{font-weight:700;display:block;margin-bottom:6px}
+.hint{font-weight:400;color:var(--muted);font-size:.875rem;display:block;margin-top:2px}
+.field{margin-bottom:18px}
+input[type=text],input[type=search],input[type=email],input[type=number],input[type=date],select,textarea{width:100%;background:var(--white);border:1.5px solid #B9C6D4;border-radius:var(--r-ctl);padding:10px 12px;min-height:44px}
+textarea{min-height:110px;resize:vertical}
+input:focus,select:focus,textarea:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(30,155,215,.35);outline:none}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--ink)}
+.row{display:flex;gap:16px}
+.row>*{flex:1}
+.err{color:var(--red);font-weight:700;font-size:.9rem;margin-top:6px}
+
+/* Chips and status */
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);font-size:.82rem;line-height:1.5;white-space:nowrap}
+.chip svg{width:14px;height:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.status{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:.82rem;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.status::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.st-applied,.st-new,.st-live{background:var(--blue-50);color:#0A5F8C}
+.st-viewed{background:#EEF2F7;color:var(--ink-2)}
+.st-shortlisted,.st-pending{background:var(--honey-50);color:var(--honey-ink)}
+.st-interview{background:#FFE7C2;color:#7A4600}
+.st-offer,.st-placed,.st-approved{background:var(--mint-50);color:var(--mint-ink)}
+.st-notprogressed,.st-returned,.st-closed{background:var(--red-50);color:var(--red)}
+.st-draft{background:#EEF2F7;color:var(--muted)}
+.tag-new{background:var(--honey);color:var(--ink);font-weight:700;font-size:.75rem;padding:1px 8px;border-radius:999px}
+
+/* Hexagon */
+.hex{clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0 50%)}
+
+/* Public header */
+.pub-header{background:var(--white);border-bottom:1px solid var(--line)}
+.pub-header .inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:24px;padding:14px 24px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.brand .mark{width:34px;height:30px;background:var(--honey);display:grid;place-items:center}
+.brand .mark i{width:18px;height:16px;background:var(--ink);display:block}
+.brand b{font-family:var(--display);font-size:1.25rem;letter-spacing:-.02em}
+.concept-tag{font-family:var(--body);font-size:.7rem;font-weight:700;letter-spacing:0;background:var(--honey-50);color:var(--honey-ink);border:1px solid #F6D9A8;border-radius:999px;padding:1px 7px;vertical-align:3px}
+.demobar .about{border:0;text-decoration:underline;text-underline-offset:3px;padding:3px 4px}
+.brand small{display:block;font-size:.72rem;color:var(--muted);line-height:1.1;font-weight:400}
+.pub-nav{display:flex;gap:4px;margin-left:12px}
+.pub-nav a{padding:8px 12px;border-radius:8px;text-decoration:none;color:var(--ink-2);font-weight:700}
+.pub-nav a:hover,.pub-nav a[aria-current="page"]{background:var(--surface-2);color:var(--ink)}
+.pub-header .actions{margin-left:auto;display:flex;gap:8px}
+
+/* Hero */
+.hero{background:var(--white);border-bottom:1px solid var(--line);overflow:hidden;position:relative}
+.hero .inner{max-width:1200px;margin:0 auto;padding:56px 24px 64px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:48px;align-items:center}
+.hero h1{max-width:15ch;margin-bottom:.35em;text-wrap:balance}
+.hero .lede{font-size:1.15rem;color:var(--ink-2);max-width:46ch}
+.searchbar{display:flex;gap:8px;background:var(--surface);padding:8px;border-radius:14px;border:1.5px solid var(--line);margin-top:28px;max-width:600px}
+.searchbar input,.searchbar select{border:0;background:var(--white);min-height:48px}
+.searchbar select{max-width:190px}
+.searchbar .btn{min-height:48px;white-space:nowrap}
+.hero .closing{margin-top:16px;color:var(--muted);font-size:.95rem}
+.comb{position:relative;height:420px}
+.comb button{position:absolute;width:150px;height:132px;border:0;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 22px;font-family:var(--display);font-weight:650;font-size:1rem;line-height:1.15;transition:transform .2s}
+.comb button small{font-family:var(--body);font-weight:400;font-size:.85rem;margin-top:4px}
+.comb button:hover{transform:scale(1.05)}
+.comb button:focus-visible{box-shadow:none;outline:3px solid var(--blue);outline-offset:-10px}
+.comb .c-ink{background:var(--ink);color:#fff}
+.comb .c-honey{background:var(--honey);color:var(--ink)}
+.comb .c-blue{background:var(--blue-50);color:var(--ink)}
+.comb .c-line{background:var(--surface-2);color:var(--ink)}
+.comb .c-mint{background:var(--mint-50);color:var(--ink)}
+.comb .label{position:absolute;left:0;bottom:-6px;font-size:.9rem;color:var(--muted)}
+
+/* Public sections */
+.section{max-width:1200px;margin:0 auto;padding:56px 24px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:20px}
+.section-head p{margin:0;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
+.steps li{list-style:none;position:relative;padding-top:56px}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;top:0;left:0;width:44px;height:40px;background:var(--honey);color:var(--ink);font-family:var(--display);font-weight:700;display:grid;place-items:center;clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0 50%)}
+.steps{padding:0;margin:0}
+.employer-band{background:var(--ink);color:#fff}
+.employer-band .section{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center}
+.employer-band h2{color:#fff;font-size:2rem}
+.employer-band p{color:#D4DEEA}
+.employer-band ul{margin:0;padding:0;list-style:none;display:grid;gap:14px}
+.employer-band li{display:flex;gap:12px;align-items:flex-start}
+.employer-band li svg{flex:none;width:22px;height:22px;stroke:var(--honey);margin-top:2px}
+.pub-footer{border-top:1px solid var(--line);background:var(--white)}
+.pub-footer .section{padding:32px 24px;display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;font-size:.9rem;color:var(--muted)}
+
+/* Job rows */
+.joblist{display:flex;flex-direction:column;gap:10px}
+.jobrow{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:16px;align-items:start;background:var(--white);border:1px solid var(--line);border-radius:var(--r-card);padding:16px 18px;cursor:pointer;text-align:left;width:100%}
+.jobrow:hover{border-color:#9FB2C6}
+.jobrow h3{font-size:1.1rem;margin:0 0 2px}
+.jobrow h3 a{color:var(--ink);text-decoration:none}
+.jobrow h3 a::after{content:"";position:absolute;inset:0}
+.jobrow{position:relative}
+.jobrow .emp{color:var(--ink-2);margin-bottom:8px}
+.jobrow .jside{display:flex;flex-direction:column;align-items:flex-end;gap:8px;position:relative;z-index:1}
+.logo{width:52px;height:46px;display:grid;place-items:center;font-family:var(--display);font-weight:700;color:#fff;font-size:1rem;flex:none}
+.logo.lg{width:76px;height:68px;font-size:1.4rem}
+.match{font-size:.82rem;font-weight:700;color:var(--mint-ink)}
+
+/* App shell */
+.shell{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:calc(100vh - 38px);background:linear-gradient(to right,#fff 251px,var(--line) 251px,var(--line) 252px,var(--surface) 252px)}
+.side{background:var(--white);border-right:1px solid var(--line);padding:18px 14px;position:sticky;top:38px;height:calc(100vh - 38px);overflow:auto;display:flex;flex-direction:column}
+.side .brand{padding:4px 8px 18px}
+.side nav{display:flex;flex-direction:column;gap:2px}
+.side nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;text-decoration:none;color:var(--ink-2);font-weight:700}
+.side nav a svg{width:20px;height:20px;flex:none}
+.side nav a:hover{background:var(--surface)}
+.side nav a[aria-current="page"]{background:var(--ink);color:#fff}
+.side nav a .count{margin-left:auto;background:var(--honey);color:var(--ink);border-radius:999px;font-size:.75rem;padding:0 8px}
+.side nav a[aria-current="page"] .count{background:#fff}
+.side .who{margin-top:auto;display:flex;gap:10px;align-items:center;padding:12px 8px 4px;border-top:1px solid var(--line)}
+.avatar{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.9rem;flex:none}
+.avatar.lg{width:64px;height:64px;font-size:1.3rem}
+.who b{display:block;line-height:1.2}
+.who div span{font-size:.82rem;color:var(--muted)}
+.main{padding:28px 36px 64px;max-width:1240px;width:100%}
+.pagehead{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.pagehead h1{font-size:2rem;margin:0}
+.pagehead p{margin:4px 0 0;color:var(--muted)}
+.back{display:inline-flex;align-items:center;gap:6px;margin-bottom:12px;font-weight:700;text-decoration:none}
+.back svg{width:18px;height:18px}
+
+/* Panels */
+.panel{background:var(--white);border:1px solid var(--line);border-radius:var(--r-panel);padding:22px}
+.panel h2{font-size:1.2rem}
+.panel+.panel{margin-top:20px}
+.grid-2>.panel,.grid-3>.panel,.grid-main>.panel,.grid-main>aside.panel{margin-top:0}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.grid-main{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:20px;align-items:start}
+.stack>*+*{margin-top:20px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:20px}
+.kpi{background:var(--white);border:1px solid var(--line);border-radius:var(--r-card);padding:16px 18px}
+.kpi .v{font-family:var(--display);font-size:2rem;font-weight:700;line-height:1.1}
+.kpi .l{color:var(--muted);font-size:.9rem}
+.kpi .d{font-size:.82rem;color:var(--mint-ink);font-weight:700}
+
+/* Next step banner */
+.nextstep{background:var(--ink);color:#fff;border-radius:var(--r-panel);padding:22px 24px;display:flex;gap:20px;align-items:center;margin-bottom:20px;position:relative;overflow:hidden}
+.nextstep h2{color:#fff;margin:0 0 4px;font-size:1.3rem}
+.nextstep p{margin:0;color:#D4DEEA}
+.nextstep .btn{margin-left:auto;flex:none}
+.nextstep .hexdeco{width:64px;height:56px;background:var(--honey);flex:none;display:grid;place-items:center}
+.nextstep .hexdeco svg{width:26px;height:26px;stroke:var(--ink)}
+
+/* Progress */
+.meter{height:10px;background:var(--surface-2);border-radius:999px;overflow:hidden}
+.meter i{display:block;height:100%;background:var(--mint);border-radius:999px;transition:width .3s}
+.meter.honey i{background:var(--honey)}
+
+/* Tables */
+.table{width:100%;border-collapse:collapse;font-size:.95rem}
+.table th{text-align:left;font-weight:700;color:var(--muted);font-size:.85rem;padding:10px 12px;border-bottom:1.5px solid var(--line)}
+.table td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.table tr:last-child td{border-bottom:0}
+.table .num{text-align:right;font-variant-numeric:tabular-nums}
+.table-wrap{overflow-x:auto;position:relative}
+
+/* Jobs board */
+.board{display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;align-items:start}
+.filters{background:var(--white);border:1px solid var(--line);border-radius:var(--r-panel);padding:18px;position:sticky;top:60px}
+.filters fieldset{border:0;padding:0;margin:0 0 18px}
+.filters legend{font-weight:700;margin-bottom:8px}
+.filters .check{margin-bottom:6px}
+.resultbar{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap}
+.resultbar select{width:auto;min-height:40px}
+.boardsearch{display:flex;gap:8px;margin-bottom:16px}
+.boardsearch input{min-height:48px}
+.empty{text-align:center;padding:40px 20px;background:var(--white);border:1.5px dashed var(--line);border-radius:var(--r-panel)}
+
+/* Job detail */
+.jobhead{display:flex;gap:20px;align-items:flex-start;margin-bottom:20px}
+.jobhead h1{font-size:2.2rem;margin-bottom:4px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;margin-bottom:24px}
+.facts div{background:var(--white);padding:14px 16px}
+.facts dt{font-size:.82rem;color:var(--muted)}
+.facts dd{margin:0;font-weight:700}
+.prose h2{font-size:1.25rem;margin-top:1.4em}
+.prose ul{padding-left:1.2em}
+.prose li{margin-bottom:6px}
+.applybox{position:sticky;top:60px}
+.applybox .deadline{font-size:.95rem;margin:10px 0 16px}
+
+/* Modal / drawer */
+.overlay{position:fixed;inset:0;background:rgba(14,42,71,.45);z-index:80;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:var(--white);border-radius:var(--r-panel);width:min(640px,100%);max-height:calc(100vh - 40px);overflow:auto;padding:26px;box-shadow:0 20px 60px rgba(14,42,71,.25)}
+.modal header,.drawer header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+.modal header>div,.drawer header>div{min-width:0}
+.modal h2{margin:0}
+.modal footer,.drawer footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;flex-wrap:wrap}
+.drawer-ov{justify-content:flex-end;padding:0;align-items:stretch}
+.drawer{background:var(--white);width:min(560px,100%);height:100%;overflow:auto;padding:26px;box-shadow:-10px 0 40px rgba(14,42,71,.2)}
+.cvchip{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:var(--r-card);padding:12px;background:var(--surface)}
+.cvchip svg{width:28px;height:28px;stroke:var(--link)}
+
+/* Toast */
+#toast-root{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:90;display:flex;flex-direction:column;gap:8px;align-items:center}
+.toast{background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;display:flex;gap:10px;align-items:center;box-shadow:0 10px 30px rgba(14,42,71,.3);font-weight:700;animation:pop .25s ease-out}
+.toast svg{width:20px;height:20px;stroke:var(--honey)}
+@keyframes pop{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+
+/* Tracker */
+.track{display:flex;gap:0;margin:14px 0 4px;list-style:none;padding:0}
+.track li{flex:1 1 0;min-width:0;white-space:nowrap;position:relative;text-align:center;font-size:.78rem;color:var(--muted);padding-top:22px}
+.track li::before{content:"";position:absolute;top:6px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--white);border:2px solid #B9C6D4;z-index:1}
+.track li::after{content:"";position:absolute;top:11px;left:-50%;width:100%;height:2px;background:#D2DBE6}
+.track li:first-child::after{display:none}
+.track li.done{color:var(--ink)}
+.track li.done::before{background:var(--mint);border-color:var(--mint)}
+.track li.done::after{background:var(--mint)}
+.track li.now{color:var(--ink);font-weight:700}
+.track li.now::before{background:var(--honey);border-color:var(--honey-ink);width:16px;height:16px;margin-left:-8px;top:4px}
+.appcard{background:var(--white);border:1px solid var(--line);border-radius:var(--r-card);padding:18px 20px}
+.appcard+.appcard{margin-top:12px}
+.appcard .top{display:flex;gap:14px;align-items:flex-start}
+.appcard .top .status{margin-left:auto}
+.timeline{list-style:none;padding:0;margin:12px 0 0;border-left:2px solid var(--line);padding-left:16px}
+.timeline li{position:relative;margin-bottom:10px;font-size:.92rem}
+.timeline li::before{content:"";position:absolute;left:-22px;top:7px;width:10px;height:10px;border-radius:50%;background:var(--link)}
+
+/* CV builder */
+.cvgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+.cvpaper{background:var(--white);border:1px solid var(--line);border-radius:6px;padding:34px 36px;box-shadow:0 2px 0 var(--line);position:sticky;top:60px;font-size:.92rem}
+.cvpaper h2{font-size:1.6rem;margin-bottom:2px}
+.cvpaper h3{font-size:.95rem;border-bottom:2px solid var(--honey);padding-bottom:4px;margin:18px 0 8px}
+.cvpaper .role{font-weight:700}
+.cvpaper .badges{display:flex;flex-wrap:wrap;gap:6px}
+.cvexp{border:1px solid var(--line);border-radius:var(--r-card);padding:14px;margin-bottom:12px;background:var(--surface)}
+
+/* Badges path */
+.path{display:flex;align-items:center;gap:0;flex-wrap:wrap;margin:10px 0}
+.node{display:flex;flex-direction:column;align-items:center;gap:8px;width:130px;text-align:center;font-size:.85rem}
+.node .hex{width:76px;height:68px;display:grid;place-items:center;background:var(--surface-2);color:var(--muted)}
+.node .hex svg{width:28px;height:28px}
+.node.earned .hex{background:var(--mint);color:#fff}
+.node.next .hex{background:var(--honey);color:var(--ink)}
+.link{flex:1;min-width:20px;height:3px;background:var(--line);margin-top:-36px}
+.link.done{background:var(--mint)}
+
+/* Games */
+.boosthead{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.streak{display:flex;align-items:center;gap:10px;background:var(--honey-50);border-radius:var(--r-card);padding:10px 16px}
+.streak .hex{width:44px;height:40px;background:var(--honey);display:grid;place-items:center;font-family:var(--display);font-weight:800}
+.gamecards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.gamecard{background:var(--white);border:1px solid var(--line);border-radius:var(--r-panel);padding:20px;display:flex;flex-direction:column;gap:8px}
+.gamecard .gicon{width:52px;height:46px;display:grid;place-items:center;background:var(--blue-50)}
+.gamecard .gicon svg{width:24px;height:24px;stroke:var(--ink)}
+.gamecard .btn{margin-top:auto;align-self:flex-start}
+.gamecard.done .gicon{background:var(--mint-50)}
+.wordle{display:flex;flex-direction:column;align-items:center;gap:6px;margin:12px 0 18px}
+.wrow{display:flex;gap:2px}
+.wrow:nth-child(even){margin-left:34px}
+.tile{width:62px;height:56px;background:#DCE3EC;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--ink);text-transform:uppercase}
+.tile.filled{background:#B9C6D4}
+.tile.correct{background:var(--mint);color:#fff}
+.tile.present{background:var(--honey);color:var(--ink)}
+.tile.absent{background:#8C9AAB;color:#fff}
+.kbd{display:flex;flex-direction:column;gap:6px;align-items:center;max-width:520px;margin:0 auto}
+.kbd div{display:flex;gap:5px;width:100%;justify-content:center}
+.kbd button{flex:1;max-width:44px;min-height:50px;border:0;border-radius:8px;background:var(--surface-2);font-weight:700;cursor:pointer}
+.kbd button.wide{max-width:76px;font-size:.8rem}
+.kbd button.correct{background:var(--mint);color:#fff}
+.kbd button.present{background:var(--honey)}
+.kbd button.absent{background:#8C9AAB;color:#fff}
+.legend{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;font-size:.85rem;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:12px;margin-right:6px;vertical-align:-1px}
+.quizopt{display:block;width:100%;text-align:left;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-ctl);padding:14px 16px;margin-bottom:10px;cursor:pointer;font-weight:700}
+.quizopt:hover{border-color:var(--ink-2)}
+.quizopt.right{border-color:var(--mint);background:var(--mint-50)}
+.quizopt.wrong{border-color:var(--red);background:var(--red-50)}
+.quizopt[disabled]{cursor:default}
+.explain{background:var(--surface);border-radius:var(--r-ctl);padding:14px 16px;margin:8px 0 14px}
+.matchgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px 28px}
+.matchbtn{display:block;width:100%;text-align:left;background:var(--white);border:1.5px solid var(--line);border-radius:var(--r-ctl);padding:14px;cursor:pointer;font-weight:700;margin-bottom:10px}
+.matchbtn[aria-pressed="true"]{border-color:var(--ink);background:var(--blue-50)}
+.matchbtn.paired{border-color:var(--mint);background:var(--mint-50);cursor:default}
+.matchbtn.shake{animation:shake .3s}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+/* Messages */
+.inbox{display:grid;grid-template-columns:320px minmax(0,1fr);background:var(--white);border:1px solid var(--line);border-radius:var(--r-panel);min-height:520px;overflow:hidden}
+.threads{border-right:1px solid var(--line);overflow:auto}
+.thread{display:block;width:100%;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line);padding:14px 16px;cursor:pointer}
+.thread:hover{background:var(--surface)}
+.thread[aria-current="true"]{background:var(--blue-50)}
+.thread b{display:block}
+.thread .sub{font-size:.88rem;color:var(--ink-2)}
+.thread .unread{width:9px;height:9px;border-radius:50%;background:var(--blue);display:inline-block;margin-right:6px}
+.conv{display:flex;flex-direction:column}
+.conv header{padding:16px 20px;border-bottom:1px solid var(--line)}
+.conv .msgs{flex:1;padding:20px;display:flex;flex-direction:column;gap:12px;overflow:auto;max-height:420px}
+.msg{max-width:78%;background:var(--surface);border-radius:14px;padding:10px 14px}
+.msg.me{align-self:flex-end;background:var(--ink);color:#fff}
+.msg .t{font-size:.75rem;opacity:.75;margin-top:4px}
+.conv form{display:flex;gap:8px;padding:14px;border-top:1px solid var(--line)}
+.conv form input{min-height:44px}
+
+/* Pipeline */
+.kanban{position:relative;display:grid;grid-template-columns:repeat(5,minmax(200px,1fr));gap:14px;overflow-x:auto;padding-bottom:8px}
+.col{background:var(--surface-2);border-radius:var(--r-card);padding:12px;min-height:300px}
+.col h3{font-size:.95rem;display:flex;justify-content:space-between;margin-bottom:10px}
+.col.over{outline:2px dashed var(--blue);outline-offset:-2px}
+.cand{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;cursor:grab}
+.cand:active{cursor:grabbing}
+.cand .nm{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.cand .nm b{line-height:1.2}
+.cand select{min-height:34px;padding:4px 8px;font-size:.85rem;margin-top:8px}
+.cand .open{background:none;border:0;padding:0;color:var(--link);font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+
+/* Stepper */
+.stepper{display:flex;gap:8px;margin-bottom:22px;list-style:none;padding:0;flex-wrap:wrap}
+.stepper li{flex:1;min-width:120px;border-top:4px solid var(--line);padding-top:8px;font-size:.9rem;color:var(--muted)}
+.stepper li.done{border-color:var(--mint);color:var(--ink)}
+.stepper li.now{border-color:var(--ink);color:var(--ink);font-weight:700}
+.preview-label{font-size:.85rem;color:var(--muted);margin-bottom:8px}
+.preview-frame{border:1.5px dashed #B9C6D4;border-radius:var(--r-panel);padding:18px;background:var(--surface)}
+
+/* Charts */
+.chart svg{width:100%;height:auto;display:block}
+.chart text{font-family:var(--body);fill:var(--muted);font-size:14px}
+.chart .val{fill:var(--ink);font-weight:700}
+.bar-h{display:grid;grid-template-columns:150px 1fr 40px;gap:10px;align-items:center;margin-bottom:10px;font-size:.92rem}
+.bar-h .b{height:14px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.bar-h .b i{display:block;height:100%;background:var(--ink);border-radius:4px}
+.bar-h .n{font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+
+/* Checklist */
+.checklist{list-style:none;padding:0;margin:0}
+.checklist li{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}
+.checklist li:last-child{border:0}
+.checklist svg{width:20px;height:20px;flex:none;margin-top:2px}
+.ok svg{stroke:var(--mint)}
+.bad svg{stroke:var(--red)}
+
+.tabs{display:flex;gap:4px;border-bottom:1.5px solid var(--line);margin-bottom:18px}
+.tabs button{background:none;border:0;padding:10px 14px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1.5px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-color:var(--ink)}
+
+.listitem{display:flex;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.listitem:last-child{border-bottom:0}
+.listitem .grow{flex:1;min-width:0}
+.listitem .date{width:56px;height:50px;flex:none;background:var(--blue-50);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:var(--display);line-height:1}
+.listitem .date b{font-size:1.2rem}
+.listitem .date span{font-size:.75rem}
+
+/* Mobile nav */
+.mobnav{display:none}
+
+@media (max-width:1080px){
+  .shell{grid-template-columns:minmax(0,1fr);background:var(--surface)}
+  .side{display:none}
+  .mobnav{display:flex;position:sticky;top:38px;z-index:40;background:var(--white);border-bottom:1px solid var(--line);overflow-x:auto;gap:4px;padding:8px 10px;align-items:center}
+  .mobnav .brand{margin-right:6px}
+  .mobnav .brand b,.mobnav .brand small{display:none}
+  .mobnav a{white-space:nowrap;padding:8px 12px;border-radius:999px;text-decoration:none;color:var(--ink-2);font-weight:700;font-size:.92rem}
+  .mobnav a[aria-current="page"]{background:var(--ink);color:#fff}
+  .main{padding:20px 18px 64px}
+  .grid-main,.cvgrid{grid-template-columns:minmax(0,1fr)}
+  .cvpaper,.applybox{position:static}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .board{grid-template-columns:minmax(0,1fr)}
+  .filters{position:static}
+  .hero .inner{grid-template-columns:1fr;padding-top:36px}
+  .comb{height:300px;transform:scale(.72);transform-origin:left top;margin-bottom:-90px}
+  .employer-band .section{grid-template-columns:1fr}
+}
+@media (max-width:720px){
+  .demobar{position:relative;padding:6px 10px;gap:8px}
+  .demobar .note,.demobar .roles span{display:none}
+  .demobar .roles{margin-left:0}
+  .demobar button{padding:2px 9px;font-size:.8rem}
+  .mobnav{top:0}
+  .side,.applybox,.filters{top:0}
+  .pub-header .actions .btn-primary{display:none}
+  .brand small{display:none}
+  .track li{font-size:0}
+  .track li.now{font-size:.78rem}
+  .pub-nav{display:none}
+  .pub-header .inner{padding:12px 16px}
+  .searchbar{flex-direction:column}
+  .searchbar select{max-width:none}
+  .steps{grid-template-columns:1fr}
+  .grid-2,.grid-3,.gamecards{grid-template-columns:1fr}
+  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .jobrow{grid-template-columns:44px minmax(0,1fr)}
+  .jobrow .jside{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between}
+  .logo{width:44px;height:40px;font-size:.85rem}
+  .inbox{grid-template-columns:1fr}
+  .threads{border-right:0;border-bottom:1px solid var(--line);max-height:220px}
+  .tile{width:50px;height:46px;font-size:1.25rem}
+  .wrow:nth-child(even){margin-left:26px}
+  .nextstep{flex-direction:column;align-items:flex-start}
+  .nextstep .btn{margin-left:0}
+  .row{flex-direction:column;gap:0}
+  .matchgrid{grid-template-columns:1fr}
+  .jobhead h1{font-size:1.7rem}
+  .bar-h{grid-template-columns:110px 1fr 34px}
+  .section{padding:40px 18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+@media print{
+  body.print-cv *{visibility:hidden}
+  body.print-cv #cv-preview,body.print-cv #cv-preview *{visibility:visible}
+  body.print-cv #cv-preview{position:absolute;left:0;top:0;width:100%;border:0;box-shadow:none}
+}
+
+</style>
+</head>
+<body>
+<div class="demobar" role="region" aria-label="Demo controls">
+  <strong>Concept demo</strong><span class="note">By Alexej Zhukov. Sample data, not a real job board.</span><button class="about" data-act="about">About</button>
+  <div class="roles"><span>View as</span>
+    <button data-act="role" data-role="visitor" aria-pressed="true">Visitor</button>
+    <button data-act="role" data-role="intern" aria-pressed="false">Intern</button>
+    <button data-act="role" data-role="employer" aria-pressed="false">Employer</button>
+    <button data-act="role" data-role="cpca" aria-pressed="false">CPCA team</button>
+    <button class="reset" data-act="reset">Reset data</button>
+  </div>
+</div>
+<div id="app"></div>
+<div id="modal-root"></div>
+<div id="toast-root" aria-live="polite"></div>
+<script>
+/* ---------- Sample data (all organisations and people are invented) ---------- */
+const TODAY = new Date('2026-11-24T09:00:00');
+const NLW = 12.71; // National Living Wage from April 2026
+
+const SECTORS = [
+  {id:'digital', name:'Digital and tech'},
+  {id:'marketing', name:'Marketing and media'},
+  {id:'construction', name:'Construction'},
+  {id:'education', name:'Education'},
+  {id:'health', name:'Health and care'},
+  {id:'business', name:'Business and finance'},
+  {id:'engineering', name:'Engineering'},
+  {id:'charity', name:'Charity'},
+  {id:'facilities', name:'Facilities'},
+  {id:'science', name:'Science'}
+];
+const AREAS = ['Cambridge','Peterborough','Huntingdon','Ely','St Neots','Wisbech','March','St Ives','Northstowe','Alconbury Weald'];
+const PROGRAMMES = ['Internship','Apprenticeship','Work experience'];
+
+const seedEmployers = () => ({
+  e1:{id:'e1',name:'Fenlight Digital',sector:'digital',town:'Cambridge',color:'#0E2A47',initials:'FD',verified:true,size:'24 staff',contact:'Priya Shah',about:'A web and app studio building digital services for councils, charities and growing local businesses.'},
+  e2:{id:'e2',name:'Ouse Valley Housing',sector:'business',town:'Huntingdon',color:'#2F7F9E',initials:'OV',verified:true,size:'310 staff',contact:'Tom Reeve',about:'A housing association providing 6,000 affordable homes across Huntingdonshire.'},
+  e3:{id:'e3',name:'Brightmark Media',sector:'marketing',town:'Peterborough',color:'#B4552E',initials:'BM',verified:true,size:'12 staff',contact:'Leah Morgan',about:'A content agency making video, social and campaign work for regional brands.'},
+  e4:{id:'e4',name:'Granta Bioscience',sector:'science',town:'Cambridge',color:'#2F9E6E',initials:'GB',verified:true,size:'85 staff',contact:'Dr Ana Ruiz',about:'A research lab developing diagnostic tests, based on the Cambridge Science Park.'},
+  e5:{id:'e5',name:'Nene Build Group',sector:'construction',town:'Peterborough',color:'#6B4E9B',initials:'NB',verified:true,size:'140 staff',contact:'Gary Holt',about:'A regional contractor building schools, homes and community buildings.'},
+  e6:{id:'e6',name:'Isle of Ely Learning Trust',sector:'education',town:'Ely',color:'#8A6A1F',initials:'IE',verified:true,size:'420 staff',contact:'Megan Price',about:'A trust of seven primary and secondary schools in East Cambridgeshire.'},
+  e7:{id:'e7',name:'Wisbech Community Larder',sector:'charity',town:'Wisbech',color:'#A13D63',initials:'WC',verified:true,size:'9 staff, 60 volunteers',contact:'Femi Adeyemi',about:'A food charity running a community shop, cookery classes and a weekly lunch club.'},
+  e8:{id:'e8',name:'Lynchwood Engineering',sector:'engineering',town:'Peterborough',color:'#3E5C76',initials:'LE',verified:true,size:'60 staff',contact:'Rob Kaur',about:'Designs and builds precision parts for agricultural and food machinery.'},
+  e9:{id:'e9',name:'Riverside Accounts',sector:'business',town:'St Neots',color:'#1F6F5C',initials:'RA',verified:true,size:'18 staff',contact:'Hannah Cole',about:'An accountancy practice supporting sole traders and small firms.'},
+  e10:{id:'e10',name:'Northstowe Facilities Co',sector:'facilities',town:'Northstowe',color:'#556270',initials:'NF',verified:true,size:'45 staff',contact:'Dan Webb',about:'Runs and maintains community buildings and sports facilities in Northstowe.'},
+  e11:{id:'e11',name:'Hinchingbrooke Health Partners',sector:'health',town:'Huntingdon',color:'#C0392B',initials:'HH',verified:true,size:'200 staff',contact:'Sara Lund',about:'A GP federation covering 14 practices across Huntingdonshire.'},
+  e12:{id:'e12',name:'Fen Edge Farms',sector:'science',town:'March',color:'#5E7D2B',initials:'FE',verified:false,size:'30 staff',contact:'Will Barnes',about:'A family farming business trialling sensors and data to cut water and fertiliser use.'},
+  e13:{id:'e13',name:'Cambridge Sports Hub',sector:'marketing',town:'Cambridge',color:'#00708A',initials:'CS',verified:true,size:'35 staff',contact:'Jas Bhatt',about:'A community sports centre with courts, a gym and holiday camps for children.'}
+});
+
+const d = (s) => new Date(s + 'T09:00:00');
+
+const seedJobs = () => [
+  {id:'j1',emp:'e1',title:'Junior Web Developer Intern',sector:'digital',area:'Cambridge',mode:'Hybrid',hours:30,pay:13.50,weeks:6,programme:'Internship',posted:'2026-11-18',closes:'2026-12-04',starts:'2027-01-11',status:'live',views:412,
+   summary:'Help build accessible websites for local councils and charities, working alongside two senior developers.',
+   duties:['Build and test page components in HTML, CSS and JavaScript','Fix bugs reported by clients and write clear notes on what changed','Check pages work with a keyboard and screen reader','Join daily stand-ups and a weekly show-and-tell'],
+   needs:['Some coding experience from study, a course or your own projects','Willing to learn Git and code review','Clear written English'],
+   skills:['HTML','CSS','JavaScript','Git','Accessibility'],
+   questions:['Share a link to something you have built, or describe it in two or three sentences.','Which days could you work in our Cambridge studio?']},
+  {id:'j2',emp:'e1',title:'Data and AI Intern',sector:'digital',area:'Cambridge',mode:'Hybrid',hours:30,pay:13.50,weeks:6,programme:'Internship',posted:'2026-11-20',closes:'2026-12-11',starts:'2027-01-11',status:'live',views:233,
+   summary:'Explore how AI tools can speed up our testing and reporting, and build a small internal prototype.',
+   duties:['Clean and analyse project data in spreadsheets and Python','Test AI tools against real tasks and write up what works','Build a simple prototype with a mentor'],
+   needs:['Comfortable with spreadsheets','Curious about AI and willing to test ideas carefully','Basic Python is a plus, not required'],
+   skills:['Python','Excel','Data','AI tools'],
+   questions:['Tell us about a time you used data to answer a question.']},
+  {id:'j3',emp:'e3',title:'Social Media and Content Intern',sector:'marketing',area:'Peterborough',mode:'On-site',hours:25,pay:12.80,weeks:6,programme:'Internship',posted:'2026-11-10',closes:'2026-12-02',starts:'2027-01-04',status:'live',views:520,
+   summary:'Plan, film and post short-form content for three regional clients across Instagram, TikTok and LinkedIn.',
+   duties:['Film and edit short videos on a phone and in CapCut','Write captions in each client\'s tone of voice','Track what performs and suggest improvements each week'],
+   needs:['A few examples of content you have made, for yourself or others','Good eye for detail','Happy to work in a busy studio'],
+   skills:['Content creation','Copywriting','Video editing','Social media'],
+   questions:['Share up to three links to content you have made.']},
+  {id:'j4',emp:'e2',title:'Customer Insight Intern',sector:'business',area:'Huntingdon',mode:'Hybrid',hours:30,pay:13.10,weeks:6,programme:'Internship',posted:'2026-11-05',closes:'2026-11-30',starts:'2027-01-04',status:'live',views:288,
+   summary:'Turn tenant survey results into clear findings that help us improve repairs and communication.',
+   duties:['Analyse survey responses and repair data','Interview a small group of tenants by phone','Present findings to the customer services team'],
+   needs:['Confident with spreadsheets','Friendly phone manner','Able to explain numbers simply'],
+   skills:['Excel','Research','Presenting','Data'],
+   questions:['Why does customer insight matter to a housing association?']},
+  {id:'j5',emp:'e4',title:'Lab Operations Intern',sector:'science',area:'Cambridge',mode:'On-site',hours:37.5,pay:14.20,weeks:6,programme:'Internship',posted:'2026-11-12',closes:'2026-12-09',starts:'2027-01-18',status:'live',views:301,
+   summary:'Keep a busy diagnostics lab running: stock, sample logging and equipment checks.',
+   duties:['Log and track samples in our lab system','Manage stock and reorder supplies','Support scientists with equipment checks'],
+   needs:['A science qualification at A level or above','Careful and organised','Happy to follow strict safety procedures'],
+   skills:['Lab safety','Organisation','Data entry'],
+   questions:['Describe a time you followed a detailed procedure precisely.']},
+  {id:'j6',emp:'e5',title:'Site Coordinator Intern',sector:'construction',area:'Peterborough',mode:'On-site',hours:37.5,pay:13.00,weeks:6,programme:'Internship',posted:'2026-11-16',closes:'2026-12-14',starts:'2027-01-11',status:'live',views:175,
+   summary:'Support the site manager on a new primary school build, from deliveries to safety briefings.',
+   duties:['Book and check deliveries','Keep site records and photos up to date','Help run morning safety briefings'],
+   needs:['A CSCS card or willingness to get one (we pay)','Organised and confident speaking to trades','Able to start at 7.30am'],
+   skills:['Organisation','Health and safety','Communication'],
+   questions:['Do you hold a CSCS card? If not, are you happy to take the test?']},
+  {id:'j7',emp:'e6',title:'Education Support Intern',sector:'education',area:'Ely',mode:'On-site',hours:30,pay:12.71,weeks:6,programme:'Internship',posted:'2026-11-19',closes:'2026-12-10',starts:'2027-01-06',status:'live',views:196,
+   summary:'Support teachers and pupils in a secondary school, including small-group reading sessions.',
+   duties:['Run small-group reading and maths catch-up sessions','Help prepare lesson resources','Support pupils during lessons and clubs'],
+   needs:['Patience and a positive attitude','An enhanced DBS check (we arrange it)','Interest in teaching'],
+   skills:['Communication','Mentoring','Planning'],
+   questions:['Why are you interested in working in a school?']},
+  {id:'j8',emp:'e7',title:'Fundraising and Events Intern',sector:'charity',area:'Wisbech',mode:'On-site',hours:22,pay:12.71,weeks:6,programme:'Internship',posted:'2026-11-21',closes:'2026-12-16',starts:'2027-01-11',status:'live',views:94,
+   summary:'Plan our spring fundraising lunch and grow our local supporter list.',
+   duties:['Plan a fundraising lunch for 80 guests','Contact local businesses for raffle prizes','Write posts and posters about the event'],
+   needs:['Friendly and well organised','Comfortable talking to people you have not met','Interest in community work'],
+   skills:['Events','Communication','Copywriting'],
+   questions:['Tell us about an event or activity you have helped organise.']},
+  {id:'j9',emp:'e8',title:'CAD Design Engineering Intern',sector:'engineering',area:'Peterborough',mode:'On-site',hours:37.5,pay:14.00,weeks:6,programme:'Internship',posted:'2026-11-14',closes:'2026-12-12',starts:'2027-01-11',status:'live',views:210,
+   summary:'Draw and update 3D models and technical drawings for machine parts.',
+   duties:['Update 3D models in SolidWorks','Produce technical drawings for the workshop','Join design reviews with engineers'],
+   needs:['Studying or completed engineering or product design','Some CAD experience','Good spatial awareness'],
+   skills:['CAD','SolidWorks','Technical drawing'],
+   questions:['Which CAD software have you used, and for what?']},
+  {id:'j10',emp:'e9',title:'Finance and Admin Intern',sector:'business',area:'St Neots',mode:'On-site',hours:30,pay:12.90,weeks:6,programme:'Internship',posted:'2026-11-08',closes:'2026-12-05',starts:'2027-01-04',status:'live',views:143,
+   summary:'Help a busy practice through January tax season with bookkeeping and client admin.',
+   duties:['Enter receipts and reconcile bank statements','Prepare client files for accountants','Answer client emails and calls'],
+   needs:['Confident with numbers and spreadsheets','Careful with confidential information'],
+   skills:['Excel','Bookkeeping','Admin'],
+   questions:['How would you keep track of 30 client files with different deadlines?']},
+  {id:'j11',emp:'e10',title:'Facilities Assistant Intern',sector:'facilities',area:'Northstowe',mode:'On-site',hours:20,pay:12.71,weeks:6,programme:'Work experience',posted:'2026-11-17',closes:'2026-12-18',starts:'2027-01-11',status:'live',views:88,
+   summary:'Keep community buildings safe, clean and ready for bookings, with paid training.',
+   duties:['Set up halls and sports rooms for bookings','Do daily safety checks','Report repairs and follow them up'],
+   needs:['Reliable and practical','Happy to work afternoons and some evenings'],
+   skills:['Health and safety','Customer service'],
+   questions:['Which afternoons and evenings are you available?']},
+  {id:'j12',emp:'e11',title:'Patient Services Admin Intern',sector:'health',area:'Huntingdon',mode:'On-site',hours:30,pay:12.95,weeks:6,programme:'Internship',posted:'2026-11-13',closes:'2026-12-08',starts:'2027-01-04',status:'live',views:167,
+   summary:'Help reception teams and run a project to reduce missed appointments.',
+   duties:['Support reception and phone teams','Analyse missed-appointment data','Help test a text reminder trial'],
+   needs:['Calm and kind on the phone','Comfortable with computers'],
+   skills:['Customer service','Admin','Data'],
+   questions:['How would you handle a frustrated caller?']},
+  {id:'j13',emp:'e1',title:'UX Design Intern',sector:'digital',area:'Cambridge',mode:'Hybrid',hours:30,pay:13.50,weeks:6,programme:'Internship',posted:'',closes:'2027-01-15',starts:'2027-02-08',status:'draft',views:0,
+   summary:'Research and design improvements to a council service used by 40,000 residents.',
+   duties:['Run user interviews','Sketch and prototype screens in Figma'],needs:['A portfolio of design work'],skills:['Figma','User research'],questions:[]},
+  {id:'j14',emp:'e12',title:'Agri-tech Data Intern',sector:'science',area:'March',mode:'On-site',hours:30,pay:13.00,weeks:6,programme:'Internship',posted:'',closes:'2026-12-20',starts:'2027-01-18',status:'pending',views:0,submitted:'2026-11-22',
+   summary:'Set up soil sensors and turn the readings into weekly reports for our farm team.',
+   duties:['Install and check field sensors','Build a weekly dashboard from sensor data'],needs:['Comfortable outdoors in all weather','Some spreadsheet skills'],skills:['Data','Excel'],questions:['Do you have a driving licence?']},
+  {id:'j15',emp:'e13',title:'Marketing Assistant Intern',sector:'marketing',area:'Cambridge',mode:'On-site',hours:20,pay:12.20,weeks:6,programme:'Internship',posted:'',closes:'2026-12-15',starts:'2027-01-11',status:'pending',views:0,submitted:'2026-11-23',
+   summary:'Promote our holiday camps and new membership offer.',
+   duties:['Create posters and social posts','Help run an open day'],needs:['Creative and organised'],skills:['Content creation','Events'],questions:[]}
+];
+
+const seedInterns = () => ({
+  i1:{id:'i1',name:'Jordan Ellis',headline:'Computer Science graduate looking for a first role in web development',area:'Peterborough',color:'#0B78B0',skills:['HTML','CSS','JavaScript','Python','Git','Excel'],badges:4,availability:'From January 2027',talent:true,sectors:['digital','business']},
+  i2:{id:'i2',name:'Amira Haddad',headline:'Graphic design graduate with a strong social media portfolio',area:'Cambridge',color:'#B4552E',skills:['Figma','Content creation','Copywriting','CSS'],badges:5,availability:'Now',talent:true},
+  i3:{id:'i3',name:'Callum Reid',headline:'Career changer from retail, self-taught JavaScript developer',area:'Huntingdon',color:'#2F9E6E',skills:['JavaScript','HTML','React','Customer service'],badges:3,availability:'From January 2027',talent:true},
+  i4:{id:'i4',name:'Priyanka Nair',headline:'MSc Data Science, interested in AI for public services',area:'Cambridge',color:'#6B4E9B',skills:['Python','Data','AI tools','Excel'],badges:6,availability:'Now',talent:true},
+  i5:{id:'i5',name:'Ben Okoro',headline:'Web development bootcamp graduate who loves accessibility',area:'St Ives',color:'#00708A',skills:['HTML','CSS','Accessibility','Git'],badges:4,availability:'From January 2027',talent:true},
+  i6:{id:'i6',name:'Lucy Tran',headline:'Maths graduate keen to work with data',area:'Ely',color:'#8A6A1F',skills:['Excel','Python','Data'],badges:2,availability:'Now',talent:false},
+  i7:{id:'i7',name:'Kieran Walsh',headline:'Former apprentice electrician moving into tech support',area:'Wisbech',color:'#556270',skills:['Customer service','Hardware','HTML'],badges:3,availability:'From February 2027',talent:true},
+  i8:{id:'i8',name:'Sofia Marques',headline:'Engineering student with CAD and 3D printing experience',area:'Peterborough',color:'#A13D63',skills:['CAD','SolidWorks','Technical drawing'],badges:4,availability:'From January 2027',talent:true},
+  i9:{id:'i9',name:'Tariq Ahmed',headline:'Business graduate with bookkeeping experience',area:'St Neots',color:'#1F6F5C',skills:['Bookkeeping','Excel','Admin'],badges:3,availability:'Now',talent:true}
+});
+
+const STATUS_FLOW = ['applied','viewed','shortlisted','interview','offer','placed'];
+const STATUS_LABEL = {applied:'Applied',viewed:'Viewed',shortlisted:'Shortlisted',interview:'Interview',offer:'Offer',placed:'Placed',notprogressed:'Not progressed'};
+
+const seedApps = () => [
+  {id:'a1',job:'j1',intern:'i1',status:'shortlisted',note:'I build small sites in my spare time and want to learn how a studio works with real clients.',answers:['I built a revision timetable app for my course mates in plain JavaScript.','Tuesday to Thursday'],history:[['applied','2026-11-18'],['viewed','2026-11-19'],['shortlisted','2026-11-21']],empNotes:'Good portfolio link. Ask about accessibility testing.'},
+  {id:'a2',job:'j4',intern:'i1',status:'interview',note:'',answers:['It shows where tenants struggle so services can be fixed first.'],history:[['applied','2026-11-06'],['viewed','2026-11-10'],['shortlisted','2026-11-14'],['interview','2026-11-20']],interview:'Thursday 3 December, 10:30, Ouse Valley Housing, Huntingdon'},
+  {id:'a3',job:'j3',intern:'i1',status:'viewed',note:'',answers:['jordan-ellis.example/projects'],history:[['applied','2026-11-15'],['viewed','2026-11-17']]},
+  {id:'a4',job:'j12',intern:'i1',status:'notprogressed',note:'',answers:[''],history:[['applied','2026-11-02'],['viewed','2026-11-04'],['notprogressed','2026-11-12']],feedback:'Thank you for applying. We chose candidates with more phone-based customer service experience.'},
+  {id:'a5',job:'j1',intern:'i3',status:'applied',history:[['applied','2026-11-23']],note:'Career changer, built three React projects this year.',answers:['A booking app for my old shop.','Monday to Wednesday']},
+  {id:'a6',job:'j1',intern:'i5',status:'shortlisted',history:[['applied','2026-11-19'],['shortlisted','2026-11-22']],note:'Accessibility is the part of web work I enjoy most.',answers:['An accessible recipe site.','Any day']},
+  {id:'a7',job:'j1',intern:'i2',status:'applied',history:[['applied','2026-11-22']],note:'',answers:['My portfolio site, built in Webflow and CSS.','Wednesday and Thursday']},
+  {id:'a8',job:'j1',intern:'i7',status:'interview',history:[['applied','2026-11-18'],['shortlisted','2026-11-20'],['interview','2026-11-23']],note:'',answers:['A home network dashboard.','Any day'],interview:'Friday 27 November, 14:00, Fenlight Digital'},
+  {id:'a9',job:'j2',intern:'i4',status:'applied',history:[['applied','2026-11-21']],note:'My dissertation compared AI summarisation tools for council documents.',answers:['I analysed bus usage data to suggest new routes.']},
+  {id:'a10',job:'j2',intern:'i6',status:'applied',history:[['applied','2026-11-22']],note:'',answers:['Tracked my running data in Python.']},
+  {id:'a11',job:'j3',intern:'i2',status:'interview',history:[['applied','2026-11-12'],['interview','2026-11-19']],note:'',answers:['amira.example']},
+  {id:'a12',job:'j9',intern:'i8',status:'offer',history:[['applied','2026-11-14'],['interview','2026-11-18'],['offer','2026-11-22']],note:'',answers:['SolidWorks at university.']},
+  {id:'a13',job:'j10',intern:'i9',status:'viewed',history:[['applied','2026-11-09'],['viewed','2026-11-10']],note:'',answers:['A colour-coded tracker with due dates.']}
+];
+
+const seedThreads = () => [
+  {id:'t1',role:'intern',with:'Ouse Valley Housing',subject:'Interview invitation: Customer Insight Intern',unread:true,msgs:[
+    {from:'them',text:'Hi Jordan, thanks for your application. We would like to invite you to an interview on Thursday 3 December at 10:30 at our Huntingdon office.',t:'20 Nov, 14:12'},
+    {from:'them',text:'It will last about 40 minutes. You will meet Tom Reeve and one of our tenant liaison officers. Please bring an example of a spreadsheet you have built.',t:'20 Nov, 14:13'}]},
+  {id:'t2',role:'intern',with:'Fenlight Digital',subject:'You have been shortlisted: Junior Web Developer Intern',unread:false,msgs:[
+    {from:'them',text:'Hi Jordan, great to see your timetable app. We have shortlisted you and will be in touch about interviews next week.',t:'21 Nov, 09:40'},
+    {from:'me',text:'Thank you, I am really looking forward to it.',t:'21 Nov, 10:02'}]},
+  {id:'t3',role:'intern',with:'CPCA Talent Hive team',subject:'Profile Power Up: Wednesday 9 December',unread:false,msgs:[
+    {from:'them',text:'Our next online Profile Power Up session is on Wednesday 9 December, 10am to 11am. Book from the Events page.',t:'18 Nov, 11:00'}]},
+  {id:'t4',role:'employer',with:'Ben Okoro',subject:'Junior Web Developer Intern: question about start date',unread:true,msgs:[
+    {from:'them',text:'Hello, could the placement start on 18 January instead of 11 January? I finish a course that week.',t:'23 Nov, 16:20'}]},
+  {id:'t5',role:'employer',with:'CPCA Talent Hive team',subject:'Your listing UX Design Intern is still a draft',unread:false,msgs:[
+    {from:'them',text:'Hi Priya, just a reminder that your UX Design Intern listing is saved as a draft. Submit it when ready and we will review it within two working days.',t:'22 Nov, 10:15'}]}
+];
+
+const EVENTS = [
+  {id:'ev1',date:'2026-12-02',title:'Employer meet-up: digital and creative',where:'Peterborough Central Library',time:'17:30 to 19:00',type:'In person'},
+  {id:'ev2',date:'2026-12-09',title:'Profile Power Up',where:'Online',time:'10:00 to 11:00',type:'Online'},
+  {id:'ev3',date:'2026-12-15',title:'Interview practice clinic',where:'Online',time:'13:00 to 14:00',type:'Online'},
+  {id:'ev4',date:'2027-01-13',title:'Profile Power Up',where:'Online',time:'10:00 to 11:00',type:'Online'}
+];
+
+const BADGES = {
+  start:[
+    {name:'Participant Expression of Interest',earned:true},
+    {name:'Profile Creator',earned:true},
+    {name:'Digital CV Creator',earned:true},
+    {name:'Week 1 Survey Completer',earned:true}],
+  enhance:[
+    {name:'Volunteering',earned:false},
+    {name:'Experience of Work',earned:false},
+    {name:'Entrepreneurship',earned:false}],
+  boost:[
+    {name:'7-day Boost streak',earned:false},
+    {name:'30-day Boost streak',earned:false}]
+};
+
+const seedCV = () => ({
+  name:'Jordan Ellis',
+  headline:'Computer Science graduate looking for a first role in web development',
+  email:'jordan.ellis@example.com',
+  area:'Peterborough',
+  about:'I enjoy building simple, useful websites and fixing things until they work properly. I am looking for a placement where I can learn from experienced developers and work on real projects.',
+  exp:[
+    {role:'Weekend Team Member',org:'Queensgate Bookshop, Peterborough',dates:'2022 to 2025',desc:'Served customers, ran the till and kept stock tidy. Trained four new starters.'},
+    {role:'Volunteer Website Helper',org:'Orton Community Garden',dates:'2024',desc:'Rebuilt the garden\'s website and taught volunteers how to update it.'}],
+  edu:[{course:'BSc Computer Science (2:1)',org:'Anglia Ruskin University',dates:'2022 to 2025'}],
+  skills:['HTML','CSS','JavaScript','Python','Git','Excel'],
+  showBadges:true
+});
+
+const DEMO_PEOPLE = {intern:'i1', employer:'e1', employerUser:'Priya Shah', staff:'Sam Okafor'};
+
+/* Games content */
+const WORDS = [
+  {w:'PITCH',def:'a short, persuasive talk about an idea or about yourself. Practise a 30-second version for interviews.'},
+  {w:'SKILL',def:'something you can do well. Employers look for evidence, so pair each skill with an example.'},
+  {w:'BRIEF',def:'the instructions for a piece of work. Read it twice and ask questions early.'},
+  {w:'SHIFT',def:'a set period of work. Arrive a few minutes early for your first one.'},
+  {w:'TEAMS',def:'groups who work together, and also a common meeting app. Test your camera before a video interview.'},
+  {w:'DRAFT',def:'a first version. Sharing drafts early saves time later.'},
+  {w:'GOALS',def:'what you want to achieve. Set two or three for your placement in week one.'},
+  {w:'AGILE',def:'a way of working in short cycles with regular check-ins, common in tech teams.'},
+  {w:'CHART',def:'a picture of data. Give every chart a title that says what it shows.'},
+  {w:'LEARN',def:'what a placement is for. Keep a short log of what you learn each week.'}
+];
+const QUIZ = [
+  {q:'You will be 10 minutes late on your first day because of a train delay. What is the best thing to do?',
+   opts:['Say nothing and apologise when you arrive','Message your manager before your start time with your new arrival time','Wait until lunch to explain'],a:1,
+   why:'Letting your manager know early shows you are reliable, even when things go wrong.'},
+  {q:'An interviewer says "Tell me about yourself". How long should your answer be?',
+   opts:['About 10 seconds','About 1 to 2 minutes, focused on the role','5 minutes or more, covering everything'],a:1,
+   why:'One to two minutes is enough to cover your background, a relevant strength and why you want the role.'},
+  {q:'What does STAR stand for when answering interview questions?',
+   opts:['Situation, Task, Action, Result','Start, Talk, Answer, Repeat','Skills, Training, Attitude, Reliability'],a:0,
+   why:'STAR helps you give a clear example: what happened, what you had to do, what you did and how it turned out.'},
+  {q:'You do not understand a task your manager has given you. What should you do?',
+   opts:['Guess and hope for the best','Ask a clarifying question and repeat back what you heard','Wait until someone notices'],a:1,
+   why:'Asking early saves time for everyone. Repeating back the task checks you both mean the same thing.'},
+  {q:'Which is the best subject line when emailing your CV?',
+   opts:['Hi','CV attached!!!','Application for Junior Web Developer Intern, Jordan Ellis'],a:2,
+   why:'A clear subject line with the role and your name helps the employer find and file your email.'}
+];
+const MATCH = [
+  {skill:'Writing captions in a brand\'s voice',job:'Social Media and Content Intern'},
+  {skill:'Reading technical drawings',job:'CAD Design Engineering Intern'},
+  {skill:'Reconciling bank statements',job:'Finance and Admin Intern'},
+  {skill:'Using Git and code review',job:'Junior Web Developer Intern'}
+];
+
+/* Programme reporting sample data (CPCA view) */
+const WEEKLY_APPS = [
+  {w:'5 Oct',n:18},{w:'12 Oct',n:22},{w:'19 Oct',n:27},{w:'26 Oct',n:24},{w:'2 Nov',n:31},{w:'9 Nov',n:38},{w:'16 Nov',n:44},{w:'23 Nov',n:29}
+];
+const PLACEMENTS_BY_SECTOR = [
+  {s:'Digital and tech',n:14},{s:'Business and finance',n:11},{s:'Marketing and media',n:9},{s:'Health and care',n:7},{s:'Education',n:6},{s:'Engineering',n:5},{s:'Construction',n:4},{s:'Charity',n:3}
+];
+
+/* ---------- State ---------- */
+let S;
+function resetState(){
+  S = {
+    employers: seedEmployers(),
+    jobs: seedJobs(),
+    interns: seedInterns(),
+    apps: seedApps(),
+    threads: seedThreads(),
+    cv: seedCV(),
+    saved: new Set(['j2','j5']),
+    booked: new Set(['ev2']),
+    filters: {q:'', area:'', sectors:new Set(), modes:new Set(), programme:'', minPay:false, sort:'newest'},
+    boost: {streak:4, points:120, played:{wordle:false, quiz:false, match:false}, counted:false},
+    wordle: null, quiz: null, match: null,
+    draft: null, postStep: 0,
+    pipelineJob: 'j1',
+    activeThread: {intern:'t1', employer:'t4'},
+    peopleTab: 'interns', approvalsTab: 'listings',
+    returned: {},
+    events: EVENTS.map(e => ({...e})),
+    talentQ: ''
+  };
+}
+resetState();
+
+/* ---------- Utilities ---------- */
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => [...root.querySelectorAll(sel)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const MONTHS_L = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const DAYS_L = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const fmt = s => { if(!s) return ''; const x = d(s); return `${x.getDate()} ${MONTHS[x.getMonth()]}`; };
+const fmtLong = s => { const x = d(s); return `${DAYS_L[x.getDay()]} ${x.getDate()} ${MONTHS_L[x.getMonth()]} ${x.getFullYear()}`; };
+const daysUntil = s => Math.round((d(s) - TODAY) / 864e5);
+const daysSince = s => Math.round((TODAY - d(s)) / 864e5);
+const money = p => `£${p.toFixed(2)}`;
+const weekly = j => `£${Math.round(j.pay * j.hours)}`;
+const sectorName = id => (SECTORS.find(s => s.id === id) || {}).name || id;
+const emp = id => S.employers[id];
+const job = id => S.jobs.find(j => j.id === id);
+const intern = id => S.interns[id];
+const todayISO = () => '2026-11-24';
+const avail = s => s === 'Now' ? 'Available now' : 'Available ' + s[0].toLowerCase() + s.slice(1);
+const uid = p => p + Math.random().toString(36).slice(2, 8);
+
+function closingText(j){
+  const n = daysUntil(j.closes);
+  if (n < 0) return 'Closed';
+  if (n === 0) return 'Closes today';
+  if (n === 1) return 'Closes tomorrow';
+  if (n <= 7) return `Closes in ${n} days`;
+  return `Closes ${fmt(j.closes)}`;
+}
+function matchScore(j, i = intern(DEMO_PEOPLE.intern)){
+  const sk = j.skills.filter(s => S.cv.skills.map(x => x.toLowerCase()).includes(s.toLowerCase())).length;
+  let score = 40 + Math.round(40 * sk / Math.max(1, j.skills.length));
+  if ((i.sectors || []).includes(j.sector)) score += 12;
+  if (j.area === i.area) score += 8;
+  return Math.min(98, score);
+}
+function liveJobs(){ return S.jobs.filter(j => j.status === 'live'); }
+
+/* ---------- Icons ---------- */
+const ICONS = {
+  home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>',
+  briefcase:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/>',
+  apps:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/>',
+  file:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+  hex:'<path d="M7 3.5h10l5 8.5-5 8.5H7L2 12z"/>',
+  spark:'<path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+  calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  users:'<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0M16 4a4 4 0 0 1 0 8M22 21a7 7 0 0 0-4-6.3"/>',
+  chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  check:'<path d="M5 12l5 5L20 7"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  bookmark:'<path d="M6 3h12v18l-6-4-6 4z"/>',
+  pin:'<path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  pound:'<path d="M16 6.5A4 4 0 0 0 9 9v11M6 20h11M6 13h7"/>',
+  left:'<path d="M15 18l-6-6 6-6"/>',
+  building:'<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2M10 21v-3h4v3"/>',
+  eye:'<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  alert:'<path d="M12 3l10 18H2z"/><path d="M12 10v4M12 17.5v.5"/>',
+  download:'<path d="M12 4v11M7 10l5 5 5-5M4 20h16"/>',
+  send:'<path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/>',
+  list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+  shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  kanban:'<rect x="3" y="4" width="5" height="16" rx="1"/><rect x="10" y="4" width="5" height="10" rx="1"/><rect x="17" y="4" width="4" height="13" rx="1"/>',
+  grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+  quiz:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .8-1 1.5V14M12 17.5v.5"/>',
+  link:'<path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
+  flame:'<path d="M12 22c4 0 7-2.7 7-7 0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-2 2-5 5-5 8 0 4.3 3 7 7 7z"/>',
+  edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  news:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/>'
+};
+const icon = (n, cls='') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n] || ''}</svg>`;
+
+/* ---------- Bits ---------- */
+const logo = (e, cls='') => `<span class="logo hex ${cls}" style="background:${e.color}" aria-hidden="true">${esc(e.initials)}</span>`;
+const avatar = (p, cls='') => `<span class="avatar ${cls}" style="background:${p.color}" aria-hidden="true">${esc(p.name.split(' ').map(x => x[0]).join('').slice(0,2))}</span>`;
+const status = (s, label) => `<span class="status st-${s}">${esc(label || STATUS_LABEL[s] || s[0].toUpperCase() + s.slice(1))}</span>`;
+const brand = (href='#/') => `<a class="brand" href="${href}"><span class="mark hex"><i class="hex"></i></span><span><b>Talent Hive <span class="concept-tag">Concept</span></b><small>Cambridgeshire and Peterborough</small></span></a>`;
+
+function jobRow(j, {base='#/jobs', showMatch=false} = {}){
+  const e = emp(j.emp);
+  const isNew = daysSince(j.posted) <= 3;
+  const saved = S.saved.has(j.id);
+  return `<article class="jobrow">
+    ${logo(e)}
+    <div>
+      <h3><a href="${base}/${j.id}">${esc(j.title)}</a> ${isNew ? '<span class="tag-new">New</span>' : ''}</h3>
+      <div class="emp">${esc(e.name)}</div>
+      <div class="chips">
+        <span class="chip">${icon('pin')}${esc(j.area)}, ${esc(j.mode.toLowerCase())}</span>
+        <span class="chip">${icon('pound')}${money(j.pay)} an hour</span>
+        <span class="chip">${icon('clock')}${j.hours} hours a week, ${j.weeks} weeks</span>
+      </div>
+    </div>
+    <div class="jside">
+      ${showMatch ? `<span class="match">${matchScore(j)}% match</span>` : ''}
+      <span class="small ${daysUntil(j.closes) <= 7 ? '' : 'muted'}" style="${daysUntil(j.closes) <= 7 ? 'color:var(--honey-ink);font-weight:700' : ''}">${closingText(j)}</span>
+      <button class="icon-btn" data-act="save" data-id="${j.id}" aria-pressed="${saved}" aria-label="${saved ? 'Remove from saved jobs' : 'Save job'}: ${esc(j.title)}">${icon('bookmark')}</button>
+    </div>
+  </article>`;
+}
+
+/* ---------- Toast and modal ---------- */
+function toast(msg){
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.innerHTML = `${icon('check')}<span>${esc(msg)}</span>`;
+  const root = $('#toast-root'); root.appendChild(t); while (root.children.length > 2) root.firstChild.remove();
+  setTimeout(() => t.remove(), 3200);
+}
+let lastFocus = null;
+function openModal(html, {drawer=false, label='Dialog'} = {}){
+  lastFocus = document.activeElement;
+  $('#modal-root').innerHTML = `<div class="overlay ${drawer ? 'drawer-ov' : ''}" data-act="overlay"><div class="${drawer ? 'drawer' : 'modal'}" role="dialog" aria-modal="true" aria-label="${esc(label)}" tabindex="-1">${html}</div></div>`;
+  const box = $('#modal-root [role=dialog]');
+  const first = box.querySelector('input,textarea,select,button:not(.icon-btn)');
+  (first || box).focus();
+}
+function closeModal(){
+  $('#modal-root').innerHTML = '';
+  if (lastFocus && document.body.contains(lastFocus)) lastFocus.focus();
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && $('#modal-root').innerHTML) closeModal();
+  if (e.key === 'Tab' && $('#modal-root [role=dialog]')){
+    const f = $$('#modal-root [role=dialog] a, #modal-root [role=dialog] button, #modal-root [role=dialog] input, #modal-root [role=dialog] textarea, #modal-root [role=dialog] select').filter(x => !x.disabled);
+    if (!f.length) return;
+    if (e.shiftKey && document.activeElement === f[0]){ e.preventDefault(); f.at(-1).focus(); }
+    else if (!e.shiftKey && document.activeElement === f.at(-1)){ e.preventDefault(); f[0].focus(); }
+  }
+});
+
+/* ---------- Router ---------- */
+const ROUTES = {};
+function route(){
+  const parts = (location.hash.replace(/^#\/?/, '') || '').split('/').filter(Boolean);
+  const top = parts[0] || '';
+  let role = 'visitor';
+  if (['intern','employer','cpca'].includes(top)) role = top;
+  return {role, parts, top};
+}
+function go(hash){ if (location.hash === hash) render(); else location.hash = hash; }
+
+function render(opts = {}){
+  const r = route();
+  let html;
+  if (r.role === 'visitor') html = renderPublic(r);
+  else if (r.role === 'intern') html = renderIntern(r);
+  else if (r.role === 'employer') html = renderEmployer(r);
+  else html = renderCpca(r);
+  $('#app').innerHTML = html;
+  $$('.demobar [data-role]').forEach(b => b.setAttribute('aria-pressed', b.dataset.role === r.role));
+  document.title = (($('#app h1') || {}).textContent || 'Talent Hive') + ' | Talent Hive concept demo';
+  if (!opts.keepScroll) window.scrollTo(0, 0);
+  if (!opts.keepFocus){ const h = $('#app h1'); if (h){ h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); } }
+  AFTER.forEach(fn => fn(r));
+}
+const AFTER = [];
+window.addEventListener('hashchange', () => { closeModal(); render(); });
+
+/* ---------- App shell for signed-in roles ---------- */
+function shell(role, current, nav, who, body){
+  const links = nav.map(n => `<a href="${n.href}" ${n.id === current ? 'aria-current="page"' : ''}>${icon(n.icon)}<span>${n.label}</span>${n.count ? `<span class="count" aria-label="${n.count} new">${n.count}</span>` : ''}</a>`).join('');
+  const mob = nav.map(n => `<a href="${n.href}" ${n.id === current ? 'aria-current="page"' : ''}>${n.label}${n.count ? ` (${n.count})` : ''}</a>`).join('');
+  return `<div class="shell">
+    <aside class="side" aria-label="${role} menu">${brand('#/' + role)}<nav>${links}</nav>
+      <div class="who">${who}</div></aside>
+    <div>
+      <nav class="mobnav" aria-label="${role} menu">${brand('#/' + role)}${mob}</nav>
+      <main class="main" id="main">${body}</main>
+    </div>
+  </div>`;
+}
+
+/* ---------- Events ---------- */
+const ACT = {}, FORM = {}, INPUT = {};
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-act]');
+  if (!a) return;
+  if (a.dataset.act === 'overlay' && e.target !== a) return;
+  const fn = ACT[a.dataset.act];
+  if (fn){ e.preventDefault(); fn(a, e); }
+});
+document.addEventListener('submit', e => {
+  const f = e.target.closest('[data-form]');
+  if (!f) return;
+  e.preventDefault();
+  FORM[f.dataset.form] && FORM[f.dataset.form](f, e);
+});
+document.addEventListener('input', e => {
+  const el = e.target.closest('[data-input]');
+  if (el && INPUT[el.dataset.input]) INPUT[el.dataset.input](el, e);
+});
+document.addEventListener('change', e => {
+  const el = e.target.closest('[data-change]');
+  if (el && INPUT[el.dataset.change]) INPUT[el.dataset.change](el, e);
+});
+
+ACT.overlay = () => closeModal();
+ACT.close = () => closeModal();
+ACT.role = el => go({visitor:'#/', intern:'#/intern', employer:'#/employer', cpca:'#/cpca'}[el.dataset.role]);
+ACT.reset = () => { resetState(); toast('Demo data reset'); render(); };
+ACT.save = el => {
+  const id = el.dataset.id;
+  if (route().role === 'visitor'){ promptSignIn('save jobs'); return; }
+  if (S.saved.has(id)){ S.saved.delete(id); toast('Removed from saved jobs'); }
+  else { S.saved.add(id); toast('Job saved'); }
+  render({keepScroll:true, keepFocus:true});
+  const b = $(`[data-act=save][data-id="${id}"]`); if (b) b.focus();
+};
+ACT.go = el => go(el.dataset.href);
+
+function promptSignIn(what){
+  openModal(`<header><h2>Sign in to ${esc(what)}</h2><button class="icon-btn" data-act="close" aria-label="Close">${icon('x')}</button></header>
+    <p>This is a demo, so there are no passwords. Choose who you want to continue as.</p>
+    <div class="stack">
+      <button class="btn btn-primary btn-lg" style="width:100%" data-act="signin-as" data-role="intern">Continue as Jordan, an intern</button>
+      <button class="btn btn-ghost btn-lg" style="width:100%" data-act="signin-as" data-role="employer">Continue as Priya, an employer</button>
+    </div>`, {label:'Sign in'});
+}
+ACT['signin-as'] = el => {
+  closeModal();
+  const r = route();
+  if (el.dataset.role === 'intern' && r.parts[0] === 'jobs' && r.parts[1]) go('#/intern/jobs/' + r.parts[1]);
+  else go('#/' + el.dataset.role);
+};
+
+/* ---------- First-visit notice ---------- */
+function showIntro(){
+  openModal(`<header><h2>A design concept, not a real job board</h2></header>
+    <p>This is a concept by <b>Alexej Zhukov</b> showing how the Talent Hive internship platform for Cambridgeshire and Peterborough could work for interns, employers and the CPCA team.</p>
+    <ul><li>The employers, people and roles are invented.</li><li>Nothing you type is sent anywhere, and it all resets when you reload.</li><li>It is not an official Cambridgeshire and Peterborough Combined Authority website.</li></ul>
+    <p class="small muted">Use the bar at the top to switch between Visitor, Intern, Employer and CPCA team views.</p>
+    <footer><button class="btn btn-primary" data-act="intro-ok">Explore the concept</button></footer>`, {label:'About this concept'});
+}
+ACT['intro-ok'] = () => { try { localStorage.setItem('th-intro-seen', '1'); } catch (e) {} closeModal(); };
+ACT.about = () => showIntro();
+function maybeIntro(){ let seen = false; try { seen = localStorage.getItem('th-intro-seen') === '1'; } catch (e) {} if (!seen) showIntro(); }
+
+/* ---------- Public site ---------- */
+function pubHeader(current){
+  const nav = [['#/jobs','Find a role','jobs'],['#/employers','For employers','employers'],['#/events','Events','events']];
+  return `<header class="pub-header"><div class="inner">${brand('#/')}
+    <nav class="pub-nav" aria-label="Main">${nav.map(([h,l,id]) => `<a href="${h}" ${current === id ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
+    <div class="actions"><a class="btn btn-ghost btn-sm" href="#/signin">Sign in</a><a class="btn btn-primary btn-sm" href="#/signin">Join Talent Hive</a></div>
+  </div></header>`;
+}
+function pubFooter(){
+  return `<footer class="pub-footer"><div class="section">
+    <div><b style="color:var(--ink)">Talent Hive concept demo, designed by Alexej Zhukov</b><br>Sample data only. Not an official Cambridgeshire and Peterborough Combined Authority website.</div>
+    <div><a href="#/jobs">Find a role</a> &nbsp; <a href="#/employers">For employers</a> &nbsp; <a href="#/signin">Sign in</a></div>
+  </div></footer>`;
+}
+function renderPublic(r){
+  const p = r.parts;
+  let body = '', cur = '';
+  if (!p[0]) body = pubHome();
+  else if (p[0] === 'jobs' && p[1]) { body = `<main id="main" class="section">${jobDetail(job(p[1]), '#/jobs')}</main>`; cur = 'jobs'; }
+  else if (p[0] === 'jobs') { body = `<main id="main" class="section">${jobsBoard('#/jobs')}</main>`; cur = 'jobs'; }
+  else if (p[0] === 'employers') { body = pubEmployers(); cur = 'employers'; }
+  else if (p[0] === 'signin') body = pubSignin();
+  else if (p[0] === 'events') { body = `<main id="main" class="section"><div class="pagehead"><div><h1>Events</h1><p>Free sessions to help you get ready and meet employers.</p></div></div><div class="panel">${S.events.map(eventItem).join('')}</div></main>`; cur = 'events'; }
+  else body = `<main id="main" class="section"><h1>Page not found</h1><p>The page you tried to open does not exist. Try the <a href="#/jobs">jobs board</a> or go back to the <a href="#/">home page</a>.</p></main>`;
+  return `<a class="skip" href="#main">Skip to content</a>${pubHeader(cur)}${body}${pubFooter()}`;
+}
+
+function comb(){
+  const count = id => liveJobs().filter(j => j.sector === id).length;
+  const spots = [
+    ['marketing','c-blue',0,69],['construction','c-line',0,207],['digital','c-honey',118,0],
+    ['all','c-ink',118,138],['education','c-mint',118,276],['business','c-line',236,69],
+    ['engineering','c-blue',236,207],['science','c-mint',354,138]
+  ];
+  return `<div class="comb" role="group" aria-label="Browse roles by sector">
+    ${spots.map(([id,c,x,y]) => {
+      const n = id === 'all' ? liveJobs().length : count(id);
+      const name = id === 'all' ? 'All roles' : sectorName(id);
+      return `<button class="hex ${c}" style="left:${x}px;top:${y}px" data-act="sector" data-id="${id}">${esc(name)}<small>${n} open</small></button>`;
+    }).join('')}
+  </div>`;
+}
+ACT.sector = el => {
+  S.filters.sectors = new Set(el.dataset.id === 'all' ? [] : [el.dataset.id]);
+  const base = route().role === 'intern' ? '#/intern/jobs' : '#/jobs';
+  go(base);
+};
+
+function pubHome(){
+  const live = liveJobs();
+  const soon = [...live].sort((a,b) => d(a.closes) - d(b.closes));
+  return `<main id="main">
+    <section class="hero"><div class="inner">
+      <div>
+        <h1>Find a paid internship close to home</h1>
+        <p class="lede">Six-week paid placements with employers across Cambridgeshire and Peterborough. Free to join, with support from application to your first day.</p>
+        <form class="searchbar" data-form="hero-search" role="search">
+          <label class="sr-only" for="hq">Job title or skill</label>
+          <input id="hq" name="q" type="search" placeholder="Job title or skill">
+          <label class="sr-only" for="ha">Area</label>
+          <select id="ha" name="area"><option value="">All areas</option>${AREAS.map(a => `<option>${a}</option>`).join('')}</select>
+          <button class="btn btn-primary">${icon('search')}Search roles</button>
+        </form>
+        <p class="closing">${live.length} roles open now. Next to close: <a href="#/jobs/${soon[0].id}">${esc(soon[0].title)}</a>, ${fmt(soon[0].closes)}.</p>
+      </div>
+      ${comb()}
+    </div></section>
+
+    <section class="section" aria-labelledby="soon-h">
+      <div class="section-head"><div><h2 id="soon-h">Closing soon</h2><p>Apply before these roles close.</p></div><a class="btn btn-ghost" href="#/jobs">See all ${live.length} roles</a></div>
+      <div class="joblist">${soon.slice(0,4).map(j => jobRow(j)).join('')}</div>
+    </section>
+
+    <section class="section" aria-labelledby="how-h" style="padding-top:8px">
+      <h2 id="how-h">How it works</h2>
+      <ol class="steps">
+        <li><h3>Join and build your profile</h3><p class="muted">Check you are eligible, then create your profile and CV. Our team reviews it within two working days.</p></li>
+        <li><h3>Apply in a few clicks</h3><p class="muted">Send your saved CV with a short note. No emails or attachments to chase.</p></li>
+        <li><h3>Track it to your first day</h3><p class="muted">See when your application is viewed, shortlisted and offered, with support at every stage.</p></li>
+      </ol>
+    </section>
+
+    <section class="employer-band" aria-labelledby="emp-h"><div class="section">
+      <div>
+        <h2 id="emp-h">Offer a paid placement</h2>
+        <p>Post a role in about ten minutes. We check it, share it with local candidates, and you review everyone who applies in one place.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px"><a class="btn btn-honey btn-lg" href="#/employer/post">Post a role</a><a class="btn btn-ghost btn-lg" href="#/employers">How it works for employers</a></div>
+      </div>
+      <ul>
+        <li>${icon('check')}<span>A guided form with a live preview, so your listing has everything candidates ask about</span></li>
+        <li>${icon('check')}<span>Every applicant in one pipeline, with their CV, badges and answers</span></li>
+        <li>${icon('check')}<span>Support from the CPCA team from your first post to their first day</span></li>
+      </ul>
+    </div></section>
+
+    <section class="section" id="events" aria-labelledby="ev-h">
+      <div class="section-head"><div><h2 id="ev-h">Upcoming events</h2><p>Free sessions to help you get ready and meet employers.</p></div></div>
+      <div class="panel">${S.events.slice(0,3).map(eventItem).join('')}</div>
+    </section>
+  </main>`;
+}
+function eventItem(ev){
+  const x = d(ev.date);
+  const booked = S.booked.has(ev.id);
+  const r = route().role;
+  return `<div class="listitem"><div class="date hex"><b>${x.getDate()}</b><span>${MONTHS[x.getMonth()]}</span></div>
+    <div class="grow"><b>${esc(ev.title)}</b><div class="small muted">${fmtLong(ev.date)}, ${esc(ev.time)}. ${esc(ev.where)}</div></div>
+    ${r === 'visitor' ? `<button class="btn btn-ghost btn-sm" data-act="book" data-id="${ev.id}">Book a place</button>` :
+      booked ? `<span class="status st-approved">Booked</span>` : `<button class="btn btn-ghost btn-sm" data-act="book" data-id="${ev.id}">Book a place</button>`}
+  </div>`;
+}
+ACT.book = el => {
+  if (route().role === 'visitor'){ promptSignIn('book events'); return; }
+  S.booked.add(el.dataset.id); toast('Place booked. We have added it to your events.'); render({keepScroll:true, keepFocus:true});
+};
+FORM['hero-search'] = f => {
+  S.filters.q = f.q.value.trim(); S.filters.area = f.area.value;
+  go('#/jobs');
+};
+
+/* ---------- Jobs board (shared) ---------- */
+function filteredJobs(){
+  const F = S.filters;
+  const q = F.q.toLowerCase();
+  let list = liveJobs().filter(j => {
+    const e = emp(j.emp);
+    if (q && !(j.title + ' ' + e.name + ' ' + j.skills.join(' ') + ' ' + sectorName(j.sector) + ' ' + j.summary).toLowerCase().includes(q)) return false;
+    if (F.area && j.area !== F.area) return false;
+    if (F.sectors.size && !F.sectors.has(j.sector)) return false;
+    if (F.modes.size && !F.modes.has(j.mode)) return false;
+    if (F.programme && j.programme !== F.programme) return false;
+    if (F.minPay && j.pay < 13) return false;
+    return true;
+  });
+  const sorts = {
+    newest:(a,b) => d(b.posted) - d(a.posted),
+    closing:(a,b) => d(a.closes) - d(b.closes),
+    pay:(a,b) => b.pay - a.pay,
+    match:(a,b) => matchScore(b) - matchScore(a)
+  };
+  return list.sort(sorts[F.sort] || sorts.newest);
+}
+function jobsBoard(base){
+  const F = S.filters;
+  const isIntern = base.startsWith('#/intern');
+  const used = new Set(liveJobs().map(j => j.sector));
+  return `<div class="pagehead"><div><h1>${isIntern ? 'Jobs' : 'Find a role'}</h1><p>Paid placements with checked employers. Every role shows its pay, hours and closing date.</p></div>
+    ${isIntern ? `<a class="btn btn-ghost" href="#/intern/jobs/saved">${icon('bookmark')}Saved jobs (${S.saved.size})</a>` : ''}</div>
+  <div class="board">
+    <aside class="filters" aria-label="Filters">
+      <fieldset><legend>Area</legend>
+        <label class="sr-only" for="farea">Area</label>
+        <select id="farea" data-change="farea"><option value="">All areas</option>${AREAS.map(a => `<option ${F.area === a ? 'selected' : ''}>${a}</option>`).join('')}</select>
+      </fieldset>
+      <fieldset><legend>Sector</legend>
+        ${SECTORS.filter(s => used.has(s.id)).map(s => `<label class="check"><input type="checkbox" data-change="fsector" value="${s.id}" ${F.sectors.has(s.id) ? 'checked' : ''}>${s.name}</label>`).join('')}
+      </fieldset>
+      <fieldset><legend>Where you work</legend>
+        ${['On-site','Hybrid','Remote'].map(m => `<label class="check"><input type="checkbox" data-change="fmode" value="${m}" ${F.modes.has(m) ? 'checked' : ''}>${m}</label>`).join('')}
+      </fieldset>
+      <fieldset><legend>Type</legend>
+        <select aria-label="Programme type" data-change="fprog"><option value="">All types</option>${PROGRAMMES.map(p => `<option ${F.programme === p ? 'selected' : ''}>${p}</option>`).join('')}</select>
+      </fieldset>
+      <fieldset style="margin:0"><legend>Pay</legend>
+        <label class="check"><input type="checkbox" data-change="fpay" ${F.minPay ? 'checked' : ''}>£13 an hour or more</label>
+      </fieldset>
+    </aside>
+    <div>
+      <form class="boardsearch" data-form="noop" role="search">
+        <label class="sr-only" for="bq">Search roles</label>
+        <input id="bq" type="search" value="${esc(F.q)}" placeholder="Search by job title, skill or employer" data-input="jobsq">
+      </form>
+      <div id="results">${jobResults(base)}</div>
+    </div>
+  </div>`;
+}
+function jobResults(base){
+  const list = filteredJobs();
+  const isIntern = base.startsWith('#/intern');
+  const F = S.filters;
+  const active = F.q || F.area || F.sectors.size || F.modes.size || F.programme || F.minPay;
+  return `<div class="resultbar"><p class="muted" style="margin:0" role="status">${list.length} ${list.length === 1 ? 'role' : 'roles'} found</p>
+    <div style="display:flex;gap:8px;align-items:center">${active ? `<button class="btn btn-quiet btn-sm" data-act="clearfilters">Clear filters</button>` : ''}
+    <label class="sr-only" for="sort">Sort by</label>
+    <select id="sort" data-change="fsort">${[['newest','Newest first'],['closing','Closing soonest'],['pay','Highest pay'], ...(isIntern ? [['match','Best match for me']] : [])].map(([v,l]) => `<option value="${v}" ${F.sort === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
+    ${list.length ? `<div class="joblist">${list.map(j => jobRow(j, {base, showMatch:isIntern})).join('')}</div>` :
+      `<div class="empty"><h3>No roles match those filters</h3><p class="muted">Try removing a filter or searching for a broader word, like "admin" or "digital".</p><button class="btn btn-ghost" data-act="clearfilters">Clear filters</button></div>`}`;
+}
+function refreshResults(){ const r = $('#results'); if (r){ const base = route().role === 'intern' ? '#/intern/jobs' : '#/jobs'; r.innerHTML = jobResults(base); } }
+FORM.noop = () => {};
+INPUT.jobsq = el => { S.filters.q = el.value; clearTimeout(INPUT._t); INPUT._t = setTimeout(refreshResults, 120); };
+INPUT.farea = el => { S.filters.area = el.value; refreshResults(); };
+INPUT.fsector = el => { el.checked ? S.filters.sectors.add(el.value) : S.filters.sectors.delete(el.value); refreshResults(); };
+INPUT.fmode = el => { el.checked ? S.filters.modes.add(el.value) : S.filters.modes.delete(el.value); refreshResults(); };
+INPUT.fprog = el => { S.filters.programme = el.value; refreshResults(); };
+INPUT.fpay = el => { S.filters.minPay = el.checked; refreshResults(); };
+INPUT.fsort = el => { S.filters.sort = el.value; refreshResults(); };
+ACT.clearfilters = () => { S.filters = {q:'', area:'', sectors:new Set(), modes:new Set(), programme:'', minPay:false, sort:S.filters.sort}; render({keepScroll:true}); };
+
+/* ---------- Job detail (shared) ---------- */
+function jobDetail(j, base){
+  if (!j) return `<h1>Role not found</h1><p>This role may have closed. <a href="${base}">See open roles</a>.</p>`;
+  const e = emp(j.emp);
+  const role = route().role;
+  const app = role === 'intern' ? S.apps.find(a => a.job === j.id && a.intern === DEMO_PEOPLE.intern) : null;
+  const saved = S.saved.has(j.id);
+  const applyBlock = app
+    ? `<p>${status(app.status)}</p><p class="small muted">You applied on ${fmt(app.history[0][1])}.</p><a class="btn btn-ghost" href="#/intern/applications">Track your application</a>`
+    : `<button class="btn btn-primary btn-lg" style="width:100%" data-act="apply" data-id="${j.id}">Apply now</button>
+       <button class="btn btn-ghost" style="width:100%;margin-top:8px" data-act="save" data-id="${j.id}" aria-pressed="${saved}">${icon('bookmark')}${saved ? 'Saved' : 'Save for later'}</button>`;
+  return `<a class="back" href="${base}">${icon('left')}Back to roles</a>
+  <div class="grid-main">
+    <article>
+      <div class="jobhead">${logo(e, 'lg')}<div><h1>${esc(j.title)}</h1><div class="muted">${esc(e.name)}, ${esc(j.area)} ${e.verified ? `<span class="chip" style="margin-left:6px">${icon('shield')}Checked by CPCA</span>` : ''}</div>
+        ${role === 'intern' ? `<div class="match" style="margin-top:6px">${matchScore(j)}% match with your CV</div>` : ''}</div></div>
+      <dl class="facts">
+        <div><dt>Pay</dt><dd>${money(j.pay)} an hour (about ${weekly(j)} a week)</dd></div>
+        <div><dt>Hours</dt><dd>${j.hours} hours a week</dd></div>
+        <div><dt>Length</dt><dd>${j.weeks} weeks</dd></div>
+        <div><dt>Location</dt><dd>${esc(j.area)}, ${esc(j.mode.toLowerCase())}</dd></div>
+        <div><dt>Starts</dt><dd>${fmtLong(j.starts)}</dd></div>
+        <div><dt>Closing date</dt><dd>${fmtLong(j.closes)}</dd></div>
+      </dl>
+      <div class="prose">
+        <p style="font-size:1.1rem">${esc(j.summary)}</p>
+        <h2>What you will do</h2><ul>${j.duties.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+        <h2>What you need</h2><ul>${j.needs.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+        <h2>Skills you will use</h2><div class="chips">${j.skills.map(s => `<span class="chip">${esc(s)}</span>`).join('')}</div>
+        <h2>About ${esc(e.name)}</h2><p>${esc(e.about)}</p><p class="muted small">${esc(e.size)}, ${esc(e.town)}</p>
+      </div>
+    </article>
+    <aside class="panel applybox" aria-label="Apply">
+      <h2>${closingText(j)}</h2>
+      <p class="deadline muted">Applications close at midnight on ${fmtLong(j.closes)}.</p>
+      ${role === 'visitor' ? `<button class="btn btn-primary btn-lg" style="width:100%" data-act="apply-visitor">Apply now</button><p class="small muted" style="margin-top:10px">You will need a free Talent Hive account. It takes about five minutes.</p>` : applyBlock}
+      <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+      <p class="small muted" style="margin:0">Questions about this role? Message the employer after you apply, or contact the Talent Hive team.</p>
+    </aside>
+  </div>`;
+}
+ACT['apply-visitor'] = () => promptSignIn('apply');
+
+/* ---------- For employers ---------- */
+function pubEmployers(){
+  return `<main id="main">
+  <section class="hero"><div class="inner" style="grid-template-columns:1fr">
+    <div><h1 style="max-width:18ch">Find your next intern, without the admin</h1>
+    <p class="lede">Talent Hive connects local employers with people ready for a paid six-week placement. Posting a role is free, and the CPCA team supports you throughout.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:24px"><a class="btn btn-primary btn-lg" href="#/employer/post">Post a role</a><a class="btn btn-ghost btn-lg" href="#/employer">See the employer dashboard</a></div></div>
+  </div></section>
+  <section class="section">
+    <h2>From first post to first day</h2>
+    <ol class="steps">
+      <li><h3>Post your role</h3><p class="muted">A four-step form covers pay, hours, duties and up to three screening questions. You see a live preview as you type.</p></li>
+      <li><h3>We check and share it</h3><p class="muted">The CPCA team checks your listing within two working days, then it goes live to local candidates.</p></li>
+      <li><h3>Review and hire</h3><p class="muted">Move applicants through your pipeline. They are told automatically at every step.</p></li>
+    </ol>
+  </section>
+  <section class="section" style="padding-top:0">
+    <div class="grid-3">
+      <div class="panel"><h3>Every listing is complete</h3><p class="muted" style="margin:0">Required fields for pay, hours, location and closing date mean candidates get the facts they need up front.</p></div>
+      <div class="panel"><h3>Applicants in one place</h3><p class="muted" style="margin:0">No more CVs scattered across inboxes. See each candidate's CV, badges and answers on one screen.</p></div>
+      <div class="panel"><h3>Search for talent</h3><p class="muted" style="margin:0">Browse interns who have chosen to be found, filtered by skill and availability, and invite them to apply.</p></div>
+    </div>
+  </section></main>`;
+}
+
+/* ---------- Sign in ---------- */
+function pubSignin(){
+  return `<main id="main" class="section" style="max-width:820px">
+    <h1>Sign in or join</h1>
+    <p class="lede muted" style="font-size:1.1rem">In the full site you would sign in with a secure link sent to your email. In this demo, choose a role to continue.</p>
+    <div class="grid-2" style="margin-top:24px">
+      <div class="panel"><h2>I am looking for a placement</h2><p class="muted">Find roles, build your CV, apply and track every application.</p><button class="btn btn-primary" data-act="role" data-role="intern">Continue as Jordan, an intern</button></div>
+      <div class="panel"><h2>I am an employer</h2><p class="muted">Post roles, review applicants and confirm placements.</p><button class="btn btn-primary" data-act="role" data-role="employer">Continue as Priya, an employer</button></div>
+    </div>
+    <p class="muted" style="margin-top:20px">CPCA staff sign in with their work account. <button class="btn btn-quiet btn-sm" data-act="role" data-role="cpca">Continue as Sam, CPCA team</button></p>
+  </main>`;
+}
+
+/* ---------- Intern area ---------- */
+const myApps = () => S.apps.filter(a => a.intern === DEMO_PEOPLE.intern);
+function internNav(){
+  const unread = S.threads.filter(t => t.role === 'intern' && t.unread).length;
+  const gamesLeft = Object.values(S.boost.played).filter(x => !x).length;
+  return [
+    {id:'home',href:'#/intern',icon:'home',label:'Dashboard'},
+    {id:'jobs',href:'#/intern/jobs',icon:'briefcase',label:'Jobs'},
+    {id:'applications',href:'#/intern/applications',icon:'apps',label:'Applications'},
+    {id:'cv',href:'#/intern/cv',icon:'file',label:'My CV'},
+    {id:'badges',href:'#/intern/badges',icon:'hex',label:'Skills and badges'},
+    {id:'boost',href:'#/intern/boost',icon:'spark',label:'Daily Career Boost',count:gamesLeft},
+    {id:'messages',href:'#/intern/messages',icon:'mail',label:'Messages',count:unread},
+    {id:'events',href:'#/intern/events',icon:'calendar',label:'Events'}
+  ];
+}
+function renderIntern(r){
+  const p = r.parts; const v = p[1] || 'home';
+  const me = intern(DEMO_PEOPLE.intern);
+  let body;
+  if (v === 'home') body = internHome();
+  else if (v === 'jobs' && p[2] === 'saved') body = savedJobs();
+  else if (v === 'jobs' && p[2]) body = jobDetail(job(p[2]), '#/intern/jobs');
+  else if (v === 'jobs') body = jobsBoard('#/intern/jobs');
+  else if (v === 'applications') body = internApps();
+  else if (v === 'cv') body = cvBuilder();
+  else if (v === 'badges') body = badgesView();
+  else if (v === 'boost') body = boostView(p[2]);
+  else if (v === 'messages') body = messagesView('intern');
+  else if (v === 'events') body = `<div class="pagehead"><div><h1>Events</h1><p>Book free sessions and employer meet-ups.</p></div></div><div class="panel">${S.events.map(eventItem).join('')}</div>`;
+  else body = `<h1>Page not found</h1>`;
+  return `<a class="skip" href="#main">Skip to content</a>` + shell('intern', v, internNav(), `${avatar(me)}<div><b>${esc(me.name)}</b><span>Intern, ${esc(me.area)}</span></div>`, body);
+}
+
+function cvChecks(){
+  const c = S.cv;
+  return [
+    {ok:!!(c.headline && c.headline.length > 10), tip:'Add a headline'},
+    {ok:c.about.length >= 80, tip:'Write at least two sentences about yourself'},
+    {ok:c.exp.length >= 1, tip:'Add some experience, paid or unpaid'},
+    {ok:c.edu.length >= 1, tip:'Add your education'},
+    {ok:c.skills.length >= 5, tip:'Add at least five skills'},
+    {ok:!!(c.link && c.link.trim()), tip:'Add a link to a project or portfolio'}
+  ];
+}
+const cvPct = () => { const c = cvChecks(); return Math.round(100 * c.filter(x => x.ok).length / c.length); };
+
+function trackHTML(a){
+  if (a.status === 'notprogressed') return '';
+  const steps = ['applied','viewed','shortlisted','interview','offer'];
+  const at = a.status === 'placed' ? 5 : steps.indexOf(a.status);
+  return `<ol class="track" aria-label="Progress: ${STATUS_LABEL[a.status]}">${steps.map((s,i) => `<li class="${i < at ? 'done' : i === at ? 'now' : ''}">${STATUS_LABEL[s]}</li>`).join('')}</ol>`;
+}
+
+function internHome(){
+  const apps = myApps();
+  const interview = apps.find(a => a.status === 'interview');
+  const offer = apps.find(a => a.status === 'offer');
+  const active = apps.filter(a => !['notprogressed'].includes(a.status));
+  const applied = new Set(apps.map(a => a.job));
+  const recs = liveJobs().filter(j => !applied.has(j.id)).sort((a,b) => matchScore(b) - matchScore(a)).slice(0,3);
+  const played = Object.values(S.boost.played).filter(Boolean).length;
+  const pct = cvPct();
+  const next = offer ? {t:`You have an offer from ${emp(job(offer.job).emp).name}`, s:`${job(offer.job).title}. Reply by ${fmt('2026-11-27')} to accept or decline.`, b:'<a class="btn btn-honey" href="#/intern/applications">Review offer</a>'}
+    : interview ? {t:`Interview with ${emp(job(interview.job).emp).name}`, s:`${interview.interview}.`, b:`<button class="btn btn-honey" data-act="prep" data-id="${interview.id}">Prepare for it</button>`}
+    : {t:'Find your next role', s:'New roles are added every week.', b:'<a class="btn btn-honey" href="#/intern/jobs">Browse jobs</a>'};
+  return `<div class="pagehead"><div><h1>Good morning, Jordan</h1><p>Tuesday 24 November. Here is what needs your attention.</p></div></div>
+  <section class="nextstep" aria-label="Next step"><div class="hexdeco hex">${icon('calendar')}</div><div><h2>${esc(next.t)}</h2><p>${esc(next.s)}</p></div>${next.b}</section>
+  <div class="grid-main">
+    <div class="stack">
+      <section class="panel" aria-labelledby="apps-h">
+        <div class="section-head" style="margin-bottom:6px"><h2 id="apps-h" style="margin:0">Your applications</h2><a href="#/intern/applications">See all ${apps.length}</a></div>
+        ${active.map(a => { const j = job(a.job), e = emp(j.emp); return `<div class="listitem" style="align-items:flex-start">${logo(e)}<div class="grow"><b>${esc(j.title)}</b><div class="small muted">${esc(e.name)}. Updated ${fmt(a.history.at(-1)[1])}</div>${trackHTML(a)}</div>${status(a.status)}</div>`; }).join('')}
+      </section>
+      <section class="panel" aria-labelledby="rec-h">
+        <div class="section-head" style="margin-bottom:12px"><div><h2 id="rec-h" style="margin:0">Recommended for you</h2><p class="small">Based on the skills on your CV and the areas you chose.</p></div><a href="#/intern/jobs">All jobs</a></div>
+        <div class="joblist">${recs.map(j => jobRow(j, {base:'#/intern/jobs', showMatch:true})).join('')}</div>
+      </section>
+    </div>
+    <div class="stack">
+      <section class="panel" aria-labelledby="boost-h" style="background:var(--honey-50);border-color:#F6D9A8">
+        <h2 id="boost-h">Daily Career Boost</h2>
+        <div class="boosthead" style="margin-bottom:12px"><div class="streak" style="background:#fff"><span class="hex">${S.boost.streak}</span><div><b>day streak</b><div class="small muted">${S.boost.points} points</div></div></div></div>
+        <p class="small" style="margin-bottom:12px">${played === 3 ? 'All three games done today. Come back tomorrow to keep your streak.' : `${3 - played} of 3 games left today. Each takes about two minutes.`}</p>
+        <a class="btn btn-primary" href="#/intern/boost">${played === 3 ? 'See your progress' : 'Play today\'s games'}</a>
+      </section>
+      <section class="panel" aria-labelledby="cv-h">
+        <h2 id="cv-h">Your CV is ${pct}% complete</h2>
+        <div class="meter"><i style="width:${pct}%"></i></div>
+        ${pct < 100 ? `<p class="small" style="margin:12px 0">${esc(cvChecks().find(c => !c.ok).tip)} to reach 100%.</p>` : '<p class="small" style="margin:12px 0">Your CV has everything employers look for.</p>'}
+        <a class="btn btn-ghost btn-sm" href="#/intern/cv">Edit CV</a>
+      </section>
+      <section class="panel" aria-labelledby="ev-h2">
+        <h2 id="ev-h2">Your events</h2>
+        ${S.events.filter(e => S.booked.has(e.id)).map(eventItem).join('') || '<p class="muted small">No events booked yet.</p>'}
+        <a class="btn btn-quiet btn-sm" href="#/intern/events">Find more events</a>
+      </section>
+    </div>
+  </div>`;
+}
+ACT.prep = el => {
+  const a = S.apps.find(x => x.id === el.dataset.id); const j = job(a.job), e = emp(j.emp);
+  openModal(`<header><h2>Prepare for your interview</h2><button class="icon-btn" data-act="close" aria-label="Close">${icon('x')}</button></header>
+    <p><b>${esc(j.title)}</b> at ${esc(e.name)}<br>${esc(a.interview)}</p>
+    <h3>Before the day</h3>
+    <ul><li>Re-read the <a href="#/intern/jobs/${j.id}">job description</a> and pick three examples that match it.</li><li>Practise answering with the STAR method. The Workplace Quiz covers it.</li><li>Plan your journey and aim to arrive ten minutes early.</li></ul>
+    <h3>Bring with you</h3><ul><li>An example of a spreadsheet you have built, as the employer asked.</li><li>Two questions to ask them about the team.</li></ul>
+    <footer><a class="btn btn-ghost" href="#/intern/boost/quiz">Practise with the quiz</a><a class="btn btn-primary" href="#/intern/messages">Message the employer</a></footer>`, {label:'Prepare for your interview'});
+};
+
+function savedJobs(){
+  const list = [...S.saved].map(job).filter(Boolean);
+  return `<a class="back" href="#/intern/jobs">${icon('left')}Back to jobs</a><div class="pagehead"><div><h1>Saved jobs</h1><p>Roles you have bookmarked. We will remind you two days before each closes.</p></div></div>
+  ${list.length ? `<div class="joblist">${list.map(j => jobRow(j, {base:'#/intern/jobs', showMatch:true})).join('')}</div>` : `<div class="empty"><h3>No saved jobs</h3><p class="muted">Use the bookmark on any role to save it here.</p><a class="btn btn-primary" href="#/intern/jobs">Browse jobs</a></div>`}`;
+}
+
+/* ---------- Apply ---------- */
+ACT.apply = el => {
+  const j = job(el.dataset.id), e = emp(j.emp);
+  openModal(`<form data-form="apply" data-id="${j.id}" novalidate>
+    <header><div><h2>Apply for ${esc(j.title)}</h2><p class="muted" style="margin:4px 0 0">${esc(e.name)}, ${esc(j.area)}</p></div><button type="button" class="icon-btn" data-act="close" aria-label="Close">${icon('x')}</button></header>
+    <div class="field"><span style="font-weight:700;display:block;margin-bottom:6px">Your CV</span>
+      <div class="cvchip">${icon('file')}<div class="grow" style="flex:1"><b>${esc(S.cv.name)} CV</b><div class="small muted">${cvPct()}% complete, with 4 verified badges</div></div><a href="#/intern/cv" class="small">Edit</a></div></div>
+    <div class="field"><label for="ap-note">Why do you want this role? <span class="hint">Optional. Two or three sentences is plenty.</span></label><textarea id="ap-note" name="note" maxlength="600"></textarea></div>
+    ${j.questions.map((q,i) => `<div class="field"><label for="ap-q${i}">${esc(q)} <span class="hint">Required</span></label><textarea id="ap-q${i}" name="q${i}" style="min-height:80px" aria-describedby="ap-q${i}-err"></textarea><div id="ap-q${i}-err" class="err" hidden>Answer this question to apply</div></div>`).join('')}
+    <label class="check"><input type="checkbox" name="confirm" aria-describedby="ap-c-err"> I live in Cambridgeshire or Peterborough and could start on ${fmtLong(j.starts)}</label>
+    <div id="ap-c-err" class="err" hidden>Confirm this to apply</div>
+    <p class="small muted" style="margin:14px 0 0">Concept demo: nothing is sent to anyone.</p>
+    <footer><button type="button" class="btn btn-ghost" data-act="close">Cancel</button><button class="btn btn-primary">${icon('send')}Send application</button></footer>
+  </form>`, {label:'Apply for ' + j.title});
+};
+FORM.apply = f => {
+  const j = job(f.dataset.id);
+  let ok = true, first = null;
+  j.questions.forEach((q,i) => { const t = f['q' + i]; const bad = !t.value.trim(); $('#ap-q' + i + '-err').hidden = !bad; t.setAttribute('aria-invalid', bad); if (bad){ ok = false; first = first || t; } });
+  const c = f.confirm; $('#ap-c-err').hidden = c.checked; if (!c.checked){ ok = false; first = first || c; }
+  if (!ok){ first.focus(); return; }
+  S.apps.unshift({id:uid('a'), job:j.id, intern:DEMO_PEOPLE.intern, status:'applied', note:f.note.value.trim(), answers:j.questions.map((q,i) => f['q' + i].value.trim()), history:[['applied', todayISO()]]});
+  closeModal();
+  toast(`Application sent to ${emp(j.emp).name}`);
+  render({keepScroll:true});
+};
+
+/* ---------- Applications ---------- */
+function internApps(){
+  const apps = myApps();
+  const active = apps.filter(a => a.status !== 'notprogressed');
+  const closed = apps.filter(a => a.status === 'notprogressed');
+  const card = a => {
+    const j = job(a.job), e = emp(j.emp);
+    let extra = '';
+    if (a.status === 'interview' && a.interview) extra = `<p style="margin:12px 0 0"><b>Interview:</b> ${esc(a.interview)}</p>`;
+    if (a.status === 'offer') extra = `<div style="margin-top:14px;padding:14px;background:var(--mint-50);border-radius:10px"><b>${esc(e.name)} has offered you this placement.</b><p class="small" style="margin:4px 0 10px">Starts ${fmtLong(j.starts)}. ${j.hours} hours a week at ${money(j.pay)} an hour.</p><button class="btn btn-primary btn-sm" data-act="accept" data-id="${a.id}">Accept offer</button> <button class="btn btn-ghost btn-sm" data-act="decline" data-id="${a.id}">Decline</button></div>`;
+    if (a.status === 'placed') extra = `<p style="margin:12px 0 0"><b>You start on ${fmtLong(j.starts)}.</b> The CPCA team will send your welcome pack.</p>`;
+    if (a.status === 'notprogressed' && a.feedback) extra = `<p class="small" style="margin:12px 0 0"><b>Feedback from the employer:</b> ${esc(a.feedback)}</p>`;
+    return `<article class="appcard"><div class="top">${logo(e)}<div><h3 style="margin:0"><a href="#/intern/jobs/${j.id}">${esc(j.title)}</a></h3><div class="small muted">${esc(e.name)}. Applied ${fmt(a.history[0][1])}, last update ${fmt(a.history.at(-1)[1])}</div></div>${status(a.status)}</div>
+      ${trackHTML(a)}${extra}
+      <details style="margin-top:12px"><summary class="small" style="cursor:pointer;color:var(--link);font-weight:700">History</summary><ul class="timeline">${a.history.map(([s,t]) => `<li>${STATUS_LABEL[s]} on ${fmt(t)}</li>`).join('')}</ul></details>
+    </article>`;
+  };
+  return `<div class="pagehead"><div><h1>Applications</h1><p>Every role you have applied for, and where each one stands.</p></div><a class="btn btn-primary" href="#/intern/jobs">Find more roles</a></div>
+  <h2 style="font-size:1.15rem">In progress (${active.length})</h2>${active.map(card).join('') || '<div class="empty">No applications yet.</div>'}
+  <h2 style="font-size:1.15rem;margin-top:28px">Closed (${closed.length})</h2>${closed.map(card).join('') || '<p class="muted">None.</p>'}`;
+}
+ACT.accept = el => { const a = S.apps.find(x => x.id === el.dataset.id); a.status = 'placed'; a.history.push(['placed', todayISO()]); toast('Offer accepted. Congratulations!'); render({keepScroll:true}); };
+ACT.decline = el => { const a = S.apps.find(x => x.id === el.dataset.id); a.status = 'notprogressed'; a.history.push(['notprogressed', todayISO()]); a.feedback = 'You declined this offer.'; toast('Offer declined'); render({keepScroll:true}); };
+
+/* ---------- CV builder ---------- */
+function cvPreview(){
+  const c = S.cv;
+  return `<h2>${esc(c.name)}</h2><div class="muted">${esc(c.headline)}</div><div class="small muted">${esc(c.area)}. ${esc(c.email)}${c.link ? `. ${esc(c.link)}` : ''}</div>
+    <h3>About me</h3><p>${esc(c.about)}</p>
+    <h3>Experience</h3>${c.exp.map(x => `<p><span class="role">${esc(x.role)}</span>, ${esc(x.org)} <span class="muted">(${esc(x.dates)})</span><br>${esc(x.desc)}</p>`).join('') || '<p class="muted">Add experience on the left.</p>'}
+    <h3>Education</h3>${c.edu.map(x => `<p><span class="role">${esc(x.course)}</span>, ${esc(x.org)} <span class="muted">(${esc(x.dates)})</span></p>`).join('')}
+    <h3>Skills</h3><p>${c.skills.map(esc).join(', ')}</p>
+    ${c.showBadges ? `<h3>Verified badges</h3><div class="badges">${BADGES.start.filter(b => b.earned).map(b => `<span class="chip">${icon('hex')}${esc(b.name)}</span>`).join('')}</div>` : ''}`;
+}
+function cvMeter(){
+  const pct = cvPct();
+  const missing = cvChecks().filter(x => !x.ok);
+  return `<div style="display:flex;justify-content:space-between;align-items:baseline"><b>${pct}% complete</b>${missing.length ? `<span class="small muted">${esc(missing[0].tip)}</span>` : '<span class="small" style="color:var(--mint-ink);font-weight:700">Ready to send</span>'}</div><div class="meter" style="margin-top:6px"><i style="width:${pct}%"></i></div>`;
+}
+function cvBuilder(){
+  const c = S.cv;
+  const f = (label, path, val, opts = {}) => `<div class="field"><label for="cv-${path}">${label}${opts.hint ? `<span class="hint">${opts.hint}</span>` : ''}</label>${opts.area ? `<textarea id="cv-${path}" data-input="cv" data-path="${path}">${esc(val)}</textarea>` : `<input id="cv-${path}" type="text" data-input="cv" data-path="${path}" value="${esc(val)}" ${opts.ph ? `placeholder="${opts.ph}"` : ''}>`}</div>`;
+  return `<div class="pagehead"><div><h1>My CV</h1><p>Employers see this when you apply. Changes save as you type.</p></div><button class="btn btn-ghost" data-act="printcv">${icon('download')}Download as PDF</button></div>
+  <div class="cvgrid">
+    <div class="stack">
+      <section class="panel"><h2>The basics</h2>
+        ${f('Full name','name',c.name)}${f('Headline','headline',c.headline,{hint:'One line about you and what you are looking for'})}
+        <div class="row">${f('Email','email',c.email)}${f('Area','area',c.area)}</div>
+        ${f('Portfolio or project link','link',c.link || '',{hint:'Optional. A website, GitHub or online portfolio',ph:'For example github.com/yourname'})}
+      </section>
+      <section class="panel"><h2>About me</h2>${f('A short introduction','about',c.about,{area:true,hint:'Two to four sentences employers will read first'})}</section>
+      <section class="panel"><h2>Experience</h2><p class="small muted">Paid work, volunteering, projects and caring roles all count.</p>
+        ${c.exp.map((x,i) => `<div class="cvexp">${f('Role','exp.' + i + '.role',x.role)}<div class="row">${f('Organisation','exp.' + i + '.org',x.org)}${f('Dates','exp.' + i + '.dates',x.dates)}</div>${f('What you did','exp.' + i + '.desc',x.desc,{area:true})}<button class="btn btn-quiet btn-sm" data-act="cv-del" data-i="${i}">Remove this experience</button></div>`).join('')}
+        <button class="btn btn-ghost btn-sm" data-act="cv-add">${icon('plus')}Add experience</button>
+      </section>
+      <section class="panel"><h2>Education</h2>
+        ${c.edu.map((x,i) => `<div class="cvexp">${f('Course or qualification','edu.' + i + '.course',x.course)}<div class="row">${f('Where','edu.' + i + '.org',x.org)}${f('Dates','edu.' + i + '.dates',x.dates)}</div></div>`).join('')}
+      </section>
+      <section class="panel"><h2>Skills</h2>
+        <div class="chips" style="margin-bottom:12px">${c.skills.map((s,i) => `<span class="chip">${esc(s)}<button class="icon-btn" style="padding:0" data-act="skill-del" data-i="${i}" aria-label="Remove ${esc(s)}">${icon('x')}</button></span>`).join('')}</div>
+        <form data-form="skill" class="row" style="gap:8px;flex-direction:row"><label class="sr-only" for="newskill">Add a skill</label><input id="newskill" name="skill" type="text" placeholder="Add a skill, for example Figma"><button class="btn btn-ghost" style="flex:none">Add</button></form>
+      </section>
+      <section class="panel"><label class="check"><input type="checkbox" data-change="cvbadges" ${c.showBadges ? 'checked' : ''}> Show my verified badges on my CV</label></section>
+    </div>
+    <div>
+      <div class="panel" style="margin-bottom:16px" id="cv-meter">${cvMeter()}</div>
+      <div class="cvpaper" id="cv-preview" aria-label="CV preview">${cvPreview()}</div>
+    </div>
+  </div>`;
+}
+function refreshCV(){ $('#cv-preview').innerHTML = cvPreview(); $('#cv-meter').innerHTML = cvMeter(); }
+INPUT.cv = el => {
+  const path = el.dataset.path.split('.');
+  let o = S.cv; while (path.length > 1){ o = o[path.shift()]; }
+  o[path[0]] = el.value; refreshCV();
+};
+INPUT.cvbadges = el => { S.cv.showBadges = el.checked; refreshCV(); };
+ACT['cv-add'] = () => { S.cv.exp.push({role:'',org:'',dates:'',desc:''}); render({keepScroll:true, keepFocus:true}); const i = S.cv.exp.length - 1; const el = $('#cv-exp\\.' + i + '\\.role'); if (el) el.focus(); };
+ACT['cv-del'] = el => { S.cv.exp.splice(+el.dataset.i, 1); render({keepScroll:true, keepFocus:true}); toast('Experience removed'); };
+ACT['skill-del'] = el => { S.cv.skills.splice(+el.dataset.i, 1); render({keepScroll:true, keepFocus:true}); };
+FORM.skill = f => { const v = f.skill.value.trim(); if (!v) return; S.cv.skills.push(v); render({keepScroll:true, keepFocus:true}); $('#newskill').focus(); };
+ACT.printcv = () => { document.body.classList.add('print-cv'); window.print(); setTimeout(() => document.body.classList.remove('print-cv'), 500); };
+
+/* ---------- Badges ---------- */
+function pathHTML(list, nextIdx){
+  return `<div class="path">${list.map((b,i) => `${i ? `<div class="link ${b.earned ? 'done' : ''}" aria-hidden="true"></div>` : ''}<div class="node ${b.earned ? 'earned' : i === nextIdx ? 'next' : ''}"><div class="hex">${icon(b.earned ? 'check' : 'hex')}</div><span>${esc(b.name)}<br><span class="small muted">${b.earned ? 'Earned' : i === nextIdx ? 'Up next' : 'Not started'}</span></span></div>`).join('')}</div>`;
+}
+function badgesView(){
+  return `<div class="pagehead"><div><h1>Skills and badges</h1><p>Badges are verified by CPCA and appear on your CV, so employers can trust them.</p></div></div>
+  <section class="panel"><div class="section-head" style="margin-bottom:6px"><div><h2 style="margin:0">Get started</h2><p class="small">Complete these to be matched to a placement.</p></div>${status('approved','4 of 4 earned')}</div>${pathHTML(BADGES.start, -1)}</section>
+  <section class="panel"><div class="section-head" style="margin-bottom:6px"><div><h2 style="margin:0">Enhance your employability</h2><p class="small">Show employers what you have done beyond study.</p></div>${status('pending','0 of 3 earned')}</div>${pathHTML(BADGES.enhance, 0)}
+    <button class="btn btn-primary" data-act="badgeinfo">How to earn Volunteering</button></section>
+  <section class="panel"><div class="section-head" style="margin-bottom:6px"><div><h2 style="margin:0">Daily Career Boost</h2><p class="small">Keep a streak going to earn these.</p></div></div>${pathHTML(BADGES.boost, 0)}
+    <p class="small" style="margin:0">Your streak is ${S.boost.streak} days. ${7 - S.boost.streak > 0 ? `${7 - S.boost.streak} more days to earn the 7-day badge.` : 'You have reached 7 days.'}</p></section>`;
+}
+ACT.badgeinfo = () => openModal(`<header><h2>Earn the Volunteering badge</h2><button class="icon-btn" data-act="close" aria-label="Close">${icon('x')}</button></header>
+  <p>Show you have given your time to a community group, charity or event.</p>
+  <ol><li>Volunteer for at least 6 hours. It can be spread over several weeks.</li><li>Ask the organiser for a short reference, or upload a photo or certificate.</li><li>Tell us what you did and what you learned in a few sentences.</li></ol>
+  <p class="small muted">The CPCA team reviews badge applications within five working days.</p>
+  <footer><button class="btn btn-ghost" data-act="close">Not now</button><button class="btn btn-primary" data-act="badgestart">Start my application</button></footer>`, {label:'Earn the Volunteering badge'});
+ACT.badgestart = () => { closeModal(); toast('Badge application started. Find it under Skills and badges.'); };
+
+/* ---------- Messages (shared) ---------- */
+function messagesView(role){
+  const list = S.threads.filter(t => t.role === role);
+  const cur = list.find(t => t.id === S.activeThread[role]) || list[0];
+  if (cur) cur.unread = false;
+  return `<div class="pagehead"><div><h1>Messages</h1><p>Every conversation about your ${role === 'intern' ? 'applications' : 'roles'} in one place.</p></div></div>
+  <div class="inbox">
+    <div class="threads" role="list">${list.map(t => `<button class="thread" role="listitem" data-act="thread" data-id="${t.id}" aria-current="${t === cur}">${t.unread ? '<span class="unread" aria-label="Unread"></span>' : ''}<b style="display:inline">${esc(t.with)}</b><div class="sub">${esc(t.subject)}</div><div class="small muted">${esc(t.msgs.at(-1).t)}</div></button>`).join('')}</div>
+    ${cur ? `<section class="conv" aria-label="Conversation with ${esc(cur.with)}"><header><b>${esc(cur.subject)}</b><div class="small muted">With ${esc(cur.with)}</div></header>
+      <div class="msgs" id="msgs">${cur.msgs.map(m => `<div class="msg ${m.from === 'me' ? 'me' : ''}">${esc(m.text)}<div class="t">${esc(m.t)}</div></div>`).join('')}</div>
+      <form data-form="reply" data-id="${cur.id}"><label class="sr-only" for="reply">Write a reply</label><input id="reply" name="text" type="text" placeholder="Write a reply" autocomplete="off"><button class="btn btn-primary">${icon('send')}Send</button></form></section>` : '<div class="empty">No messages</div>'}
+  </div>`;
+}
+ACT.thread = el => { S.activeThread[route().role] = el.dataset.id; render({keepScroll:true, keepFocus:true}); const b = $(`[data-act=thread][data-id="${el.dataset.id}"]`); if (b) b.focus(); };
+FORM.reply = f => {
+  const t = S.threads.find(x => x.id === f.dataset.id); const v = f.text.value.trim(); if (!v) return;
+  t.msgs.push({from:'me', text:v, t:'Just now'}); render({keepScroll:true, keepFocus:true}); $('#reply').focus();
+  const m = $('#msgs'); if (m) m.scrollTop = m.scrollHeight;
+};
+
+/* ---------- Daily Career Boost ---------- */
+const realToday = new Date();
+const dayIndex = Math.floor((realToday - new Date(realToday.getFullYear(), 0, 0)) / 864e5);
+
+function finishGame(key, pts){
+  if (S.boost.played[key]) return;
+  S.boost.played[key] = true;
+  S.boost.points += pts;
+  if (!S.boost.counted){ S.boost.counted = true; S.boost.streak += 1; setTimeout(() => toast(`Streak extended to ${S.boost.streak} days. +${pts} points`), 400); }
+  else setTimeout(() => toast(`+${pts} points`), 400);
+}
+
+function boostView(game){
+  if (game === 'wordle') return wordleView();
+  if (game === 'quiz') return quizView();
+  if (game === 'match') return matchView();
+  const P = S.boost.played;
+  const card = (key, ic, title, desc, pts) => `<article class="gamecard ${P[key] ? 'done' : ''}"><div class="gicon hex">${icon(P[key] ? 'check' : ic)}</div><h2 style="font-size:1.2rem;margin:4px 0 0">${title}</h2><p class="muted small" style="margin:0">${desc}</p><p class="small" style="margin:0"><b>${P[key] ? 'Done today' : `${pts} points`}</b></p>
+    <a class="btn ${P[key] ? 'btn-ghost' : 'btn-primary'}" href="#/intern/boost/${key}">${P[key] ? 'See result' : 'Play'}</a></article>`;
+  const played = Object.values(P).filter(Boolean).length;
+  return `<div class="pagehead"><div><h1>Daily Career Boost</h1><p>Three short games a day to sharpen your workplace know-how. New ones every morning.</p></div>
+    <div class="streak"><span class="hex">${S.boost.streak}</span><div><b>day streak</b><div class="small muted">${S.boost.points} points</div></div></div></div>
+  <div class="gamecards">
+    ${card('wordle','grid','Career Wordle','Guess today\'s five-letter workplace word in six tries.',30)}
+    ${card('quiz','quiz','Workplace Quiz','Five quick questions on interviews and first days, with tips after each.',50)}
+    ${card('match','link','Skill Match','Pair four skills with the roles that use them.',20)}
+  </div>
+  <section class="panel" style="margin-top:20px"><h2>Today</h2>
+    <div class="meter honey" style="margin-bottom:8px"><i style="width:${played / 3 * 100}%"></i></div>
+    <p class="small" style="margin:0">${played} of 3 games played. ${S.boost.streak >= 7 ? '' : `Keep going for ${7 - S.boost.streak} more ${7 - S.boost.streak === 1 ? 'day' : 'days'} to earn the 7-day streak badge.`}</p>
+  </section>
+  <section class="panel"><h2>New roles since your last visit</h2><div class="joblist">${liveJobs().filter(j => daysSince(j.posted) <= 5).slice(0,2).map(j => jobRow(j, {base:'#/intern/jobs', showMatch:true})).join('')}</div></section>`;
+}
+
+/* Career Wordle */
+function wordleState(){
+  if (!S.wordle){ const w = WORDS[dayIndex % WORDS.length]; S.wordle = {answer:w.w, def:w.def, guesses:[], cur:'', done:false, won:false, msg:''}; }
+  return S.wordle;
+}
+function scoreGuess(g, ans){
+  const res = Array(5).fill('absent'); const a = ans.split(''); const used = Array(5).fill(false);
+  for (let i = 0; i < 5; i++) if (g[i] === a[i]){ res[i] = 'correct'; used[i] = true; }
+  for (let i = 0; i < 5; i++){ if (res[i] === 'correct') continue; const k = a.findIndex((c,j) => c === g[i] && !used[j]); if (k > -1){ res[i] = 'present'; used[k] = true; } }
+  return res;
+}
+const WL = {correct:'right letter, right place', present:'in the word, wrong place', absent:'not in the word'};
+function wordleBoard(){
+  const W = wordleState();
+  let rows = '';
+  for (let r = 0; r < 6; r++){
+    const g = W.guesses[r];
+    let tiles = '', sr = '';
+    if (g){ const sc = scoreGuess(g, W.answer); tiles = g.split('').map((c,i) => `<div class="tile hex ${sc[i]}">${c}</div>`).join(''); sr = `<span class="sr-only">Guess ${r + 1}: ${g.split('').map((c,i) => `${c} ${WL[sc[i]]}`).join(', ')}.</span>`; }
+    else if (r === W.guesses.length && !W.done){ tiles = Array.from({length:5}, (_,i) => `<div class="tile hex ${W.cur[i] ? 'filled' : ''}">${W.cur[i] || ''}</div>`).join(''); }
+    else tiles = Array.from({length:5}, () => '<div class="tile hex"></div>').join('');
+    rows += `<div class="wrow" aria-hidden="${g ? 'false' : 'true'}">${g ? `<span aria-hidden="true" style="display:contents">${tiles}</span>${sr}` : tiles}</div>`;
+  }
+  const states = {};
+  W.guesses.forEach(g => scoreGuess(g, W.answer).forEach((s,i) => { const c = g[i]; const rank = {correct:3,present:2,absent:1}; if (!states[c] || rank[s] > rank[states[c]]) states[c] = s; }));
+  const kb = ['QWERTYUIOP','ASDFGHJKL','+ZXCVBNM-'].map(row => `<div>${row.split('').map(k => k === '+' ? `<button class="wide" data-act="wk" data-k="Enter">Enter</button>` : k === '-' ? `<button class="wide" data-act="wk" data-k="Backspace" aria-label="Delete letter">Delete</button>` : `<button class="${states[k] || ''}" data-act="wk" data-k="${k}" aria-label="${k}${states[k] ? ', ' + WL[states[k]] : ''}">${k}</button>`).join('')}</div>`).join('');
+  return `<div class="wordle" role="group" aria-label="Guesses">${rows}</div>
+    <p role="status" class="small" style="text-align:center;min-height:1.5em;font-weight:700">${esc(W.msg)}</p>
+    ${W.done ? `<div class="panel" style="max-width:520px;margin:0 auto;text-align:center"><h2>${W.won ? 'Nice work' : 'Today\'s word'}: ${W.answer}</h2><p>${esc(W.answer[0] + W.answer.slice(1).toLowerCase())} is ${esc(W.def)}</p><a class="btn btn-primary" href="#/intern/boost">Back to today's games</a></div>` : `<div class="kbd" aria-label="Keyboard">${kb}</div>`}
+    <div class="legend" style="margin-top:16px"><span><i class="hex" style="background:var(--mint)"></i>Right letter, right place</span><span><i class="hex" style="background:var(--honey)"></i>In the word, wrong place</span><span><i class="hex" style="background:#8C9AAB"></i>Not in the word</span></div>`;
+}
+function wordleView(){
+  return `<a class="back" href="#/intern/boost">${icon('left')}Daily Career Boost</a><div class="pagehead"><div><h1>Career Wordle</h1><p>Guess the five-letter workplace word. You have six tries. Type on your keyboard or use the keys below.</p></div></div><div id="wordle">${wordleBoard()}</div>`;
+}
+function wordleKey(k){
+  const W = wordleState(); if (W.done) return;
+  W.msg = '';
+  if (k === 'Enter'){
+    if (W.cur.length < 5){ W.msg = 'Enter five letters'; }
+    else {
+      W.guesses.push(W.cur); W.cur = '';
+      if (W.guesses.at(-1) === W.answer){ W.done = true; W.won = true; W.msg = `Solved in ${W.guesses.length} ${W.guesses.length === 1 ? 'try' : 'tries'}`; finishGame('wordle', 30); }
+      else if (W.guesses.length === 6){ W.done = true; W.msg = 'Out of tries. Here is today\'s word.'; finishGame('wordle', 10); }
+    }
+  } else if (k === 'Backspace'){ W.cur = W.cur.slice(0, -1); }
+  else if (/^[A-Z]$/.test(k) && W.cur.length < 5){ W.cur += k; }
+  const box = $('#wordle'); if (box) box.innerHTML = wordleBoard();
+}
+ACT.wk = el => { wordleKey(el.dataset.k); const b = $(`[data-act=wk][data-k="${el.dataset.k}"]`); if (b) b.focus(); };
+document.addEventListener('keydown', e => {
+  if (!$('#wordle') || $('#modal-root').innerHTML) return;
+  if (e.target.matches('input,textarea,select')) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.key === 'Enter' && e.target.closest('button')) return;
+  const k = e.key.length === 1 ? e.key.toUpperCase() : e.key;
+  if (k === 'Enter' || k === 'Backspace' || /^[A-Z]$/.test(k)){ e.preventDefault(); wordleKey(k); }
+});
+
+/* Workplace Quiz */
+function quizView(){
+  if (!S.quiz) S.quiz = {i:0, picked:null, score:0, done:false};
+  const Q = S.quiz;
+  const head = `<a class="back" href="#/intern/boost">${icon('left')}Daily Career Boost</a><div class="pagehead"><div><h1>Workplace Quiz</h1><p>Five questions. Tips after each one.</p></div></div>`;
+  if (Q.done) return head + `<div class="panel" style="max-width:640px"><h2>You scored ${Q.score} out of ${QUIZ.length}</h2><p>${Q.score === 5 ? 'Perfect. You are interview-ready.' : 'Good effort. The tips are worth a second read before your next interview.'}</p><a class="btn btn-primary" href="#/intern/boost">Back to today's games</a></div>`;
+  const q = QUIZ[Q.i];
+  return head + `<div class="panel" style="max-width:680px">
+    <p class="small muted" style="margin:0 0 4px">Question ${Q.i + 1} of ${QUIZ.length}</p>
+    <div class="meter honey" style="margin-bottom:16px"><i style="width:${(Q.i) / QUIZ.length * 100}%"></i></div>
+    <h2 style="font-size:1.25rem">${esc(q.q)}</h2>
+    <div role="group" aria-label="Answers">${q.opts.map((o,i) => {
+      const cls = Q.picked === null ? '' : i === q.a ? 'right' : i === Q.picked ? 'wrong' : '';
+      const mark = Q.picked === null ? '' : i === q.a ? ' (correct answer)' : i === Q.picked ? ' (your answer)' : '';
+      return `<button class="quizopt ${cls}" data-act="qpick" data-i="${i}" ${Q.picked !== null ? 'disabled' : ''}>${esc(o)}${mark ? `<span class="small" style="font-weight:400">${mark}</span>` : ''}</button>`; }).join('')}</div>
+    ${Q.picked !== null ? `<div class="explain" role="status"><b>${Q.picked === q.a ? 'Correct.' : 'Not quite.'}</b> ${esc(q.why)}</div><button class="btn btn-primary" data-act="qnext">${Q.i === QUIZ.length - 1 ? 'See my score' : 'Next question'}</button>` : ''}
+  </div>`;
+}
+ACT.qpick = el => { const Q = S.quiz; Q.picked = +el.dataset.i; if (Q.picked === QUIZ[Q.i].a) Q.score++; render({keepScroll:true, keepFocus:true}); const n = $('[data-act=qnext]'); if (n) n.focus(); };
+ACT.qnext = () => { const Q = S.quiz; if (Q.i === QUIZ.length - 1){ Q.done = true; finishGame('quiz', Q.score * 10); } else { Q.i++; Q.picked = null; } render({keepScroll:true}); };
+
+/* Skill Match */
+function matchView(){
+  if (!S.match){ const order = [2,0,3,1]; S.match = {sel:null, paired:[], jobs:order.map(i => MATCH[i].job), wrong:null}; }
+  const M = S.match;
+  const done = M.paired.length === MATCH.length;
+  return `<a class="back" href="#/intern/boost">${icon('left')}Daily Career Boost</a><div class="pagehead"><div><h1>Skill Match</h1><p>Choose a skill, then choose the role that uses it most.</p></div></div>
+  <div class="panel" style="max-width:820px">
+    <div class="matchgrid">
+      <div role="group" aria-label="Skills"><h2 style="font-size:1rem">Skills</h2>${MATCH.map((m,i) => { const p = M.paired.includes(i); return `<button class="matchbtn ${p ? 'paired' : ''}" data-act="mskill" data-i="${i}" aria-pressed="${M.sel === i}" ${p ? 'disabled' : ''}>${esc(m.skill)}${p ? ' (matched)' : ''}</button>`; }).join('')}</div>
+      <div role="group" aria-label="Roles"><h2 style="font-size:1rem">Roles</h2>${M.jobs.map(jb => { const idx = MATCH.findIndex(m => m.job === jb); const p = M.paired.includes(idx); return `<button class="matchbtn ${p ? 'paired' : ''} ${M.wrong === jb ? 'shake' : ''}" data-act="mjob" data-job="${esc(jb)}" ${p ? 'disabled' : ''}>${esc(jb)}${p ? ' (matched)' : ''}</button>`; }).join('')}</div>
+    </div>
+    <p role="status" class="small" style="font-weight:700;min-height:1.5em">${done ? 'All four matched.' : M.wrong ? 'Not that one. Try another role.' : M.sel !== null ? 'Now choose a role.' : ''}</p>
+    ${done ? `<a class="btn btn-primary" href="#/intern/boost">Back to today's games</a>` : ''}
+  </div>`;
+}
+ACT.mskill = el => { S.match.sel = +el.dataset.i; S.match.wrong = null; render({keepScroll:true, keepFocus:true}); $(`[data-act=mskill][data-i="${el.dataset.i}"]`).focus(); };
+ACT.mjob = el => {
+  const M = S.match; if (M.sel === null){ return; }
+  if (MATCH[M.sel].job === el.dataset.job){ M.paired.push(M.sel); M.sel = null; M.wrong = null; if (M.paired.length === MATCH.length) finishGame('match', 20); }
+  else M.wrong = el.dataset.job;
+  render({keepScroll:true, keepFocus:true});
+  const next = $('[data-act=mskill]:not([disabled])') || $('#app .btn-primary'); if (next) next.focus();
+};
+
+/* ---------- Employer area ---------- */
+const ME_EMP = () => emp(DEMO_PEOPLE.employer);
+const empJobs = () => S.jobs.filter(j => j.emp === DEMO_PEOPLE.employer);
+const appsFor = jid => S.apps.filter(a => a.job === jid);
+const COLS = [
+  {id:'new', label:'New', has:s => s === 'applied' || s === 'viewed'},
+  {id:'shortlisted', label:'Shortlisted', has:s => s === 'shortlisted'},
+  {id:'interview', label:'Interview', has:s => s === 'interview'},
+  {id:'offer', label:'Offer', has:s => s === 'offer' || s === 'placed'},
+  {id:'notprogressed', label:'Not progressed', has:s => s === 'notprogressed'}
+];
+function empNav(){
+  const unread = S.threads.filter(t => t.role === 'employer' && t.unread).length;
+  const fresh = empJobs().flatMap(j => appsFor(j.id)).filter(a => a.status === 'applied').length;
+  return [
+    {id:'home',href:'#/employer',icon:'home',label:'Dashboard'},
+    {id:'post',href:'#/employer/post',icon:'plus',label:'Post a role'},
+    {id:'listings',href:'#/employer/listings',icon:'list',label:'My listings'},
+    {id:'pipeline',href:'#/employer/pipeline',icon:'kanban',label:'Applicants',count:fresh},
+    {id:'talent',href:'#/employer/talent',icon:'search',label:'Talent search'},
+    {id:'messages',href:'#/employer/messages',icon:'mail',label:'Messages',count:unread},
+    {id:'profile',href:'#/employer/profile',icon:'building',label:'Company profile'}
+  ];
+}
+function renderEmployer(r){
+  const v = r.parts[1] || 'home';
+  let body;
+  if (v === 'home') body = empHome();
+  else if (v === 'post') body = postView();
+  else if (v === 'listings') body = listingsView();
+  else if (v === 'pipeline'){ if (r.parts[2]) S.pipelineJob = r.parts[2]; body = pipelineView(); }
+  else if (v === 'talent') body = talentView();
+  else if (v === 'messages') body = messagesView('employer');
+  else if (v === 'profile') body = profileView();
+  else body = '<h1>Page not found</h1>';
+  const e = ME_EMP();
+  return `<a class="skip" href="#main">Skip to content</a>` + shell('employer', v, empNav(), `${avatar({name:DEMO_PEOPLE.employerUser,color:'#B4552E'})}<div><b>${DEMO_PEOPLE.employerUser}</b><span>${esc(e.name)}</span></div>`, body);
+}
+const empStatusLabel = s => ({live:'Live',pending:'Waiting for approval',draft:'Draft',returned:'Returned for edits',closed:'Closed'}[s]);
+
+function empHome(){
+  const jobs = empJobs();
+  const live = jobs.filter(j => j.status === 'live');
+  const apps = jobs.flatMap(j => appsFor(j.id));
+  const fresh = apps.filter(a => a.status === 'applied');
+  const interviews = apps.filter(a => a.status === 'interview');
+  const draft = jobs.find(j => j.status === 'draft' || j.status === 'returned');
+  const top = live.map(j => ({j, n:appsFor(j.id).filter(a => a.status === 'applied').length})).sort((a,b) => b.n - a.n)[0];
+  return `<div class="pagehead"><div><h1>Hello, Priya</h1><p>${esc(ME_EMP().name)}. Here is how your roles are doing.</p></div><a class="btn btn-primary" href="#/employer/post">${icon('plus')}Post a role</a></div>
+  ${top && top.n ? `<section class="nextstep"><div class="hexdeco hex">${icon('users')}</div><div><h2>${top.n} new ${top.n === 1 ? 'applicant' : 'applicants'} for ${esc(top.j.title)}</h2><p>Applicants hear back faster when you review within five working days.</p></div><a class="btn btn-honey" href="#/employer/pipeline/${top.j.id}">Review applicants</a></section>` : ''}
+  <div class="kpis">
+    <div class="kpi"><div class="v">${live.length}</div><div class="l">Live roles</div></div>
+    <div class="kpi"><div class="v">${fresh.length}</div><div class="l">New applicants</div></div>
+    <div class="kpi"><div class="v">${interviews.length}</div><div class="l">Interviews arranged</div></div>
+    <div class="kpi"><div class="v">${live.reduce((s,j) => s + j.views, 0)}</div><div class="l">Listing views</div></div>
+  </div>
+  <div class="grid-main">
+    <section class="panel"><div class="section-head" style="margin-bottom:8px"><h2 style="margin:0">Your listings</h2><a href="#/employer/listings">Manage listings</a></div>${listingsTable(jobs)}</section>
+    <div class="stack">
+      ${draft ? `<section class="panel" style="background:var(--honey-50);border-color:#F6D9A8"><h2>Finish your draft</h2><p class="small">${esc(draft.title)} is saved but not yet submitted for approval.</p><button class="btn btn-primary btn-sm" data-act="editdraft" data-id="${draft.id}">Finish and submit</button></section>` : ''}
+      <section class="panel"><h2>Latest applicants</h2>${apps.sort((a,b) => d(b.history[0][1]) - d(a.history[0][1])).slice(0,4).map(a => { const i = intern(a.intern); return `<div class="listitem">${avatar(i)}<div class="grow"><b>${esc(i.name)}</b><div class="small muted">${esc(job(a.job).title)}. Applied ${fmt(a.history[0][1])}</div></div>${status(a.status)}</div>`; }).join('')}
+      <a class="btn btn-quiet btn-sm" href="#/employer/pipeline">Open pipeline</a></section>
+    </div>
+  </div>`;
+}
+function listingsTable(jobs){
+  return `<div class="table-wrap"><table class="table"><thead><tr><th>Role</th><th>Status</th><th class="num">Applicants</th><th class="num">Views</th><th>Closes</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>
+    ${jobs.map(j => { const n = appsFor(j.id).length; return `<tr><td><b>${esc(j.title)}</b>${j.status === 'returned' && S.returned[j.id] ? `<div class="small" style="color:var(--red)">CPCA: ${esc(S.returned[j.id])}</div>` : ''}</td><td>${status(j.status, empStatusLabel(j.status))}</td><td class="num">${n}</td><td class="num">${j.views}</td><td class="nowrap">${j.closes ? fmt(j.closes) : ''}</td>
+      <td class="nowrap">${j.status === 'live' ? `<a class="btn btn-ghost btn-sm" href="#/employer/pipeline/${j.id}">Applicants</a>` : (j.status === 'draft' || j.status === 'returned') ? `<button class="btn btn-ghost btn-sm" data-act="editdraft" data-id="${j.id}">${j.status === 'returned' ? 'Edit and resubmit' : 'Finish draft'}</button>` : j.status === 'pending' ? '<span class="small muted">Usually 2 working days</span>' : ''}</td></tr>`; }).join('')}
+  </tbody></table></div>`;
+}
+function listingsView(){
+  const jobs = empJobs();
+  return `<div class="pagehead"><div><h1>My listings</h1><p>Every role you have posted, and how many people have applied.</p></div><a class="btn btn-primary" href="#/employer/post">${icon('plus')}Post a role</a></div>
+  <section class="panel">${listingsTable(jobs)}</section>
+  <p class="small muted" style="margin-top:14px">Live roles close automatically at midnight on their closing date. Applicants are told the outcome either way.</p>`;
+}
+
+/* ---------- Post a role ---------- */
+const STEPS = ['The role','Details','Duties and skills','Questions and submit'];
+function blankDraft(){ return {id:null,title:'',sector:'',programme:'Internship',summary:'',area:'',mode:'On-site',hours:'',pay:'',weeks:6,starts:'',closes:'',duties:'',needs:'',skills:'',q1:'',q2:'',q3:''}; }
+function draftFromJob(j){ return {id:j.id,title:j.title,sector:j.sector,programme:j.programme,summary:j.summary,area:j.area,mode:j.mode,hours:j.hours,pay:j.pay,weeks:j.weeks,starts:j.starts,closes:j.closes,duties:j.duties.join('\n'),needs:j.needs.join('\n'),skills:j.skills.join(', '),q1:j.questions[0] || '',q2:j.questions[1] || '',q3:j.questions[2] || ''}; }
+ACT.editdraft = el => { S.draft = draftFromJob(job(el.dataset.id)); S.postStep = 0; go('#/employer/post'); };
+ACT['post-example'] = () => {
+  S.draft = {id:S.draft && S.draft.id, title:'Digital Marketing Intern',sector:'marketing',programme:'Internship',summary:'Help plan and run campaigns that bring new clients to our studio, from email to LinkedIn.',area:'Cambridge',mode:'Hybrid',hours:30,pay:13.20,weeks:6,starts:'2027-01-18',closes:'2026-12-18',
+    duties:'Write and schedule posts for LinkedIn and our newsletter\nTrack what works and report back each Friday\nHelp plan a webinar for local charities',needs:'Good written English\nSome experience of social media, personal or for a club\nOrganised and happy to learn',skills:'Copywriting, Social media, Content creation',q1:'Share a link to something you have written or made.',q2:'',q3:''};
+  render({keepScroll:true, keepFocus:true}); toast('Example filled in');
+};
+function draftAsJob(D){
+  const lines = s => String(s || '').split('\n').map(x => x.trim()).filter(Boolean);
+  return {id:'preview',emp:DEMO_PEOPLE.employer,title:D.title || 'Role title',sector:D.sector || 'digital',area:D.area || 'Area',mode:D.mode,hours:+D.hours || 0,pay:+D.pay || 0,weeks:6,programme:D.programme,posted:todayISO(),closes:D.closes || '2026-12-31',starts:D.starts || '2027-01-11',summary:D.summary,duties:lines(D.duties),needs:lines(D.needs),skills:String(D.skills).split(',').map(x => x.trim()).filter(Boolean),questions:[D.q1,D.q2,D.q3].filter(x => x && x.trim())};
+}
+function postPreview(){
+  const D = S.draft; const j = draftAsJob(D); const e = ME_EMP();
+  return `<p class="preview-label">How interns will see it</p><div class="preview-frame">
+    <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:12px">${logo(e)}<div><b style="font-family:var(--display);font-size:1.15rem">${esc(j.title)}</b><div class="small muted">${esc(e.name)}, ${esc(j.area)}</div></div></div>
+    <div class="chips" style="margin-bottom:10px"><span class="chip">${icon('pin')}${esc(j.area)}, ${esc(j.mode.toLowerCase())}</span><span class="chip">${icon('pound')}${j.pay ? money(j.pay) + ' an hour' : 'Pay'}</span><span class="chip">${icon('clock')}${j.hours || '?'} hours a week, 6 weeks</span></div>
+    ${j.summary ? `<p class="small">${esc(j.summary)}</p>` : '<p class="small muted">Your summary appears here.</p>'}
+    ${j.duties.length ? `<b class="small">What you will do</b><ul class="small" style="margin-top:4px">${j.duties.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
+    ${j.skills.length ? `<div class="chips">${j.skills.map(s => `<span class="chip">${esc(s)}</span>`).join('')}</div>` : ''}
+    <p class="small muted" style="margin:10px 0 0">${D.closes ? 'Closes ' + fmtLong(D.closes) : 'Closing date'}</p>
+  </div>`;
+}
+function postView(){
+  if (!S.draft) S.draft = blankDraft();
+  const D = S.draft, st = S.postStep;
+  const inp = (k, label, opts = {}) => `<div class="field"><label for="d-${k}">${label}${opts.hint ? `<span class="hint">${opts.hint}</span>` : ''}</label>
+    ${opts.area ? `<textarea id="d-${k}" data-input="draft" data-k="${k}" aria-describedby="d-${k}-err">${esc(D[k])}</textarea>` :
+      opts.select ? `<select id="d-${k}" data-change="draft" data-k="${k}" aria-describedby="d-${k}-err"><option value="">Choose</option>${opts.select.map(([v,l]) => `<option value="${v}" ${String(D[k]) === v ? 'selected' : ''}>${l}</option>`).join('')}</select>` :
+      `<input id="d-${k}" type="${opts.type || 'text'}" ${opts.step ? `step="${opts.step}"` : ''} data-input="draft" data-k="${k}" value="${esc(D[k])}" aria-describedby="d-${k}-err" ${opts.ph ? `placeholder="${opts.ph}"` : ''}>`}
+    <div class="err" id="d-${k}-err" hidden></div></div>`;
+  const steps = [
+    () => inp('title','Job title',{hint:'Keep it plain, for example "Marketing Intern"'}) + `<div class="row">${inp('sector','Sector',{select:SECTORS.map(s => [s.id,s.name])})}${inp('programme','Type',{select:PROGRAMMES.map(p => [p,p])})}</div>` + inp('summary','Summary',{area:true,hint:'One or two sentences. This shows in search results.'}),
+    () => `<div class="row">${inp('area','Area',{select:AREAS.map(a => [a,a])})}${inp('mode','Where they will work',{select:[['On-site','On-site'],['Hybrid','Hybrid'],['Remote','Remote']]})}</div>
+      <div class="row">${inp('hours','Hours a week',{type:'number',hint:'Between 15 and 37.5'})}${inp('pay','Pay per hour (£)',{type:'number',step:'0.01',hint:`At least £${NLW}, the National Living Wage`})}</div>
+      <div class="row">${inp('starts','Start date',{type:'date'})}${inp('closes','Closing date',{type:'date'})}</div>`,
+    () => inp('duties','What they will do',{area:true,hint:'One task per line'}) + inp('needs','What they need',{area:true,hint:'One requirement per line. Only include what is essential.'}) + inp('skills','Skills they will use',{hint:'Separate with commas. We use these to match candidates.'}),
+    () => `<p class="muted">Ask up to three short questions. Applicants answer them when they apply. Optional.</p>${inp('q1','Question 1')}${inp('q2','Question 2')}${inp('q3','Question 3')}
+      <div class="panel" style="background:var(--surface);margin-top:8px"><h3 style="font-size:1rem">Before you submit</h3><ul class="checklist small">
+      ${[['Pay is at least the National Living Wage', +D.pay >= NLW],['Hours, location and dates are filled in', D.hours && D.area && D.starts && D.closes],['At least one duty and one requirement', D.duties.trim() && D.needs.trim()]].map(([t,ok]) => `<li class="${ok ? 'ok' : 'bad'}">${icon(ok ? 'check' : 'alert')}<span>${t}${ok ? '' : ' <b>(check this)</b>'}</span></li>`).join('')}</ul></div>`
+  ];
+  return `<div class="pagehead"><div><h1>${D.id ? 'Edit role' : 'Post a role'}</h1><p>About ten minutes. The CPCA team checks every listing before it goes live.</p></div><button class="btn btn-quiet" data-act="post-example">Fill with an example</button></div>
+  <ol class="stepper">${STEPS.map((s,i) => `<li class="${i < st ? 'done' : i === st ? 'now' : ''}" ${i === st ? 'aria-current="step"' : ''}>Step ${i + 1}<br>${s}</li>`).join('')}</ol>
+  <div class="grid-main">
+    <form class="panel" data-form="post" novalidate><h2>${STEPS[st]}</h2>${steps[st]()}
+      <div style="display:flex;gap:10px;justify-content:space-between;margin-top:8px;flex-wrap:wrap">
+        ${st ? `<button type="button" class="btn btn-ghost" data-act="post-back">Back</button>` : `<button type="button" class="btn btn-ghost" data-act="post-save">Save as draft</button>`}
+        <button class="btn btn-primary">${st === 3 ? 'Submit for approval' : 'Continue'}</button>
+      </div></form>
+    <aside id="post-preview">${postPreview()}</aside>
+  </div>`;
+}
+INPUT.draft = el => { S.draft[el.dataset.k] = el.value; const p = $('#post-preview'); if (p) p.innerHTML = postPreview(); };
+ACT['post-back'] = () => { S.postStep--; render(); };
+ACT['post-save'] = () => { saveDraft('draft'); toast('Draft saved'); go('#/employer/listings'); };
+function saveDraft(statusVal){
+  const D = S.draft; const j = draftAsJob(D);
+  const existing = D.id ? job(D.id) : null;
+  const rec = {...j, id:existing ? existing.id : uid('j'), status:statusVal, views:existing ? existing.views : 0, posted:'', submitted:todayISO()};
+  if (existing) Object.assign(existing, rec); else S.jobs.push(rec);
+  delete S.returned[rec.id];
+  S.draft = null; S.postStep = 0;
+  return rec;
+}
+FORM.post = f => {
+  const D = S.draft; const st = S.postStep;
+  const need = [['title','sector','summary'],['area','mode','hours','pay','starts','closes'],['duties','needs','skills'],[]][st];
+  let first = null;
+  const fail = (k, msg) => { const e = $('#d-' + k + '-err'); if (e){ e.textContent = msg; e.hidden = false; } const i = $('#d-' + k); if (i){ i.setAttribute('aria-invalid','true'); first = first || i; } };
+  $$('.err', f).forEach(e => e.hidden = true); $$('[aria-invalid]', f).forEach(e => e.removeAttribute('aria-invalid'));
+  need.forEach(k => { if (!String(D[k]).trim()) fail(k, 'Fill in this field'); });
+  if (st === 1){
+    if (D.pay && +D.pay < NLW) fail('pay', `Pay must be at least £${NLW} an hour, the National Living Wage`);
+    if (D.hours && (+D.hours < 15 || +D.hours > 37.5)) fail('hours', 'Enter between 15 and 37.5 hours');
+    if (D.closes && d(D.closes) <= TODAY) fail('closes', 'The closing date must be in the future');
+    if (D.starts && D.closes && d(D.starts) <= d(D.closes)) fail('starts', 'The start date must be after the closing date');
+  }
+  if (first){ first.focus(); return; }
+  if (st < 3){ S.postStep++; render(); return; }
+  const rec = saveDraft('pending');
+  toast('Submitted for approval. We will review it within two working days.');
+  go('#/employer/listings');
+};
+
+/* ---------- Pipeline ---------- */
+function candCard(a){
+  const i = intern(a.intern), j = job(a.job);
+  const fit = j.skills.filter(s => i.skills.map(x => x.toLowerCase()).includes(s.toLowerCase())).length;
+  return `<article class="cand" draggable="true" data-app="${a.id}">
+    <div class="nm">${avatar(i)}<div><b>${esc(i.name)}</b><div class="small muted">${esc(i.area)}</div></div></div>
+    <div class="small">Matches ${fit} of ${j.skills.length} skills</div><div class="small muted">Applied ${fmt(a.history[0][1])}</div>
+    ${a.status === 'applied' ? '<span class="tag-new" style="display:inline-block;margin-top:6px">Not yet viewed</span>' : ''}
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px"><button class="open" data-act="cand" data-id="${a.id}">View application<span class="sr-only"> from ${esc(i.name)}</span></button></div>
+    <label class="sr-only" for="mv-${a.id}">Move ${esc(i.name)} to</label>
+    <select id="mv-${a.id}" data-change="move" data-id="${a.id}"><option value="">Move to</option>${COLS.filter(c => !c.has(a.status)).map(c => `<option value="${c.id}">${c.label}</option>`).join('')}</select>
+  </article>`;
+}
+function pipelineView(){
+  const jobs = empJobs().filter(j => j.status === 'live');
+  const j = job(S.pipelineJob) && job(S.pipelineJob).emp === DEMO_PEOPLE.employer ? job(S.pipelineJob) : jobs[0];
+  const apps = appsFor(j.id);
+  return `<div class="pagehead"><div><h1>Applicants</h1><p>Drag a card, or use its menu, to move someone to the next stage. They are told automatically.</p></div>
+    <div><label for="pj" class="small">Role</label><select id="pj" data-change="pjob" style="min-width:260px">${jobs.map(x => `<option value="${x.id}" ${x.id === j.id ? 'selected' : ''}>${esc(x.title)} (${appsFor(x.id).length})</option>`).join('')}</select></div></div>
+  <div class="kanban">${COLS.map(c => { const list = apps.filter(a => c.has(a.status)); return `<section class="col" data-col="${c.id}" aria-label="${c.label}, ${list.length}"><h3><span>${c.label}</span><span class="muted">${list.length}</span></h3>${list.map(candCard).join('') || '<p class="small muted">Drop applicants here</p>'}</section>`; }).join('')}</div>`;
+}
+INPUT.pjob = el => go('#/employer/pipeline/' + el.value);
+function moveApp(id, col){
+  const a = S.apps.find(x => x.id === id); if (!a) return;
+  const map = {new:'viewed', shortlisted:'shortlisted', interview:'interview', offer:'offer', notprogressed:'notprogressed'};
+  const s = map[col]; if (!s || a.status === s) return;
+  a.status = s; a.history.push([s, todayISO()]);
+  if (s === 'interview' && !a.interview) a.interview = 'Date to be confirmed by the employer';
+  if (s === 'notprogressed' && !a.feedback) a.feedback = 'Thank you for applying. We had a very strong field for this role.';
+  toast(`${intern(a.intern).name} moved to ${COLS.find(c => c.id === col).label}. We have let them know.`);
+  render({keepScroll:true, keepFocus:true});
+}
+INPUT.move = el => moveApp(el.dataset.id, el.value);
+AFTER.push(r => {
+  if (r.role !== 'employer' || r.parts[1] !== 'pipeline') return;
+  $$('.cand').forEach(c => c.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', c.dataset.app); c.style.opacity = '.5'; }));
+  $$('.cand').forEach(c => c.addEventListener('dragend', () => { c.style.opacity = ''; }));
+  $$('.col').forEach(col => {
+    col.addEventListener('dragover', e => { e.preventDefault(); col.classList.add('over'); });
+    col.addEventListener('dragleave', () => col.classList.remove('over'));
+    col.addEventListener('drop', e => { e.preventDefault(); col.classList.remove('over'); moveApp(e.dataTransfer.getData('text/plain'), col.dataset.col); });
+  });
+});
+ACT.cand = el => {
+  const a = S.apps.find(x => x.id === el.dataset.id); const i = intern(a.intern), j = job(a.job);
+  if (a.status === 'applied'){ a.status = 'viewed'; a.history.push(['viewed', todayISO()]); render({keepScroll:true, keepFocus:true}); const b = $(`[data-act=cand][data-id="${a.id}"]`); if (b) b.focus(); }
+  const isJordan = a.intern === DEMO_PEOPLE.intern;
+  openModal(`<header><div style="display:flex;gap:14px;align-items:center">${avatar(i, 'lg')}<div><h2>${esc(i.name)}</h2><div class="muted">${esc(i.area)}. ${esc(avail(i.availability))}</div></div></div><button class="icon-btn" data-act="close" aria-label="Close">${icon('x')}</button></header>
+    <p>${status(a.status)} for <b>${esc(j.title)}</b></p>
+    <p style="font-size:1.05rem">${esc(isJordan ? S.cv.headline : i.headline)}</p>
+    <h3>Skills</h3><div class="chips">${(isJordan ? S.cv.skills : i.skills).map(s => `<span class="chip" ${j.skills.map(x => x.toLowerCase()).includes(s.toLowerCase()) ? 'style="background:var(--mint-50);color:var(--mint-ink);font-weight:700"' : ''}>${esc(s)}</span>`).join('')}</div>
+    <p class="small muted" style="margin-top:6px">Skills in green match this role.</p>
+    ${isJordan ? `<h3>Experience</h3>${S.cv.exp.map(x => `<p class="small"><b>${esc(x.role)}</b>, ${esc(x.org)} (${esc(x.dates)})<br>${esc(x.desc)}</p>`).join('')}` : ''}
+    <h3>Why they want this role</h3><p>${a.note ? esc(a.note) : '<span class="muted">No note added.</span>'}</p>
+    ${j.questions.length ? `<h3>Answers to your questions</h3>${j.questions.map((q,k) => `<p class="small"><b>${esc(q)}</b><br>${esc((a.answers || [])[k] || 'No answer')}</p>`).join('')}` : ''}
+    <h3>Badges</h3><p class="small">${i.badges} verified badges, including Digital CV Creator.</p>
+    <div class="field" style="margin-top:16px"><label for="enotes">Private notes<span class="hint">Only your team can see these</span></label><textarea id="enotes" data-input="enotes" data-id="${a.id}">${esc(a.empNotes || '')}</textarea></div>
+    <footer style="justify-content:space-between"><button class="btn btn-danger" data-act="dmove" data-id="${a.id}" data-col="notprogressed">Not progressing</button>
+      <span style="display:flex;gap:8px;flex-wrap:wrap">${a.status === 'viewed' || a.status === 'applied' ? `<button class="btn btn-primary" data-act="dmove" data-id="${a.id}" data-col="shortlisted">Shortlist</button>` : a.status === 'shortlisted' ? `<button class="btn btn-primary" data-act="dmove" data-id="${a.id}" data-col="interview">Invite to interview</button>` : a.status === 'interview' ? `<button class="btn btn-primary" data-act="dmove" data-id="${a.id}" data-col="offer">Make an offer</button>` : ''}</span></footer>`, {drawer:true, label:'Application from ' + i.name});
+};
+INPUT.enotes = el => { S.apps.find(x => x.id === el.dataset.id).empNotes = el.value; };
+ACT.dmove = el => { closeModal(); moveApp(el.dataset.id, el.dataset.col); };
+
+/* ---------- Talent search ---------- */
+function talentView(){
+  const q = S.talentQ.toLowerCase();
+  const list = Object.values(S.interns).filter(i => i.talent && (!q || (i.name + ' ' + i.headline + ' ' + i.skills.join(' ') + ' ' + i.area).toLowerCase().includes(q)));
+  return `<div class="pagehead"><div><h1>Talent search</h1><p>Interns who have chosen to be found by employers. Invite them to apply for a live role.</p></div></div>
+  <form class="boardsearch" data-form="talent" role="search"><label class="sr-only" for="tq">Search by skill, area or name</label><input id="tq" name="q" type="search" value="${esc(S.talentQ)}" placeholder="Search by skill, area or name, for example JavaScript"><button class="btn btn-primary">Search</button></form>
+  <div class="chips" style="margin-bottom:16px">${['JavaScript','Python','Content creation','CAD','Excel','Accessibility'].map(s => `<button class="chip" style="border:0;cursor:pointer" data-act="tskill" data-s="${s}">${s}</button>`).join('')}</div>
+  <p class="muted" role="status">${list.length} ${list.length === 1 ? 'person' : 'people'} found</p>
+  <div class="grid-2">${list.map(i => `<article class="panel" style="margin:0"><div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">${avatar(i)}<div><h3 style="margin:0">${esc(i.name)}</h3><div class="small muted">${esc(i.area)}. ${esc(avail(i.availability))}</div></div></div>
+    <p class="small">${esc(i.headline)}</p><div class="chips" style="margin-bottom:14px">${i.skills.map(s => `<span class="chip">${esc(s)}</span>`).join('')}</div>
+    <button class="btn btn-ghost btn-sm" data-act="invite" data-id="${i.id}">Invite to apply</button></article>`).join('')}</div>`;
+}
+FORM.talent = f => { S.talentQ = f.q.value.trim(); render({keepFocus:true}); };
+ACT.tskill = el => { S.talentQ = el.dataset.s; render({keepScroll:true, keepFocus:true}); };
+ACT.invite = el => {
+  const i = intern(el.dataset.id);
+  openModal(`<form data-form="invite" data-id="${i.id}"><header><h2>Invite ${esc(i.name)} to apply</h2><button type="button" class="icon-btn" data-act="close" aria-label="Close">${icon('x')}</button></header>
+    <div class="field"><label for="inv-job">Role</label><select id="inv-job" name="job">${empJobs().filter(j => j.status === 'live').map(j => `<option value="${j.id}">${esc(j.title)}</option>`).join('')}</select></div>
+    <div class="field"><label for="inv-msg">Message</label><textarea id="inv-msg" name="msg">Hi ${esc(i.name.split(' ')[0])}, we think you would be a great fit for this role and would love to see your application.</textarea></div>
+    <footer><button type="button" class="btn btn-ghost" data-act="close">Cancel</button><button class="btn btn-primary">${icon('send')}Send invitation</button></footer></form>`, {label:'Invite to apply'});
+};
+FORM.invite = f => { const i = intern(f.dataset.id); closeModal(); toast(`Invitation sent to ${i.name}`); };
+
+/* ---------- Company profile ---------- */
+function profileView(){
+  const e = ME_EMP();
+  return `<div class="pagehead"><div><h1>Company profile</h1><p>Shown on every role you post.</p></div></div>
+  <div class="grid-main">
+    <form class="panel" data-form="profile"><h2>Details</h2>
+      <div class="field"><label for="p-name">Organisation name</label><input id="p-name" name="name" type="text" value="${esc(e.name)}"></div>
+      <div class="field"><label for="p-about">What you do<span class="hint">Two sentences in plain English</span></label><textarea id="p-about" name="about">${esc(e.about)}</textarea></div>
+      <div class="row"><div class="field"><label for="p-town">Main location</label><input id="p-town" name="town" type="text" value="${esc(e.town)}"></div><div class="field"><label for="p-size">Size</label><input id="p-size" name="size" type="text" value="${esc(e.size)}"></div></div>
+      <button class="btn btn-primary">Save changes</button></form>
+    <aside class="panel"><div style="display:flex;gap:14px;align-items:center;margin-bottom:12px">${logo(e,'lg')}<div><h2 style="margin:0">${esc(e.name)}</h2><span class="chip" style="margin-top:6px">${icon('shield')}Checked by CPCA</span></div></div><p>${esc(e.about)}</p><p class="small muted">${esc(e.size)}, ${esc(e.town)}</p>
+      <h3 style="font-size:1rem">Placements through Talent Hive</h3><p class="small" style="margin:0">3 interns placed since 2025. 2 stayed on in paid roles.</p></aside>
+  </div>`;
+}
+FORM.profile = f => { const e = ME_EMP(); e.name = f.name.value; e.about = f.about.value; e.town = f.town.value; e.size = f.size.value; toast('Profile saved'); render({keepScroll:true}); };
+
+/* ---------- CPCA team area ---------- */
+const pendingJobs = () => S.jobs.filter(j => j.status === 'pending');
+const unverified = () => Object.values(S.employers).filter(e => !e.verified);
+function cpcaNav(){
+  return [
+    {id:'home',href:'#/cpca',icon:'chart',label:'Overview'},
+    {id:'approvals',href:'#/cpca/approvals',icon:'shield',label:'Approvals',count:pendingJobs().length + unverified().length},
+    {id:'interns',href:'#/cpca/interns',icon:'users',label:'Interns'},
+    {id:'employers',href:'#/cpca/employers',icon:'building',label:'Employers'},
+    {id:'placements',href:'#/cpca/placements',icon:'briefcase',label:'Placements'},
+    {id:'reports',href:'#/cpca/reports',icon:'download',label:'Reports'},
+    {id:'content',href:'#/cpca/content',icon:'news',label:'News and events'}
+  ];
+}
+function renderCpca(r){
+  const v = r.parts[1] || 'home';
+  let body;
+  if (v === 'home') body = cpcaHome();
+  else if (v === 'approvals' && r.parts[2]) body = reviewView(r.parts[2]);
+  else if (v === 'approvals') body = approvalsView();
+  else if (v === 'interns') body = internsTable();
+  else if (v === 'employers') body = employersTable();
+  else if (v === 'placements') body = placementsView();
+  else if (v === 'reports') body = reportsView();
+  else if (v === 'content') body = contentView();
+  else body = '<h1>Page not found</h1>';
+  return `<a class="skip" href="#main">Skip to content</a>` + shell('cpca', v, cpcaNav(), `${avatar({name:DEMO_PEOPLE.staff,color:'#2F9E6E'})}<div><b>${DEMO_PEOPLE.staff}</b><span>Programme officer, CPCA</span></div>`, body);
+}
+
+/* Charts: single series, one hue, rounded data-ends, hover and focus tooltips */
+function columnChart(data, {label, unit='applications'} = {}){
+  const W = 640, H = 240, padL = 34, padB = 28, padT = 26, max = Math.ceil(Math.max(...data.map(x => x.n)) / 10) * 10;
+  const bw = (W - padL - 10) / data.length, barW = Math.min(36, bw * .55);
+  const y = v => padT + (H - padT - padB) * (1 - v / max);
+  const peak = data.reduce((m,x,i) => x.n > data[m].n ? i : m, 0);
+  const ticks = [0, max / 2, max];
+  return `<div class="chart" style="position:relative"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">
+    ${ticks.map(t => `<line x1="${padL}" x2="${W - 6}" y1="${y(t)}" y2="${y(t)}" stroke="#E3E9F0" stroke-width="1"/><text x="${padL - 8}" y="${y(t) + 4}" text-anchor="end">${t}</text>`).join('')}
+    ${data.map((x,i) => { const cx = padL + bw * i + bw / 2, top = y(x.n), h = H - padB - top, partial = i === data.length - 1;
+      const r = Math.min(4, h);
+      return `<g class="bar" tabindex="0" data-tip="${esc(x.w)}${partial ? ' (week so far)' : ''}: ${x.n} ${unit}" aria-label="Week of ${esc(x.w)}${partial ? ', so far' : ''}: ${x.n} ${unit}">
+        <rect x="${cx - bw / 2}" y="${padT}" width="${bw}" height="${H - padT - padB}" fill="transparent"/>
+        <path d="M${cx - barW / 2} ${H - padB}V${top + r}Q${cx - barW / 2} ${top} ${cx - barW / 2 + r} ${top}H${cx + barW / 2 - r}Q${cx + barW / 2} ${top} ${cx + barW / 2} ${top + r}V${H - padB}Z" fill="${partial ? '#9FB2C6' : '#0E2A47'}"/>
+        ${i === peak || partial ? `<text class="val" x="${cx}" y="${top - 6}" text-anchor="middle">${x.n}</text>` : ''}
+        <text x="${cx}" y="${H - 9}" text-anchor="middle">${esc(x.w)}</text></g>`; }).join('')}
+    <line x1="${padL}" x2="${W - 6}" y1="${H - padB}" y2="${H - padB}" stroke="#B9C6D4"/>
+  </svg><div class="tip" role="tooltip" hidden style="position:absolute;pointer-events:none;background:var(--ink);color:#fff;font-size:.85rem;padding:6px 10px;border-radius:8px;white-space:nowrap;transform:translate(-50%,-110%)"></div>
+  <p class="small muted" style="margin:6px 0 0">The lighter bar is the current week, still in progress.</p></div>`;
+}
+function hbars(data){
+  const max = Math.max(...data.map(x => x.n));
+  return data.map(x => `<div class="bar-h"><span>${esc(x.s)}</span><span class="b"><i style="width:${x.n / max * 100}%"></i></span><span class="n">${x.n}</span></div>`).join('');
+}
+AFTER.push(() => {
+  $$('.chart').forEach(ch => {
+    const tip = $('.tip', ch); if (!tip) return;
+    const show = g => { const r = g.getBoundingClientRect(), c = ch.getBoundingClientRect(); tip.textContent = g.dataset.tip; tip.hidden = false; tip.style.left = (r.left - c.left + r.width / 2) + 'px'; tip.style.top = (g.querySelector('path').getBoundingClientRect().top - c.top) + 'px'; };
+    $$('.bar', ch).forEach(g => { g.addEventListener('mouseenter', () => show(g)); g.addEventListener('focus', () => show(g)); g.addEventListener('mouseleave', () => tip.hidden = true); g.addEventListener('blur', () => tip.hidden = true); });
+  });
+});
+
+function stalled(){ return S.apps.filter(a => ['applied','viewed','shortlisted'].includes(a.status) && daysSince(a.history.at(-1)[1]) >= 7); }
+function cpcaHome(){
+  const live = liveJobs().length;
+  const monthApps = WEEKLY_APPS.slice(4).reduce((s,x) => s + x.n, 0);
+  const placed = PLACEMENTS_BY_SECTOR.reduce((s,x) => s + x.n, 0) + S.apps.filter(a => a.status === 'placed').length;
+  const waiting = pendingJobs().length + unverified().length;
+  const st = stalled();
+  return `<div class="pagehead"><div><h1>Programme overview</h1><p>Winter 2026 cohort. Updated Tuesday 24 November, 09:00.</p></div><a class="btn btn-ghost" href="#/cpca/reports">${icon('download')}Reports</a></div>
+  ${waiting ? `<section class="nextstep"><div class="hexdeco hex">${icon('shield')}</div><div><h2>${waiting} ${waiting === 1 ? 'item needs' : 'items need'} your approval</h2><p>${pendingJobs().length} new ${pendingJobs().length === 1 ? 'listing' : 'listings'} and ${unverified().length} new ${unverified().length === 1 ? 'employer' : 'employers'}. Aim to review within two working days.</p></div><a class="btn btn-honey" href="#/cpca/approvals">Review now</a></section>` : ''}
+  <div class="kpis">
+    <div class="kpi"><div class="v">${live}</div><div class="l">Live listings</div></div>
+    <div class="kpi"><div class="v">${monthApps}</div><div class="l">Applications in November</div><div class="d">Up ${Math.round((monthApps / WEEKLY_APPS.slice(0,4).reduce((s,x) => s + x.n, 0) - 1) * 100)}% on October</div></div>
+    <div class="kpi"><div class="v">${placed}</div><div class="l">Placements this cohort</div></div>
+    <div class="kpi"><div class="v">${st.length}</div><div class="l">Applications with no update for 7+ days</div></div>
+  </div>
+  <div class="grid-main">
+    <section class="panel"><h2>Applications per week</h2><p class="small muted">Since applications moved onto the platform on 5 October.</p>${columnChart(WEEKLY_APPS, {label:'Applications per week, 5 October to 23 November. Peak of 44 in the week of 16 November.'})}</section>
+    <section class="panel"><h2>Needs a nudge</h2><p class="small muted">Applicants have heard nothing for a week or more.</p>
+      ${st.map(a => { const j = job(a.job), e = emp(j.emp), i = intern(a.intern); return `<div class="listitem"><div class="grow"><b>${esc(i.name)}</b><div class="small muted">${esc(j.title)}, ${esc(e.name)}</div><div class="small">${STATUS_LABEL[a.status]} ${daysSince(a.history.at(-1)[1])} days ago, nothing since</div></div><button class="btn btn-ghost btn-sm" data-act="nudge" data-e="${esc(e.name)}">Nudge</button></div>`; }).join('') || '<p class="muted">Nothing stalled. Nice.</p>'}
+    </section>
+  </div>
+  <section class="panel" style="margin-top:20px"><h2>Placements by sector this cohort</h2>${hbars(PLACEMENTS_BY_SECTOR)}</section>`;
+}
+ACT.nudge = el => { toast(`Reminder sent to ${el.dataset.e}`); el.disabled = true; el.textContent = 'Nudged'; };
+
+/* Approvals */
+function approvalsView(){
+  const tab = S.approvalsTab;
+  const pj = pendingJobs(), ue = unverified();
+  return `<div class="pagehead"><div><h1>Approvals</h1><p>Check new listings and employers before anything reaches interns.</p></div></div>
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="${tab === 'listings'}" data-act="atab" data-t="listings">Listings (${pj.length})</button>
+    <button role="tab" aria-selected="${tab === 'employers'}" data-act="atab" data-t="employers">Employers (${ue.length})</button>
+  </div>
+  ${tab === 'listings' ? `<section class="panel">${pj.length ? `<div class="table-wrap"><table class="table"><thead><tr><th>Role</th><th>Employer</th><th>Submitted</th><th>Checks</th><th><span class="sr-only">Action</span></th></tr></thead><tbody>
+    ${pj.map(j => { const fails = listingChecks(j).filter(c => !c.ok).length; return `<tr><td><b>${esc(j.title)}</b></td><td>${esc(emp(j.emp).name)}${emp(j.emp).verified ? '' : ' <span class="status st-pending">New employer</span>'}</td><td>${fmt(j.submitted)}</td><td>${fails ? `<span class="status st-returned">${fails} to check</span>` : '<span class="status st-approved">All passed</span>'}</td><td><a class="btn btn-primary btn-sm" href="#/cpca/approvals/${j.id}">Review</a></td></tr>`; }).join('')}
+    </tbody></table></div>` : '<div class="empty" style="border:0"><h3>All caught up</h3><p class="muted">No listings waiting for approval.</p></div>'}</section>`
+  : `<section class="panel">${ue.length ? ue.map(e => `<div class="listitem" style="align-items:flex-start">${logo(e)}<div class="grow"><b>${esc(e.name)}</b><div class="small muted">${esc(sectorName(e.sector))}, ${esc(e.town)}. ${esc(e.size)}. Contact: ${esc(e.contact)}</div><p class="small" style="margin:6px 0">${esc(e.about)}</p>
+      <ul class="checklist small"><li class="ok">${icon('check')}Registered company number checked</li><li class="ok">${icon('check')}Employer liability insurance uploaded</li><li class="bad">${icon('alert')}Safeguarding contact not yet named</li></ul></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><button class="btn btn-primary btn-sm" data-act="verify" data-id="${e.id}">Verify employer</button><button class="btn btn-ghost btn-sm" data-act="askinfo" data-e="${esc(e.name)}">Ask for details</button></div></div>`).join('') : '<div class="empty" style="border:0"><h3>All caught up</h3><p class="muted">No employers waiting for checks.</p></div>'}</section>`}`;
+}
+ACT.atab = el => { S.approvalsTab = el.dataset.t; render({keepScroll:true, keepFocus:true}); $(`[data-act=atab][data-t="${el.dataset.t}"]`).focus(); };
+ACT.verify = el => { emp(el.dataset.id).verified = true; toast(`${emp(el.dataset.id).name} verified`); render({keepScroll:true}); };
+ACT.askinfo = el => toast(`Request sent to ${el.dataset.e}`);
+function listingChecks(j){
+  const e = emp(j.emp);
+  const text = [j.summary, ...j.duties, ...j.needs].join(' ');
+  return [
+    {ok:e.verified, t:'Employer is verified', fix:`${e.name} has not been verified yet`},
+    {ok:j.pay >= NLW, t:`Pay is at least £${NLW} an hour (National Living Wage)`, fix:`Pay is ${money(j.pay)} an hour, below the National Living Wage`},
+    {ok:daysUntil(j.closes) >= 7, t:'Open for at least 7 days', fix:'Closes in under 7 days'},
+    {ok:j.duties.length > 0 && j.needs.length > 0, t:'Duties and requirements filled in', fix:'Missing duties or requirements'},
+    {ok:d(j.starts) > d(j.closes), t:'Start date is after the closing date', fix:'Start date is before the closing date'},
+    {ok:!/@|https?:/.test(text), t:'Applications go through Talent Hive, not email', fix:'Listing text includes an email address or link'}
+  ];
+}
+function reviewView(id){
+  const j = job(id); if (!j) return '<h1>Listing not found</h1>';
+  const e = emp(j.emp); const checks = listingChecks(j); const blockers = checks.filter(c => !c.ok);
+  return `<a class="back" href="#/cpca/approvals">${icon('left')}Back to approvals</a>
+  <div class="pagehead"><div><h1>Review: ${esc(j.title)}</h1><p>${esc(e.name)}. Submitted ${fmtLong(j.submitted)}.</p></div>${status(j.status, j.status === 'pending' ? 'Waiting for approval' : j.status === 'live' ? 'Live' : 'Returned')}</div>
+  <div class="grid-main">
+    <section class="panel"><p class="preview-label">How interns will see it</p>
+      <div style="display:flex;gap:14px;align-items:center;margin-bottom:14px">${logo(e)}<div><h2 style="margin:0">${esc(j.title)}</h2><div class="muted small">${esc(e.name)}, ${esc(j.area)}</div></div></div>
+      <dl class="facts"><div><dt>Pay</dt><dd>${money(j.pay)} an hour</dd></div><div><dt>Hours</dt><dd>${j.hours} a week</dd></div><div><dt>Length</dt><dd>${j.weeks} weeks</dd></div><div><dt>Location</dt><dd>${esc(j.area)}, ${esc(j.mode.toLowerCase())}</dd></div><div><dt>Starts</dt><dd>${fmt(j.starts)}</dd></div><div><dt>Closes</dt><dd>${fmt(j.closes)}</dd></div></dl>
+      <div class="prose"><p>${esc(j.summary)}</p><h2>What you will do</h2><ul>${j.duties.map(x => `<li>${esc(x)}</li>`).join('')}</ul><h2>What you need</h2><ul>${j.needs.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+      ${j.questions.length ? `<h2>Screening questions</h2><ul>${j.questions.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}</div>
+    </section>
+    <aside class="stack">
+      <section class="panel"><h2>Automatic checks</h2><ul class="checklist">${checks.map(c => `<li class="${c.ok ? 'ok' : 'bad'}">${icon(c.ok ? 'check' : 'alert')}<span>${esc(c.ok ? c.t : c.fix)}</span></li>`).join('')}</ul></section>
+      ${j.status === 'pending' ? `<section class="panel"><h2>Decision</h2>
+        ${blockers.length ? `<p class="small" style="color:var(--red);font-weight:700">${blockers.length} ${blockers.length === 1 ? 'check needs' : 'checks need'} attention. Return the listing with comments, or fix the issue first.</p>` : '<p class="small">Everything checks out.</p>'}
+        ${!e.verified ? `<button class="btn btn-ghost" style="width:100%;margin-bottom:8px" data-act="verify" data-id="${e.id}">Verify ${esc(e.name)}</button>` : ''}
+        <button class="btn btn-primary" style="width:100%;margin-bottom:8px" data-act="approve" data-id="${j.id}" ${blockers.length ? 'disabled aria-describedby="why-disabled"' : ''}>Approve and publish</button>
+        ${blockers.length ? '<p id="why-disabled" class="small muted">Approve is available once every check passes.</p>' : ''}
+        <button class="btn btn-ghost" style="width:100%" data-act="return" data-id="${j.id}">Return with comments</button></section>` : ''}
+    </aside>
+  </div>`;
+}
+ACT.approve = el => { const j = job(el.dataset.id); j.status = 'live'; j.posted = todayISO(); toast('Published. It is now on the jobs board.'); go('#/cpca/approvals'); };
+ACT['return'] = el => {
+  const j = job(el.dataset.id); const fails = listingChecks(j).filter(c => !c.ok).map(c => c.fix);
+  openModal(`<form data-form="return" data-id="${j.id}"><header><h2>Return ${esc(j.title)}</h2><button type="button" class="icon-btn" data-act="close" aria-label="Close">${icon('x')}</button></header>
+    <p class="muted">${esc(emp(j.emp).contact)} at ${esc(emp(j.emp).name)} will see this message with their listing.</p>
+    <div class="field"><label for="rc">What needs to change</label><textarea id="rc" name="c">${esc(fails.length ? fails.join('. ') + '. Please update and resubmit.' : '')}</textarea></div>
+    <footer><button type="button" class="btn btn-ghost" data-act="close">Cancel</button><button class="btn btn-primary">Return to employer</button></footer></form>`, {label:'Return listing'});
+};
+FORM['return'] = f => { const j = job(f.dataset.id); j.status = 'returned'; S.returned[j.id] = f.c.value.trim() || 'Please review and resubmit.'; closeModal(); toast(`Returned to ${emp(j.emp).name}`); go('#/cpca/approvals'); };
+
+/* People */
+function internsTable(){
+  const rows = Object.values(S.interns).map(i => {
+    const apps = S.apps.filter(a => a.intern === i.id);
+    const st = apps.some(a => a.status === 'placed') ? ['placed','Placed'] : apps.some(a => a.status === 'offer') ? ['offer','Offer made'] : apps.some(a => a.status === 'interview') ? ['interview','Interviewing'] : apps.length ? ['applied','Applying'] : ['draft','Not applied yet'];
+    return {i, apps, st};
+  });
+  return `<div class="pagehead"><div><h1>Interns</h1><p>${rows.length} interns in this sample. Full site: search, eligibility checks and full history.</p></div></div>
+  <section class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Name</th><th>Area</th><th class="num">Badges</th><th class="num">Applications</th><th>Status</th><th>Available</th></tr></thead><tbody>
+  ${rows.map(({i,apps,st}) => `<tr><td><div style="display:flex;gap:10px;align-items:center">${avatar(i)}<b>${esc(i.name)}</b></div></td><td>${esc(i.area)}</td><td class="num">${i.badges}</td><td class="num">${apps.length}</td><td>${status(st[0], st[1])}</td><td>${esc(i.availability)}</td></tr>`).join('')}
+  </tbody></table></div></section>`;
+}
+function employersTable(){
+  const rows = Object.values(S.employers);
+  return `<div class="pagehead"><div><h1>Employers</h1><p>${rows.length} employers in this sample.</p></div></div>
+  <section class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Employer</th><th>Sector</th><th>Location</th><th>Status</th><th class="num">Live roles</th><th class="num">Applicants</th></tr></thead><tbody>
+  ${rows.map(e => { const js = S.jobs.filter(j => j.emp === e.id); return `<tr><td><div style="display:flex;gap:10px;align-items:center">${logo(e)}<b>${esc(e.name)}</b></div></td><td>${esc(sectorName(e.sector))}</td><td>${esc(e.town)}</td><td>${e.verified ? status('approved','Verified') : status('pending','Waiting for checks')}</td><td class="num">${js.filter(j => j.status === 'live').length}</td><td class="num">${S.apps.filter(a => js.some(j => j.id === a.job)).length}</td></tr>`; }).join('')}
+  </tbody></table></div></section>`;
+}
+function placementsView(){
+  const list = S.apps.filter(a => a.status === 'offer' || a.status === 'placed');
+  return `<div class="pagehead"><div><h1>Placements</h1><p>Offers accepted by interns become confirmed placements and count in reports.</p></div></div>
+  <section class="panel"><div class="table-wrap"><table class="table"><thead><tr><th>Intern</th><th>Role</th><th>Employer</th><th>Starts</th><th>Status</th><th><span class="sr-only">Action</span></th></tr></thead><tbody>
+  ${list.map(a => { const j = job(a.job), e = emp(j.emp), i = intern(a.intern); return `<tr><td><b>${esc(i.name)}</b></td><td>${esc(j.title)}</td><td>${esc(e.name)}</td><td class="nowrap">${fmt(j.starts)}</td><td>${a.status === 'placed' ? status('placed','Confirmed') : status('offer','Offer made')}</td><td>${a.status === 'offer' ? `<button class="btn btn-ghost btn-sm" data-act="confirmplace" data-id="${a.id}">Confirm placement</button>` : '<span class="small muted">Welcome pack sent</span>'}</td></tr>`; }).join('') || '<tr><td colspan="6" class="muted">No offers yet.</td></tr>'}
+  </tbody></table></div></section>
+  <p class="small muted" style="margin-top:12px">Tip: accept the offer as Jordan in the intern view, or make an offer in the employer pipeline, and it appears here.</p>`;
+}
+ACT.confirmplace = el => { const a = S.apps.find(x => x.id === el.dataset.id); a.status = 'placed'; a.history.push(['placed', todayISO()]); toast('Placement confirmed'); render({keepScroll:true}); };
+
+/* Reports */
+function reportsView(){
+  return `<div class="pagehead"><div><h1>Reports</h1><p>Numbers for funders and the programme board. Download as CSV to use in Excel.</p></div>
+    <div style="display:flex;gap:8px;align-items:flex-end"><div><label for="rng" class="small">Period</label><select id="rng"><option>This cohort</option><option>Last 30 days</option><option>This financial year</option></select></div><button class="btn btn-primary" data-act="csv">${icon('download')}Download CSV</button></div></div>
+  <div class="grid-2">
+    <section class="panel"><h2>Applications per week</h2>${columnChart(WEEKLY_APPS, {label:'Applications per week, 5 October to 23 November'})}
+      <details style="margin-top:10px"><summary class="small" style="cursor:pointer;color:var(--link);font-weight:700">Show as a table</summary><table class="table" style="margin-top:8px"><thead><tr><th>Week starting</th><th class="num">Applications</th></tr></thead><tbody>${WEEKLY_APPS.map(x => `<tr><td>${x.w}</td><td class="num">${x.n}</td></tr>`).join('')}</tbody></table></details></section>
+    <section class="panel"><h2>Placements by sector</h2>${hbars(PLACEMENTS_BY_SECTOR)}</section>
+  </div>
+  <section class="panel" style="margin-top:20px"><h2>Funnel this cohort</h2><div class="table-wrap"><table class="table"><thead><tr><th>Stage</th><th class="num">People</th><th class="num">Share of sign-ups</th></tr></thead><tbody>
+    ${[['Signed up',527],['Completed profile and CV',402],['Applied for at least one role',288],['Interviewed',131],['Placed',59]].map(([s,n]) => `<tr><td>${s}</td><td class="num">${n}</td><td class="num">${Math.round(n / 527 * 100)}%</td></tr>`).join('')}
+  </tbody></table></div><p class="small muted" style="margin:10px 0 0">Sample figures for the demo.</p></section>`;
+}
+ACT.csv = () => {
+  const lines = ['Section,Label,Value', ...WEEKLY_APPS.map(x => `Applications per week,${x.w},${x.n}`), ...PLACEMENTS_BY_SECTOR.map(x => `Placements by sector,${x.s},${x.n}`)];
+  const blob = new Blob([lines.join('\n')], {type:'text/csv'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'talent-hive-report-sample.csv'; document.body.appendChild(a); a.click(); a.remove();
+  toast('Report downloaded');
+};
+
+/* Content */
+function contentView(){
+  return `<div class="pagehead"><div><h1>News and events</h1><p>Updates and sessions for interns and employers. Job listings live in their own approval queue, never here.</p></div><button class="btn btn-primary" data-act="addevent">${icon('plus')}Add event</button></div>
+  <section class="panel"><h2>Events</h2>${S.events.map(ev => { const x = d(ev.date); return `<div class="listitem"><div class="date hex"><b>${x.getDate()}</b><span>${MONTHS[x.getMonth()]}</span></div><div class="grow"><b>${esc(ev.title)}</b><div class="small muted">${esc(ev.time)}. ${esc(ev.where)}</div></div><span class="chip">${esc(ev.type)}</span></div>`; }).join('')}</section>
+  <section class="panel"><h2>News</h2>
+    <div class="listitem"><div class="grow"><b>Welcome to the winter 2026 cohort</b><div class="small muted">Published 2 November. Seen by 412 interns</div></div>${status('live','Published')}</div>
+    <div class="listitem"><div class="grow"><b>New: track your applications in one place</b><div class="small muted">Published 5 October. Seen by 498 interns</div></div>${status('live','Published')}</div>
+    <div class="listitem"><div class="grow"><b>Christmas opening hours</b><div class="small muted">Draft</div></div>${status('draft','Draft')}</div>
+  </section>`;
+}
+ACT.addevent = () => openModal(`<form data-form="addevent"><header><h2>Add an event</h2><button type="button" class="icon-btn" data-act="close" aria-label="Close">${icon('x')}</button></header>
+  <div class="field"><label for="ev-t">Title</label><input id="ev-t" name="title" type="text" value="CV clinic"></div>
+  <div class="row"><div class="field"><label for="ev-d">Date</label><input id="ev-d" name="date" type="date" value="2027-01-20"></div><div class="field"><label for="ev-time">Time</label><input id="ev-time" name="time" type="text" value="10:00 to 11:00"></div></div>
+  <div class="row"><div class="field"><label for="ev-w">Where</label><input id="ev-w" name="where" type="text" value="Online"></div><div class="field"><label for="ev-type">Type</label><select id="ev-type" name="type"><option>Online</option><option>In person</option></select></div></div>
+  <footer><button type="button" class="btn btn-ghost" data-act="close">Cancel</button><button class="btn btn-primary">Publish event</button></footer></form>`, {label:'Add an event'});
+FORM.addevent = f => { if (!f.title.value.trim() || !f.date.value) return; S.events.push({id:uid('ev'), title:f.title.value.trim(), date:f.date.value, time:f.time.value, where:f.where.value, type:f.type.value}); S.events.sort((a,b) => d(a.date) - d(b.date)); closeModal(); toast('Event published. Interns can book it now.'); render({keepScroll:true}); };
+
+render();
+maybeIntro();
+
+</script>
+</body>
+</html>
