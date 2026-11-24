@@ -17,6 +17,7 @@ function empNav(){
     {id:'post',href:'#/employer/post',icon:'plus',label:'Post a role'},
     {id:'listings',href:'#/employer/listings',icon:'list',label:'My listings'},
     {id:'pipeline',href:'#/employer/pipeline',icon:'kanban',label:'Applicants',count:fresh},
+    {id:'placements',href:'#/employer/placements',icon:'graduation',label:'Placements'},
     {id:'talent',href:'#/employer/talent',icon:'search',label:'Talent search'},
     {id:'messages',href:'#/employer/messages',icon:'mail',label:'Messages',count:unread},
     {id:'profile',href:'#/employer/profile',icon:'building',label:'Company profile'}
@@ -27,7 +28,9 @@ function renderEmployer(r){
   let body;
   if (v === 'home') body = empHome();
   else if (v === 'post') body = postView();
+  else if (v === 'listings' && r.parts[2]) body = insightsView(r.parts[2]);
   else if (v === 'listings') body = listingsView();
+  else if (v === 'placements') body = empPlacementsView();
   else if (v === 'pipeline'){ if (r.parts[2]) S.pipelineJob = r.parts[2]; body = pipelineView(); }
   else if (v === 'talent') body = talentView();
   else if (v === 'messages') body = messagesView('employer');
@@ -49,10 +52,10 @@ function empHome(){
   return `<div class="pagehead"><div><h1>Hello, Priya</h1><p>${esc(ME_EMP().name)}. Here is how your roles are doing.</p></div><a class="btn btn-primary" href="#/employer/post">${icon('plus')}Post a role</a></div>
   ${top && top.n ? `<section class="nextstep"><div class="hexdeco hex">${icon('users')}</div><div><h2>${top.n} new ${top.n === 1 ? 'applicant' : 'applicants'} for ${esc(top.j.title)}</h2><p>Applicants hear back faster when you review within five working days.</p></div><a class="btn btn-honey" href="#/employer/pipeline/${top.j.id}">Review applicants</a></section>` : ''}
   <div class="kpis">
-    <div class="kpi"><div class="v">${live.length}</div><div class="l">Live roles</div></div>
-    <div class="kpi"><div class="v">${fresh.length}</div><div class="l">New applicants</div></div>
-    <div class="kpi"><div class="v">${interviews.length}</div><div class="l">Interviews arranged</div></div>
-    <div class="kpi"><div class="v">${live.reduce((s,j) => s + j.views, 0)}</div><div class="l">Listing views</div></div>
+    <div class="kpi"><div class="v" data-count="${live.length}">${live.length}</div><div class="l">Live roles</div></div>
+    <div class="kpi"><div class="v" data-count="${fresh.length}">${fresh.length}</div><div class="l">New applicants</div></div>
+    <div class="kpi"><div class="v" data-count="${interviews.length}">${interviews.length}</div><div class="l">Interviews arranged</div></div>
+    <div class="kpi"><div class="v" data-count="${live.reduce((s,j) => s + j.views, 0)}">${live.reduce((s,j) => s + j.views, 0)}</div><div class="l">Listing views</div></div>
   </div>
   <div class="grid-main">
     <section class="panel"><div class="section-head" style="margin-bottom:8px"><h2 style="margin:0">Your listings</h2><a href="#/employer/listings">Manage listings</a></div>${listingsTable(jobs)}</section>
@@ -66,7 +69,7 @@ function empHome(){
 function listingsTable(jobs){
   return `<div class="table-wrap"><table class="table"><thead><tr><th>Role</th><th>Status</th><th class="num">Applicants</th><th class="num">Views</th><th>Closes</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>
     ${jobs.map(j => { const n = appsFor(j.id).length; return `<tr><td><b>${esc(j.title)}</b>${j.status === 'returned' && S.returned[j.id] ? `<div class="small" style="color:var(--red)">CPCA: ${esc(S.returned[j.id])}</div>` : ''}</td><td>${status(j.status, empStatusLabel(j.status))}</td><td class="num">${n}</td><td class="num">${j.views}</td><td class="nowrap">${j.closes ? fmt(j.closes) : ''}</td>
-      <td class="nowrap">${j.status === 'live' ? `<a class="btn btn-ghost btn-sm" href="#/employer/pipeline/${j.id}">Applicants</a>` : (j.status === 'draft' || j.status === 'returned') ? `<button class="btn btn-ghost btn-sm" data-act="editdraft" data-id="${j.id}">${j.status === 'returned' ? 'Edit and resubmit' : 'Finish draft'}</button>` : j.status === 'pending' ? '<span class="small muted">Usually 2 working days</span>' : ''}</td></tr>`; }).join('')}
+      <td class="nowrap">${j.status === 'live' ? `<a class="btn btn-ghost btn-sm" href="#/employer/listings/${j.id}">Insights</a> <a class="btn btn-ghost btn-sm" href="#/employer/pipeline/${j.id}">Applicants</a>` : (j.status === 'draft' || j.status === 'returned') ? `<button class="btn btn-ghost btn-sm" data-act="editdraft" data-id="${j.id}">${j.status === 'returned' ? 'Edit and resubmit' : 'Finish draft'}</button>` : j.status === 'pending' ? '<span class="small muted">Usually 2 working days</span>' : ''}</td></tr>`; }).join('')}
   </tbody></table></div>`;
 }
 function listingsView(){
@@ -158,6 +161,7 @@ FORM.post = f => {
   if (first){ first.focus(); return; }
   if (st < 3){ S.postStep++; render(); return; }
   const rec = saveDraft('pending');
+  notify('cpca', `${ME_EMP().name} submitted ${rec.title} for approval`, '#/cpca/approvals/' + rec.id);
   toast('Submitted for approval. We will review it within two working days.');
   go('#/employer/listings');
 };
@@ -169,8 +173,11 @@ function candCard(a){
   return `<article class="cand" draggable="true" data-app="${a.id}">
     <div class="nm">${avatar(i)}<div><b>${esc(i.name)}</b><div class="small muted">${esc(i.area)}</div></div></div>
     <div class="small">Matches ${fit} of ${j.skills.length} skills</div><div class="small muted">Applied ${fmt(a.history[0][1])}</div>
+    ${S.ratings[a.id] ? `<div class="minirate">${stars(S.ratings[a.id])}</div>` : ''}
+    ${a.status === 'interview' ? `<div class="small" style="margin-top:4px">${a.slots ? 'Waiting for them to pick a time' : esc((a.interview || '').split('.')[0])}</div>` : ''}
     ${a.status === 'applied' ? '<span class="tag-new" style="display:inline-block;margin-top:6px">Not yet viewed</span>' : ''}
     <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px"><button class="open" data-act="cand" data-id="${a.id}">View application<span class="sr-only"> from ${esc(i.name)}</span></button></div>
+    <label class="cmpbox small"><input type="checkbox" data-change="ccmp" data-id="${a.id}" ${S.candCompare.has(a.id) ? 'checked' : ''}> Compare</label>
     <label class="sr-only" for="mv-${a.id}">Move ${esc(i.name)} to</label>
     <select id="mv-${a.id}" data-change="move" data-id="${a.id}"><option value="">Move to</option>${COLS.filter(c => !c.has(a.status)).map(c => `<option value="${c.id}">${c.label}</option>`).join('')}</select>
   </article>`;
@@ -184,17 +191,19 @@ function pipelineView(){
   <div class="kanban">${COLS.map(c => { const list = apps.filter(a => c.has(a.status)); return `<section class="col" data-col="${c.id}" aria-label="${c.label}, ${list.length}"><h3><span>${c.label}</span><span class="muted">${list.length}</span></h3>${list.map(candCard).join('') || '<p class="small muted">Drop applicants here</p>'}</section>`; }).join('')}</div>`;
 }
 INPUT.pjob = el => go('#/employer/pipeline/' + el.value);
-function moveApp(id, col){
+function moveApp(id, col, slotsDone){
   const a = S.apps.find(x => x.id === id); if (!a) return;
   const map = {new:'viewed', shortlisted:'shortlisted', interview:'interview', offer:'offer', notprogressed:'notprogressed'};
   const s = map[col]; if (!s || a.status === s) return;
+  if (s === 'interview' && !slotsDone){ offerSlots(id); return; }
+  if (a.intern === DEMO_PEOPLE.intern){ const j = job(a.job); notify('intern', s === 'interview' ? `${emp(j.emp).name} invited you to interview for ${j.title}. Pick a time.` : s === 'offer' ? `${emp(j.emp).name} offered you the ${j.title} placement` : `Your application for ${j.title} is now: ${STATUS_LABEL[s]}`, '#/intern/applications'); }
   a.status = s; a.history.push([s, todayISO()]);
-  if (s === 'interview' && !a.interview) a.interview = 'Date to be confirmed by the employer';
+  if (s === 'interview' && !a.interview && !a.slots) a.interview = 'Date to be confirmed by the employer';
   if (s === 'notprogressed' && !a.feedback) a.feedback = 'Thank you for applying. We had a very strong field for this role.';
   toast(`${intern(a.intern).name} moved to ${COLS.find(c => c.id === col).label}. We have let them know.`);
   render({keepScroll:true, keepFocus:true});
 }
-INPUT.move = el => moveApp(el.dataset.id, el.value);
+INPUT.move = el => { const v = el.value; el.value = ''; moveApp(el.dataset.id, v); };
 AFTER.push(r => {
   if (r.role !== 'employer' || r.parts[1] !== 'pipeline') return;
   $$('.cand').forEach(c => c.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', c.dataset.app); c.style.opacity = '.5'; }));
@@ -210,7 +219,7 @@ ACT.cand = el => {
   if (a.status === 'applied'){ a.status = 'viewed'; a.history.push(['viewed', todayISO()]); render({keepScroll:true, keepFocus:true}); const b = $(`[data-act=cand][data-id="${a.id}"]`); if (b) b.focus(); }
   const isJordan = a.intern === DEMO_PEOPLE.intern;
   openModal(`<header><div style="display:flex;gap:14px;align-items:center">${avatar(i, 'lg')}<div><h2>${esc(i.name)}</h2><div class="muted">${esc(i.area)}. ${esc(avail(i.availability))}</div></div></div><button class="icon-btn" data-act="close" aria-label="Close">${icon('x')}</button></header>
-    <p>${status(a.status)} for <b>${esc(j.title)}</b></p>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px"><span>${status(a.status)} for <b>${esc(j.title)}</b></span>${rateWidget(a)}</div>
     <p style="font-size:1.05rem">${esc(isJordan ? S.cv.headline : i.headline)}</p>
     <h3>Skills</h3><div class="chips">${(isJordan ? S.cv.skills : i.skills).map(s => `<span class="chip" ${j.skills.map(x => x.toLowerCase()).includes(s.toLowerCase()) ? 'style="background:var(--mint-50);color:var(--mint-ink);font-weight:700"' : ''}>${esc(s)}</span>`).join('')}</div>
     <p class="small muted" style="margin-top:6px">Skills in green match this role.</p>

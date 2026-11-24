@@ -96,6 +96,16 @@ const ICONS = {
   link:'<path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
   flame:'<path d="M12 22c4 0 7-2.7 7-7 0-4-3-6-4-10-2 2-3 4-3 6-1-1-2-2-2-4-2 2-5 5-5 8 0 4.3 3 7 7 7z"/>',
   edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',
+  map:'<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
+  star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+  columns:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/>',
+  play:'<path d="M7 4l13 8-13 8z"/>',
+  target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+  megaphone:'<path d="M3 11v2a2 2 0 0 0 2 2h2l5 4V5L7 9H5a2 2 0 0 0-2 2zM16 8a5 5 0 0 1 0 8M19 5a9 9 0 0 1 0 14"/>',
+  log:'<path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+  trophy:'<path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 13v4M8 21h8M9 17h6v4H9z"/>',
+  graduation:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/>',
   news:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/>'
 };
 const icon = (n, cls='') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n] || ''}</svg>`;
@@ -104,7 +114,7 @@ const icon = (n, cls='') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none"
 const logo = (e, cls='') => `<span class="logo hex ${cls}" style="background:${e.color}" aria-hidden="true">${esc(e.initials)}</span>`;
 const avatar = (p, cls='') => `<span class="avatar ${cls}" style="background:${p.color}" aria-hidden="true">${esc(p.name.split(' ').map(x => x[0]).join('').slice(0,2))}</span>`;
 const status = (s, label) => `<span class="status st-${s}">${esc(label || STATUS_LABEL[s] || s[0].toUpperCase() + s.slice(1))}</span>`;
-const brand = (href='#/') => `<a class="brand" href="${href}"><span class="mark hex"><i class="hex"></i></span><span><b>Talent Hive <span class="concept-tag">Concept</span></b><small>Cambridgeshire and Peterborough</small></span></a>`;
+const brand = (href='#/') => `<a class="brand" href="${href}"><span class="mark hex"><i class="hex"></i></span><span><b>Talent Hive <span class="concept-tag">Demo</span></b><small>Cambridgeshire and Peterborough</small></span></a>`;
 
 function jobRow(j, {base='#/jobs', showMatch=false} = {}){
   const e = emp(j.emp);
@@ -123,6 +133,7 @@ function jobRow(j, {base='#/jobs', showMatch=false} = {}){
     </div>
     <div class="jside">
       ${showMatch ? `<span class="match">${matchScore(j)}% match</span>` : ''}
+      ${showMatch ? `<label class="cmpbox small"><input type="checkbox" data-change="cmp" data-id="${j.id}" ${S.compare && S.compare.has(j.id) ? 'checked' : ''}> Compare</label>` : ''}
       <span class="small ${daysUntil(j.closes) <= 7 ? '' : 'muted'}" style="${daysUntil(j.closes) <= 7 ? 'color:var(--honey-ink);font-weight:700' : ''}">${closingText(j)}</span>
       <button class="icon-btn" data-act="save" data-id="${j.id}" aria-pressed="${saved}" aria-label="${saved ? 'Remove from saved jobs' : 'Save job'}: ${esc(j.title)}">${icon('bookmark')}</button>
     </div>
@@ -179,7 +190,7 @@ function render(opts = {}){
   else html = renderCpca(r);
   $('#app').innerHTML = html;
   $$('.demobar [data-role]').forEach(b => b.setAttribute('aria-pressed', b.dataset.role === r.role));
-  document.title = (($('#app h1') || {}).textContent || 'Talent Hive') + ' | Talent Hive concept demo';
+  document.title = (($('#app h1') || {}).textContent || 'Talent Hive') + ' | Talent Hive demo';
   if (!opts.keepScroll) window.scrollTo(0, 0);
   if (!opts.keepFocus){ const h = $('#app h1'); if (h){ h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); } }
   AFTER.forEach(fn => fn(r));
@@ -194,8 +205,9 @@ function shell(role, current, nav, who, body){
   return `<div class="shell">
     <aside class="side" aria-label="${role} menu">${brand('#/' + role)}<nav>${links}</nav>
       <div class="who">${who}</div></aside>
-    <div>
+    <div class="col-main">
       <nav class="mobnav" aria-label="${role} menu">${brand('#/' + role)}${mob}</nav>
+      ${topbar(role)}
       <main class="main" id="main">${body}</main>
     </div>
   </div>`;
@@ -256,11 +268,11 @@ ACT['signin-as'] = el => {
 
 /* ---------- First-visit notice ---------- */
 function showIntro(){
-  openModal(`<header><h2>A design concept, not a real job board</h2></header>
-    <p>This is a concept by <b>Alexej Zhukov</b> showing how the Talent Hive internship platform for Cambridgeshire and Peterborough could work for interns, employers and the CPCA team.</p>
+  openModal(`<header><h2>A working demo, not a real job board</h2></header>
+    <p>This is a demo by <b>Alexej Zhukov</b> showing how the Talent Hive internship platform for Cambridgeshire and Peterborough could work for interns, employers and the CPCA team.</p>
     <ul><li>The employers, people and roles are invented.</li><li>Nothing you type is sent anywhere, and it all resets when you reload.</li><li>It is not an official Cambridgeshire and Peterborough Combined Authority website.</li></ul>
     <p class="small muted">Use the bar at the top to switch between Visitor, Intern, Employer and CPCA team views.</p>
-    <footer><button class="btn btn-primary" data-act="intro-ok">Explore the concept</button></footer>`, {label:'About this concept'});
+    <footer><button class="btn btn-primary" data-act="intro-ok">Explore the demo</button></footer>`, {label:'About this demo'});
 }
 ACT['intro-ok'] = () => { try { localStorage.setItem('th-intro-seen', '1'); } catch (e) {} closeModal(); };
 ACT.about = () => showIntro();

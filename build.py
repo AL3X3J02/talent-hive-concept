@@ -1,18 +1,18 @@
 import pathlib
 src = pathlib.Path(__file__).parent / 'src'
 css = (src/'styles.css').read_text()
-js = '\n'.join((src/f).read_text() for f in ['data.js','core.js','public.js','intern.js','games.js','employer.js','cpca.js'])
+js = '\n'.join((src/f).read_text() for f in ['data.js','core.js','extras.js','public.js','intern.js','intern2.js','games.js','employer.js','employer2.js','cpca.js','cpca2.js'])
 js += "\nrender();\nmaybeIntro();\n"
 html = f'''<!doctype html>
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Talent Hive redesign concept</title>
-<meta name="description" content="A design concept by Alexej Zhukov for a redesigned Talent Hive internship platform in Cambridgeshire and Peterborough. Sample data only; not an official CPCA website.">
+<title>Talent Hive demo</title>
+<meta name="description" content="A working demo by Alexej Zhukov of a redesigned Talent Hive internship platform in Cambridgeshire and Peterborough. Sample data only; not an official CPCA website.">
 <meta name="robots" content="noindex, nofollow">
-<meta property="og:title" content="Talent Hive redesign concept">
-<meta property="og:description" content="A clickable design concept by Alexej Zhukov: a jobs board, applicant pipeline and approvals for interns, employers and the CPCA team. Sample data only.">
+<meta property="og:title" content="Talent Hive demo by Alexej Zhukov">
+<meta property="og:description" content="A clickable demo by Alexej Zhukov: a jobs board, applicant pipeline and approvals for interns, employers and the CPCA team. Sample data only.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://al3x3j02.github.io/talent-hive-concept/preview.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -25,13 +25,14 @@ html = f'''<!doctype html>
 </head>
 <body>
 <div class="demobar" role="region" aria-label="Demo controls">
-  <strong>Concept demo</strong><span class="note">By Alexej Zhukov. Sample data, not a real job board.</span><button class="about" data-act="about">About</button>
+  <strong>Demo</strong><span class="note">By Alexej Zhukov. Sample data, not a real job board.</span><button class="about" data-act="about">About</button>
   <div class="roles"><span>View as</span>
     <button data-act="role" data-role="visitor" aria-pressed="true">Visitor</button>
     <button data-act="role" data-role="intern" aria-pressed="false">Intern</button>
     <button data-act="role" data-role="employer" aria-pressed="false">Employer</button>
     <button data-act="role" data-role="cpca" aria-pressed="false">CPCA team</button>
     <button class="reset" data-act="reset">Reset data</button>
+    <button class="tourbtn" data-act="tour">Take the tour</button>
   </div>
 </div>
 <div id="app"></div>

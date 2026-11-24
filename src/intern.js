@@ -7,6 +7,7 @@ function internNav(){
     {id:'home',href:'#/intern',icon:'home',label:'Dashboard'},
     {id:'jobs',href:'#/intern/jobs',icon:'briefcase',label:'Jobs'},
     {id:'applications',href:'#/intern/applications',icon:'apps',label:'Applications'},
+    {id:'placement',href:'#/intern/placement',icon:'graduation',label:'My placement'},
     {id:'cv',href:'#/intern/cv',icon:'file',label:'My CV'},
     {id:'badges',href:'#/intern/badges',icon:'hex',label:'Skills and badges'},
     {id:'boost',href:'#/intern/boost',icon:'spark',label:'Daily Career Boost',count:gamesLeft},
@@ -23,6 +24,8 @@ function renderIntern(r){
   else if (v === 'jobs' && p[2]) body = jobDetail(job(p[2]), '#/intern/jobs');
   else if (v === 'jobs') body = jobsBoard('#/intern/jobs');
   else if (v === 'applications') body = internApps();
+  else if (v === 'placement') body = placementView();
+  else if (v === 'company') body = companyView(p[2], '#/intern/jobs');
   else if (v === 'cv') body = cvBuilder();
   else if (v === 'badges') body = badgesView();
   else if (v === 'boost') body = boostView(p[2]);
@@ -62,7 +65,7 @@ function internHome(){
   const played = Object.values(S.boost.played).filter(Boolean).length;
   const pct = cvPct();
   const next = offer ? {t:`You have an offer from ${emp(job(offer.job).emp).name}`, s:`${job(offer.job).title}. Reply by ${fmt('2026-11-27')} to accept or decline.`, b:'<a class="btn btn-honey" href="#/intern/applications">Review offer</a>'}
-    : interview ? {t:`Interview with ${emp(job(interview.job).emp).name}`, s:`${interview.interview}.`, b:`<button class="btn btn-honey" data-act="prep" data-id="${interview.id}">Prepare for it</button>`}
+    : interview ? {t:`Interview with ${emp(job(interview.job).emp).name}`, s:interview.slots ? 'They have offered three times. Pick the one that suits you.' : `${interview.interview}`, b:`<button class="btn btn-honey" data-act="prep" data-id="${interview.id}">Prepare for it</button>`}
     : {t:'Find your next role', s:'New roles are added every week.', b:'<a class="btn btn-honey" href="#/intern/jobs">Browse jobs</a>'};
   return `<div class="pagehead"><div><h1>Good morning, Jordan</h1><p>Tuesday 24 November. Here is what needs your attention.</p></div></div>
   <section class="nextstep" aria-label="Next step"><div class="hexdeco hex">${icon('calendar')}</div><div><h2>${esc(next.t)}</h2><p>${esc(next.s)}</p></div>${next.b}</section>
@@ -125,7 +128,7 @@ ACT.apply = el => {
     ${j.questions.map((q,i) => `<div class="field"><label for="ap-q${i}">${esc(q)} <span class="hint">Required</span></label><textarea id="ap-q${i}" name="q${i}" style="min-height:80px" aria-describedby="ap-q${i}-err"></textarea><div id="ap-q${i}-err" class="err" hidden>Answer this question to apply</div></div>`).join('')}
     <label class="check"><input type="checkbox" name="confirm" aria-describedby="ap-c-err"> I live in Cambridgeshire or Peterborough and could start on ${fmtLong(j.starts)}</label>
     <div id="ap-c-err" class="err" hidden>Confirm this to apply</div>
-    <p class="small muted" style="margin:14px 0 0">Concept demo: nothing is sent to anyone.</p>
+    <p class="small muted" style="margin:14px 0 0">Demo only: nothing is sent to anyone.</p>
     <footer><button type="button" class="btn btn-ghost" data-act="close">Cancel</button><button class="btn btn-primary">${icon('send')}Send application</button></footer>
   </form>`, {label:'Apply for ' + j.title});
 };
@@ -137,6 +140,7 @@ FORM.apply = f => {
   if (!ok){ first.focus(); return; }
   S.apps.unshift({id:uid('a'), job:j.id, intern:DEMO_PEOPLE.intern, status:'applied', note:f.note.value.trim(), answers:j.questions.map((q,i) => f['q' + i].value.trim()), history:[['applied', todayISO()]]});
   closeModal();
+  if (j.emp === DEMO_PEOPLE.employer) notify('employer', `${S.cv.name} applied for ${j.title}`, '#/employer/pipeline/' + j.id);
   toast(`Application sent to ${emp(j.emp).name}`);
   render({keepScroll:true});
 };
@@ -149,7 +153,7 @@ function internApps(){
   const card = a => {
     const j = job(a.job), e = emp(j.emp);
     let extra = '';
-    if (a.status === 'interview' && a.interview) extra = `<p style="margin:12px 0 0"><b>Interview:</b> ${esc(a.interview)}</p>`;
+    if (a.status === 'interview') extra = interviewBlock(a);
     if (a.status === 'offer') extra = `<div style="margin-top:14px;padding:14px;background:var(--mint-50);border-radius:10px"><b>${esc(e.name)} has offered you this placement.</b><p class="small" style="margin:4px 0 10px">Starts ${fmtLong(j.starts)}. ${j.hours} hours a week at ${money(j.pay)} an hour.</p><button class="btn btn-primary btn-sm" data-act="accept" data-id="${a.id}">Accept offer</button> <button class="btn btn-ghost btn-sm" data-act="decline" data-id="${a.id}">Decline</button></div>`;
     if (a.status === 'placed') extra = `<p style="margin:12px 0 0"><b>You start on ${fmtLong(j.starts)}.</b> The CPCA team will send your welcome pack.</p>`;
     if (a.status === 'notprogressed' && a.feedback) extra = `<p class="small" style="margin:12px 0 0"><b>Feedback from the employer:</b> ${esc(a.feedback)}</p>`;
@@ -162,7 +166,7 @@ function internApps(){
   <h2 style="font-size:1.15rem">In progress (${active.length})</h2>${active.map(card).join('') || '<div class="empty">No applications yet.</div>'}
   <h2 style="font-size:1.15rem;margin-top:28px">Closed (${closed.length})</h2>${closed.map(card).join('') || '<p class="muted">None.</p>'}`;
 }
-ACT.accept = el => { const a = S.apps.find(x => x.id === el.dataset.id); a.status = 'placed'; a.history.push(['placed', todayISO()]); toast('Offer accepted. Congratulations!'); render({keepScroll:true}); };
+ACT.accept = el => { const a = S.apps.find(x => x.id === el.dataset.id); a.status = 'placed'; a.history.push(['placed', todayISO()]); const j = job(a.job); notify('employer', `${S.cv.name} accepted your offer for ${j.title}`, '#/employer/pipeline/' + j.id); notify('cpca', `${S.cv.name} accepted a placement at ${emp(j.emp).name}`, '#/cpca/placements'); toast('Offer accepted. Congratulations!'); render({keepScroll:true}); confetti(); };
 ACT.decline = el => { const a = S.apps.find(x => x.id === el.dataset.id); a.status = 'notprogressed'; a.history.push(['notprogressed', todayISO()]); a.feedback = 'You declined this offer.'; toast('Offer declined'); render({keepScroll:true}); };
 
 /* ---------- CV builder ---------- */

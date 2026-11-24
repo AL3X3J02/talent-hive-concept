@@ -3,12 +3,12 @@ function pubHeader(current){
   const nav = [['#/jobs','Find a role','jobs'],['#/employers','For employers','employers'],['#/events','Events','events']];
   return `<header class="pub-header"><div class="inner">${brand('#/')}
     <nav class="pub-nav" aria-label="Main">${nav.map(([h,l,id]) => `<a href="${h}" ${current === id ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
-    <div class="actions"><a class="btn btn-ghost btn-sm" href="#/signin">Sign in</a><a class="btn btn-primary btn-sm" href="#/signin">Join Talent Hive</a></div>
+    <div class="actions"><a class="btn btn-ghost btn-sm" href="#/signin">Sign in</a><a class="btn btn-primary btn-sm" href="#/join">Join Talent Hive</a></div>
   </div></header>`;
 }
 function pubFooter(){
   return `<footer class="pub-footer"><div class="section">
-    <div><b style="color:var(--ink)">Talent Hive concept demo, designed by Alexej Zhukov</b><br>Sample data only. Not an official Cambridgeshire and Peterborough Combined Authority website.</div>
+    <div><b style="color:var(--ink)">Talent Hive demo, designed and built by Alexej Zhukov</b><br>Sample data only. Not an official Cambridgeshire and Peterborough Combined Authority website.</div>
     <div><a href="#/jobs">Find a role</a> &nbsp; <a href="#/employers">For employers</a> &nbsp; <a href="#/signin">Sign in</a></div>
   </div></footer>`;
 }
@@ -20,6 +20,8 @@ function renderPublic(r){
   else if (p[0] === 'jobs') { body = `<main id="main" class="section">${jobsBoard('#/jobs')}</main>`; cur = 'jobs'; }
   else if (p[0] === 'employers') { body = pubEmployers(); cur = 'employers'; }
   else if (p[0] === 'signin') body = pubSignin();
+  else if (p[0] === 'join') body = joinView();
+  else if (p[0] === 'company') { body = `<main id="main" class="section">${companyView(p[1], '#/jobs')}</main>`; cur = 'jobs'; }
   else if (p[0] === 'events') { body = `<main id="main" class="section"><div class="pagehead"><div><h1>Events</h1><p>Free sessions to help you get ready and meet employers.</p></div></div><div class="panel">${S.events.map(eventItem).join('')}</div></main>`; cur = 'events'; }
   else body = `<main id="main" class="section"><h1>Page not found</h1><p>The page you tried to open does not exist. Try the <a href="#/jobs">jobs board</a> or go back to the <a href="#/">home page</a>.</p></main>`;
   return `<a class="skip" href="#main">Skip to content</a>${pubHeader(cur)}${body}${pubFooter()}`;
@@ -180,10 +182,11 @@ function jobResults(base){
   const F = S.filters;
   const active = F.q || F.area || F.sectors.size || F.modes.size || F.programme || F.minPay;
   return `<div class="resultbar"><p class="muted" style="margin:0" role="status">${list.length} ${list.length === 1 ? 'role' : 'roles'} found</p>
-    <div style="display:flex;gap:8px;align-items:center">${active ? `<button class="btn btn-quiet btn-sm" data-act="clearfilters">Clear filters</button>` : ''}
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">${active ? `<button class="btn btn-quiet btn-sm" data-act="clearfilters">Clear filters</button>` : ''}
+    <div class="viewtog" role="group" aria-label="Show results as"><button data-act="view" data-v="list" aria-pressed="${!S.mapView}">${icon('list')}List</button><button data-act="view" data-v="map" aria-pressed="${!!S.mapView}">${icon('map')}Map</button></div>
     <label class="sr-only" for="sort">Sort by</label>
     <select id="sort" data-change="fsort">${[['newest','Newest first'],['closing','Closing soonest'],['pay','Highest pay'], ...(isIntern ? [['match','Best match for me']] : [])].map(([v,l]) => `<option value="${v}" ${F.sort === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div></div>
-    ${list.length ? `<div class="joblist">${list.map(j => jobRow(j, {base, showMatch:isIntern})).join('')}</div>` :
+    ${S.mapView ? jobsMap() : list.length ? `<div class="joblist">${list.map(j => jobRow(j, {base, showMatch:isIntern})).join('')}</div>` :
       `<div class="empty"><h3>No roles match those filters</h3><p class="muted">Try removing a filter or searching for a broader word, like "admin" or "digital".</p><button class="btn btn-ghost" data-act="clearfilters">Clear filters</button></div>`}`;
 }
 function refreshResults(){ const r = $('#results'); if (r){ const base = route().role === 'intern' ? '#/intern/jobs' : '#/jobs'; r.innerHTML = jobResults(base); } }
@@ -227,6 +230,7 @@ function jobDetail(j, base){
         <h2>What you need</h2><ul>${j.needs.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
         <h2>Skills you will use</h2><div class="chips">${j.skills.map(s => `<span class="chip">${esc(s)}</span>`).join('')}</div>
         <h2>About ${esc(e.name)}</h2><p>${esc(e.about)}</p><p class="muted small">${esc(e.size)}, ${esc(e.town)}</p>
+        <p><a href="${base.startsWith('#/intern') ? '#/intern/company/' : '#/company/'}${e.id}">See ${esc(e.name)}'s profile and reviews from past interns</a></p>
       </div>
     </article>
     <aside class="panel applybox" aria-label="Apply">

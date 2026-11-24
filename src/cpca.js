@@ -4,12 +4,14 @@ const unverified = () => Object.values(S.employers).filter(e => !e.verified);
 function cpcaNav(){
   return [
     {id:'home',href:'#/cpca',icon:'chart',label:'Overview'},
-    {id:'approvals',href:'#/cpca/approvals',icon:'shield',label:'Approvals',count:pendingJobs().length + unverified().length},
+    {id:'approvals',href:'#/cpca/approvals',icon:'shield',label:'Approvals',count:pendingJobs().length + unverified().length + S.signups.length},
     {id:'interns',href:'#/cpca/interns',icon:'users',label:'Interns'},
     {id:'employers',href:'#/cpca/employers',icon:'building',label:'Employers'},
     {id:'placements',href:'#/cpca/placements',icon:'briefcase',label:'Placements'},
     {id:'reports',href:'#/cpca/reports',icon:'download',label:'Reports'},
-    {id:'content',href:'#/cpca/content',icon:'news',label:'News and events'}
+    {id:'content',href:'#/cpca/content',icon:'news',label:'News and events'},
+    {id:'broadcast',href:'#/cpca/broadcast',icon:'megaphone',label:'Send a message'},
+    {id:'audit',href:'#/cpca/audit',icon:'log',label:'Audit log'}
   ];
 }
 function renderCpca(r){
@@ -23,6 +25,8 @@ function renderCpca(r){
   else if (v === 'placements') body = placementsView();
   else if (v === 'reports') body = reportsView();
   else if (v === 'content') body = contentView();
+  else if (v === 'broadcast') body = broadcastView();
+  else if (v === 'audit') body = auditView();
   else body = '<h1>Page not found</h1>';
   return `<a class="skip" href="#main">Skip to content</a>` + shell('cpca', v, cpcaNav(), `${avatar({name:DEMO_PEOPLE.staff,color:'#2F9E6E'})}<div><b>${DEMO_PEOPLE.staff}</b><span>Programme officer, CPCA</span></div>`, body);
 }
@@ -69,10 +73,10 @@ function cpcaHome(){
   return `<div class="pagehead"><div><h1>Programme overview</h1><p>Winter 2026 cohort. Updated Tuesday 24 November, 09:00.</p></div><a class="btn btn-ghost" href="#/cpca/reports">${icon('download')}Reports</a></div>
   ${waiting ? `<section class="nextstep"><div class="hexdeco hex">${icon('shield')}</div><div><h2>${waiting} ${waiting === 1 ? 'item needs' : 'items need'} your approval</h2><p>${pendingJobs().length} new ${pendingJobs().length === 1 ? 'listing' : 'listings'} and ${unverified().length} new ${unverified().length === 1 ? 'employer' : 'employers'}. Aim to review within two working days.</p></div><a class="btn btn-honey" href="#/cpca/approvals">Review now</a></section>` : ''}
   <div class="kpis">
-    <div class="kpi"><div class="v">${live}</div><div class="l">Live listings</div></div>
-    <div class="kpi"><div class="v">${monthApps}</div><div class="l">Applications in November</div><div class="d">Up ${Math.round((monthApps / WEEKLY_APPS.slice(0,4).reduce((s,x) => s + x.n, 0) - 1) * 100)}% on October</div></div>
-    <div class="kpi"><div class="v">${placed}</div><div class="l">Placements this cohort</div></div>
-    <div class="kpi"><div class="v">${st.length}</div><div class="l">Applications with no update for 7+ days</div></div>
+    <div class="kpi"><div class="v" data-count="${live}">${live}</div><div class="l">Live listings</div></div>
+    <div class="kpi"><div class="v" data-count="${monthApps}">${monthApps}</div><div class="l">Applications in November</div><div class="d">Up ${Math.round((monthApps / WEEKLY_APPS.slice(0,4).reduce((s,x) => s + x.n, 0) - 1) * 100)}% on October</div></div>
+    <div class="kpi"><div class="v" data-count="${placed}">${placed}</div><div class="l">Placements this cohort</div></div>
+    <div class="kpi"><div class="v" data-count="${st.length}">${st.length}</div><div class="l">Applications with no update for 7+ days</div></div>
   </div>
   <div class="grid-main">
     <section class="panel"><h2>Applications per week</h2><p class="small muted">Since applications moved onto the platform on 5 October.</p>${columnChart(WEEKLY_APPS, {label:'Applications per week, 5 October to 23 November. Peak of 44 in the week of 16 November.'})}</section>
@@ -80,7 +84,8 @@ function cpcaHome(){
       ${st.map(a => { const j = job(a.job), e = emp(j.emp), i = intern(a.intern); return `<div class="listitem"><div class="grow"><b>${esc(i.name)}</b><div class="small muted">${esc(j.title)}, ${esc(e.name)}</div><div class="small">${STATUS_LABEL[a.status]} ${daysSince(a.history.at(-1)[1])} days ago, nothing since</div></div><button class="btn btn-ghost btn-sm" data-act="nudge" data-e="${esc(e.name)}">Nudge</button></div>`; }).join('') || '<p class="muted">Nothing stalled. Nice.</p>'}
     </section>
   </div>
-  <section class="panel" style="margin-top:20px"><h2>Placements by sector this cohort</h2>${hbars(PLACEMENTS_BY_SECTOR)}</section>`;
+  <div class="grid-2" style="margin-top:20px"><section class="panel"><h2>Placements by sector this cohort</h2>${hbars(PLACEMENTS_BY_SECTOR)}</section>
+    <section class="panel"><h2>Where placements are</h2>${regionMap({counts:PLACEMENTS_BY_TOWN, unit:'placement', act:'townplace', title:'Placements by town this cohort'})}</section></div>`;
 }
 ACT.nudge = el => { toast(`Reminder sent to ${el.dataset.e}`); el.disabled = true; el.textContent = 'Nudged'; };
 
@@ -92,8 +97,10 @@ function approvalsView(){
   <div class="tabs" role="tablist">
     <button role="tab" aria-selected="${tab === 'listings'}" data-act="atab" data-t="listings">Listings (${pj.length})</button>
     <button role="tab" aria-selected="${tab === 'employers'}" data-act="atab" data-t="employers">Employers (${ue.length})</button>
+    <button role="tab" aria-selected="${tab === 'interns'}" data-act="atab" data-t="interns">New interns (${S.signups.length})</button>
   </div>
-  ${tab === 'listings' ? `<section class="panel">${pj.length ? `<div class="table-wrap"><table class="table"><thead><tr><th>Role</th><th>Employer</th><th>Submitted</th><th>Checks</th><th><span class="sr-only">Action</span></th></tr></thead><tbody>
+  ${tab === 'interns' ? signupsPanel() : ''}
+  ${tab === 'interns' ? '' : tab === 'listings' ? `<section class="panel">${pj.length ? `<div class="table-wrap"><table class="table"><thead><tr><th>Role</th><th>Employer</th><th>Submitted</th><th>Checks</th><th><span class="sr-only">Action</span></th></tr></thead><tbody>
     ${pj.map(j => { const fails = listingChecks(j).filter(c => !c.ok).length; return `<tr><td><b>${esc(j.title)}</b></td><td>${esc(emp(j.emp).name)}${emp(j.emp).verified ? '' : ' <span class="status st-pending">New employer</span>'}</td><td>${fmt(j.submitted)}</td><td>${fails ? `<span class="status st-returned">${fails} to check</span>` : '<span class="status st-approved">All passed</span>'}</td><td><a class="btn btn-primary btn-sm" href="#/cpca/approvals/${j.id}">Review</a></td></tr>`; }).join('')}
     </tbody></table></div>` : '<div class="empty" style="border:0"><h3>All caught up</h3><p class="muted">No listings waiting for approval.</p></div>'}</section>`
   : `<section class="panel">${ue.length ? ue.map(e => `<div class="listitem" style="align-items:flex-start">${logo(e)}<div class="grow"><b>${esc(e.name)}</b><div class="small muted">${esc(sectorName(e.sector))}, ${esc(e.town)}. ${esc(e.size)}. Contact: ${esc(e.contact)}</div><p class="small" style="margin:6px 0">${esc(e.about)}</p>
@@ -101,7 +108,7 @@ function approvalsView(){
       <div style="display:flex;flex-direction:column;gap:8px"><button class="btn btn-primary btn-sm" data-act="verify" data-id="${e.id}">Verify employer</button><button class="btn btn-ghost btn-sm" data-act="askinfo" data-e="${esc(e.name)}">Ask for details</button></div></div>`).join('') : '<div class="empty" style="border:0"><h3>All caught up</h3><p class="muted">No employers waiting for checks.</p></div>'}</section>`}`;
 }
 ACT.atab = el => { S.approvalsTab = el.dataset.t; render({keepScroll:true, keepFocus:true}); $(`[data-act=atab][data-t="${el.dataset.t}"]`).focus(); };
-ACT.verify = el => { emp(el.dataset.id).verified = true; toast(`${emp(el.dataset.id).name} verified`); render({keepScroll:true}); };
+ACT.verify = el => { emp(el.dataset.id).verified = true; audit(`Verified employer: ${emp(el.dataset.id).name}`); toast(`${emp(el.dataset.id).name} verified`); render({keepScroll:true}); };
 ACT.askinfo = el => toast(`Request sent to ${el.dataset.e}`);
 function listingChecks(j){
   const e = emp(j.emp);
@@ -138,7 +145,7 @@ function reviewView(id){
     </aside>
   </div>`;
 }
-ACT.approve = el => { const j = job(el.dataset.id); j.status = 'live'; j.posted = todayISO(); toast('Published. It is now on the jobs board.'); go('#/cpca/approvals'); };
+ACT.approve = el => { const j = job(el.dataset.id); j.status = 'live'; j.posted = todayISO(); audit(`Approved listing: ${j.title} (${emp(j.emp).name})`); if (j.emp === DEMO_PEOPLE.employer) notify('employer', `${j.title} is approved and live`, '#/employer/listings'); toast('Published. It is now on the jobs board.'); go('#/cpca/approvals'); confetti(); };
 ACT['return'] = el => {
   const j = job(el.dataset.id); const fails = listingChecks(j).filter(c => !c.ok).map(c => c.fix);
   openModal(`<form data-form="return" data-id="${j.id}"><header><h2>Return ${esc(j.title)}</h2><button type="button" class="icon-btn" data-act="close" aria-label="Close">${icon('x')}</button></header>
@@ -146,7 +153,7 @@ ACT['return'] = el => {
     <div class="field"><label for="rc">What needs to change</label><textarea id="rc" name="c">${esc(fails.length ? fails.join('. ') + '. Please update and resubmit.' : '')}</textarea></div>
     <footer><button type="button" class="btn btn-ghost" data-act="close">Cancel</button><button class="btn btn-primary">Return to employer</button></footer></form>`, {label:'Return listing'});
 };
-FORM['return'] = f => { const j = job(f.dataset.id); j.status = 'returned'; S.returned[j.id] = f.c.value.trim() || 'Please review and resubmit.'; closeModal(); toast(`Returned to ${emp(j.emp).name}`); go('#/cpca/approvals'); };
+FORM['return'] = f => { const j = job(f.dataset.id); j.status = 'returned'; S.returned[j.id] = f.c.value.trim() || 'Please review and resubmit.'; audit(`Returned listing: ${j.title} (${emp(j.emp).name})`); if (j.emp === DEMO_PEOPLE.employer) notify('employer', `CPCA returned ${j.title} with comments`, '#/employer/listings'); closeModal(); toast(`Returned to ${emp(j.emp).name}`); go('#/cpca/approvals'); };
 
 /* People */
 function internsTable(){
@@ -175,7 +182,7 @@ function placementsView(){
   </tbody></table></div></section>
   <p class="small muted" style="margin-top:12px">Tip: accept the offer as Jordan in the intern view, or make an offer in the employer pipeline, and it appears here.</p>`;
 }
-ACT.confirmplace = el => { const a = S.apps.find(x => x.id === el.dataset.id); a.status = 'placed'; a.history.push(['placed', todayISO()]); toast('Placement confirmed'); render({keepScroll:true}); };
+ACT.confirmplace = el => { const a = S.apps.find(x => x.id === el.dataset.id); a.status = 'placed'; a.history.push(['placed', todayISO()]); audit(`Confirmed placement: ${intern(a.intern).name} at ${emp(job(a.job).emp).name}`); toast('Placement confirmed'); render({keepScroll:true}); confetti(); };
 
 /* Reports */
 function reportsView(){
@@ -186,9 +193,9 @@ function reportsView(){
       <details style="margin-top:10px"><summary class="small" style="cursor:pointer;color:var(--link);font-weight:700">Show as a table</summary><table class="table" style="margin-top:8px"><thead><tr><th>Week starting</th><th class="num">Applications</th></tr></thead><tbody>${WEEKLY_APPS.map(x => `<tr><td>${x.w}</td><td class="num">${x.n}</td></tr>`).join('')}</tbody></table></details></section>
     <section class="panel"><h2>Placements by sector</h2>${hbars(PLACEMENTS_BY_SECTOR)}</section>
   </div>
-  <section class="panel" style="margin-top:20px"><h2>Funnel this cohort</h2><div class="table-wrap"><table class="table"><thead><tr><th>Stage</th><th class="num">People</th><th class="num">Share of sign-ups</th></tr></thead><tbody>
+  <section class="panel" style="margin-top:20px"><h2>Funnel this cohort</h2>${funnelChart([['Signed up',527],['Completed profile and CV',402],['Applied for at least one role',288],['Interviewed',131],['Placed',59]])}<details style="margin-top:10px"><summary class="small" style="cursor:pointer;color:var(--link);font-weight:700">Show as a table</summary><div class="table-wrap"><table class="table"><thead><tr><th>Stage</th><th class="num">People</th><th class="num">Share of sign-ups</th></tr></thead><tbody>
     ${[['Signed up',527],['Completed profile and CV',402],['Applied for at least one role',288],['Interviewed',131],['Placed',59]].map(([s,n]) => `<tr><td>${s}</td><td class="num">${n}</td><td class="num">${Math.round(n / 527 * 100)}%</td></tr>`).join('')}
-  </tbody></table></div><p class="small muted" style="margin:10px 0 0">Sample figures for the demo.</p></section>`;
+  </tbody></table></div></details><p class="small muted" style="margin:10px 0 0">Sample figures for the demo.</p></section>`;
 }
 ACT.csv = () => {
   const lines = ['Section,Label,Value', ...WEEKLY_APPS.map(x => `Applications per week,${x.w},${x.n}`), ...PLACEMENTS_BY_SECTOR.map(x => `Placements by sector,${x.s},${x.n}`)];

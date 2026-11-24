@@ -24,7 +24,7 @@ function boostView(game){
     ${card('wordle','grid','Career Wordle','Guess today\'s five-letter workplace word in six tries.',30)}
     ${card('quiz','quiz','Workplace Quiz','Five quick questions on interviews and first days, with tips after each.',50)}
     ${card('match','link','Skill Match','Pair four skills with the roles that use them.',20)}
-  </div>
+  </div>${boostExtras()}
   <section class="panel" style="margin-top:20px"><h2>Today</h2>
     <div class="meter honey" style="margin-bottom:8px"><i style="width:${played / 3 * 100}%"></i></div>
     <p class="small" style="margin:0">${played} of 3 games played. ${S.boost.streak >= 7 ? '' : `Keep going for ${7 - S.boost.streak} more ${7 - S.boost.streak === 1 ? 'day' : 'days'} to earn the 7-day streak badge.`}</p>
@@ -73,7 +73,7 @@ function wordleKey(k){
     if (W.cur.length < 5){ W.msg = 'Enter five letters'; }
     else {
       W.guesses.push(W.cur); W.cur = '';
-      if (W.guesses.at(-1) === W.answer){ W.done = true; W.won = true; W.msg = `Solved in ${W.guesses.length} ${W.guesses.length === 1 ? 'try' : 'tries'}`; finishGame('wordle', 30); }
+      if (W.guesses.at(-1) === W.answer){ W.done = true; W.won = true; W.msg = `Solved in ${W.guesses.length} ${W.guesses.length === 1 ? 'try' : 'tries'}`; finishGame('wordle', 30); setTimeout(confetti, 150); }
       else if (W.guesses.length === 6){ W.done = true; W.msg = 'Out of tries. Here is today\'s word.'; finishGame('wordle', 10); }
     }
   } else if (k === 'Backspace'){ W.cur = W.cur.slice(0, -1); }
